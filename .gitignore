@@ -6,3 +6,5 @@ bin/
 obj/
 *.pck
 local.props
+Neuvillette/images/
+.trae/
