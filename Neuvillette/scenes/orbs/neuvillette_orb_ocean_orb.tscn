@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://xghig05s3tiu"]
+
+[ext_resource type="Texture2D" uid="uid://bnl6x0ho5m2wg" path="res://Neuvillette/images/orbs/neuvillette_orb_ocean_orb.svg" id="1_5mtkh"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4.7683716e-07, -4.7683716e-07)
+scale = Vector2(0.055078126, 0.055078126)
+texture = ExtResource("1_5mtkh")

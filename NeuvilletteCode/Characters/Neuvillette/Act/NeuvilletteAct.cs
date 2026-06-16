@@ -1,0 +1,65 @@
+using System.Collections.Generic;
+using Godot;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Acts;
+using MegaCrit.Sts2.Core.Models.Encounters;
+using MegaCrit.Sts2.Core.Models.Events;
+using MegaCrit.Sts2.Core.Random;
+using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Unlocks;
+using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Map;
+using Neuvillette.Monsters;
+
+namespace Neuvillette.Characters.Neuvillette.Act;
+
+public sealed class NeuvilletteAct : ActModel
+{
+    protected override int BaseNumberOfRooms => 7;
+
+    public override string[] BgMusicOptions => new string[] { "event:/music/act3_boss_queen", "event:/music/act3_boss_queen" };
+    public override string[] MusicBankPaths => new string[] { "res://banks/desktop/act3_a1.bank", "res://banks/desktop/act3_a2.bank" };
+    public override string AmbientSfx => "event:/sfx/ambience/act3_ambience";
+
+    public override Color MapBgColor => new Color(0f, 0f, 0f, 0f);
+    public override Color MapTraveledColor => new Color("ffffff");
+    public override Color MapUntraveledColor => new Color("b0b0b0");
+
+    public override string ChestSpineSkinNameNormal => "act3";
+    public override string ChestSpineSkinNameStroke => "act3_stroke";
+    public override string ChestOpenSfx => "event:/sfx/ui/treasure/treasure_act3";
+
+    public override IEnumerable<EncounterModel> GenerateAllEncounters()
+    {
+        return new List<EncounterModel>
+        {
+            ModelDb.Encounter<NarwhalBossEncounter>(),
+            ModelDb.Encounter<ByrdonisElite>()
+        };
+    }
+
+    public override IEnumerable<AncientEventModel> AllAncients
+    {
+        get
+        {
+            var neow = ModelDb.AncientEvent<Neow>();
+            if (neow != null) return new List<AncientEventModel> { neow };
+            return new List<AncientEventModel>();
+        }
+    }
+
+    public override IEnumerable<AncientEventModel> GetUnlockedAncients(UnlockState state) => AllAncients;
+
+    public override IEnumerable<EncounterModel> BossDiscoveryOrder => new List<EncounterModel> { ModelDb.Encounter<NarwhalBossEncounter>() };
+
+    public override IEnumerable<EventModel> AllEvents => new List<EventModel>();
+
+    protected override void ApplyActDiscoveryOrderModifications(UnlockState unlockState) { }
+
+    public override MapPointTypeCounts GetMapPointTypes(Rng mapRng)
+    {
+        int restCount = mapRng.NextInt(1, 2);
+        int unknownCount = 0;
+        return new MapPointTypeCounts(unknownCount, restCount);
+    }
+}

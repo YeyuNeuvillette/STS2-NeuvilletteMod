@@ -1,0 +1,8 @@
+{
+  "TO_ADD_TO_HAND": "选择[blue]{Amount}[/blue]张牌加入[gold]手牌[/gold]。",
+  "TO_SUBMIT": "选择[blue]{Amount}[/blue]张牌呈堂。",
+  "NEUVILLETTE-IN_DEPTH_INQUIRY.selectionScreenPrompt": "选择一张手牌添加重放。",
+  "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "选择一张牌变为[gold]美露莘贴纸[/gold]。",
+  "NEUVILLETTE-EXILE.selectionScreenPrompt": "选择一张牌置于[gold]抽牌堆底[/gold]。",
+  "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "选择任意卡牌变为[gold]美露莘贴纸[/gold]。"
+}

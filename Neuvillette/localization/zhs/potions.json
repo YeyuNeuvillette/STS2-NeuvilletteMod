@@ -1,0 +1,11 @@
+{
+  "NEUVILLETTE_POTION_WATER_BOTTLE.title": "水瓶",
+  "NEUVILLETTE_POTION_WATER_BOTTLE.description": "[gold]潮涌[/gold]10。",
+  "NEUVILLETTE_POTION_WATER_BOTTLE.selectionScreenPrompt": "选择水瓶的目标。",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.title": "瓶装传票",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.description": "给予8层[gold]藐视法庭[/gold]。",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.selectionScreenPrompt": "选择瓶装传票的目标。",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.title": "浓缩声援",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.description": "用随机的[gold]美露莘贴纸[/gold]填满你的手牌。",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.selectionScreenPrompt": "选择浓缩声援的目标。"
+}

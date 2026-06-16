@@ -1,0 +1,12 @@
+{
+  "NEUVILLETTE_KEYWORD_SOURCEWATERDROPLET.title": "源水之滴",
+  "NEUVILLETTE_KEYWORD_SOURCEWATERDROPLET.description": "最多持有6枚。一些卡牌可以消耗[gold]源水之滴[/gold]产生额外的效果。",
+  "NEUVILLETTE_KEYWORD_SURGE.title": "潮涌",
+  "NEUVILLETTE_KEYWORD_SURGE.description": "回复生命。战斗结束后，失去等量的生命（此效果最多将生命降至最大生命的[blue]50%[/blue]）。",
+  "NEUVILLETTE_KEYWORD_SUBMIT.title": "呈堂",
+  "NEUVILLETTE_KEYWORD_SUBMIT.description": "[gold]消耗[/gold]并根据其耗能获得[gold]谕示值[/gold]（0耗能牌获得10点，每点额外耗能增加10点）。当[gold]谕示值[/gold]为100时，清空并获取一张[gold]最终裁判[/gold]。",
+  "NEUVILLETTE_KEYWORD_AGILITY.title": "灵敏",
+  "NEUVILLETTE_KEYWORD_AGILITY.description": "你的下一张获得格挡的技能牌格挡增加。",
+  "NEUVILLETTE_KEYWORD_MELUSINESTICKER.title": "美露莘贴纸",
+  "NEUVILLETTE_KEYWORD_MELUSINESTICKER.description": "一类耗能为0且具有[gold]保留[/gold]和[gold]消耗[/gold]的技能牌。"
+}

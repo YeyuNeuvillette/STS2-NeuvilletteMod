@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://Neuvillette/images/characters/Neuvillette/neuvillette_merchant.png" id="1"]
+
+[node name="NeuvilletteMerchant" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -157.0
+offset_top = -447.0
+offset_right = 157.74686
+offset_bottom = 22.150879
+texture = ExtResource("1")
+expand_mode = 1

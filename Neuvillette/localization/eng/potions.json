@@ -1,0 +1,11 @@
+{
+  "NEUVILLETTE_POTION_WATER_BOTTLE.title": "Water Bottle",
+  "NEUVILLETTE_POTION_WATER_BOTTLE.description": "[gold]Surge[/gold]{Surge:diff()}.",
+  "NEUVILLETTE_POTION_WATER_BOTTLE.selectionScreenPrompt": "Choose a target for Water Bottle.",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.title": "Bottled Ticket",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.description": "Apply 8 [gold]Contempt of Court[/gold].",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.selectionScreenPrompt": "Choose a target for Bottled Ticket.",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.title": "Concentrated Support",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.description": "Fill your hand with random [gold]Melusine Stickers[/gold].",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.selectionScreenPrompt": "Choose a target for Concentrated Support."
+}

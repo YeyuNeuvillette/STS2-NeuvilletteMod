@@ -1,0 +1,18 @@
+{
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.title": "那维莱特",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.titleObject": "那维莱特",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.description": "枫丹秉公无私的最高审判官。\n利用源水之滴对高塔之上的罪孽加以判决。",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.selectMessage": "Time for a fair verdict.",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.pronounObject": "他",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.possessiveAdjective": "他的",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.pronounPossessive": "他的",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.pronounSubject": "他",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.cardsModifierTitle": "那维莱特卡牌",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.cardsModifierDescription": "那维莱特的卡牌现在会出现在奖励和商店中。",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.unlockText": "用[pink]{Prerequisite}[/pink]进行一局游戏来解锁这个角色。",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.aromaPrinciple": "[sine][blue]……[/blue][/sine]",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.goldMonologue": "[sine]不得不承认，在某些人类的法则中，它比律法更具效率。[/sine]",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.eventDeathPrevention": "潮汐再起时，我必将归来……",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.banter.alive.endTurnPing": "请深思熟虑。",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.banter.dead.endTurnPing": "……"
+}

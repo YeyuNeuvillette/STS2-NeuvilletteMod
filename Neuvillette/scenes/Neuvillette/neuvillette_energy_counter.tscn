@@ -1,0 +1,74 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0s70kpg1kl0l"]
+
+[ext_resource type="Texture2D" uid="uid://clc4wenkrln4w" path="res://Neuvillette/images/characters/Neuvillette/neuvillette_energy_counter.png" id="1"]
+[ext_resource type="Script" uid="uid://bow33rxi0qrca" path="res://Scripts/NeuvilletteEnergyCounter.cs" id="1_3aapi"]
+[ext_resource type="Script" uid="uid://cssfnmgkfjri1" path="res://Scripts/NeuvilletteNParticlesContainer.cs" id="2_5ctgf"]
+[ext_resource type="FontVariation" path="res://themes/fonts/zhs/noto_sans_mono_cjksc_regular_shared.tres" id="4_7iqbn"]
+[ext_resource type="Script" uid="uid://bxnnu7od0obdj" path="res://Scripts/NeuvilletteMegaLabel.cs" id="4_hncsd"]
+
+[node name="NeuvilletteEnergyCounter" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 128.0
+offset_bottom = 128.0
+script = ExtResource("1_3aapi")
+metadata/_edit_lock_ = true
+
+[node name="EnergyVfxBack" type="Node2D" parent="."]
+unique_name_in_owner = true
+visible = false
+position = Vector2(64, 64)
+script = ExtResource("2_5ctgf")
+
+[node name="Layers" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layer1" type="TextureRect" parent="Layers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1")
+expand_mode = 1
+
+[node name="RotationLayers" type="Control" parent="Layers"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="EnergyVfxFront" type="Node2D" parent="."]
+unique_name_in_owner = true
+visible = false
+script = ExtResource("2_5ctgf")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0.102769054, 0.20873106, 0.7396344, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_7iqbn")
+theme_override_font_sizes/font_size = 36
+text = "3/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_hncsd")
+theme_override_fonts/font = ExtResource("4_7iqbn")
+MinFontSize = 32
+MaxFontSize = 36
