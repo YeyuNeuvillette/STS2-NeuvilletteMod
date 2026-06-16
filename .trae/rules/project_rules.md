@@ -1,1 +1,0 @@
-先查后写，没有证据的代码不要写，每次写之前都看一遍D:\Work\sts2\SlayTheSpire2ModdingTutorials-master，D:\Work\sts2\STS2-RitsuLib-0.4.9和D:\Work\sts2\code\src\Core\Commands中的对应内容。每次修改文件之前先读取一遍文件，确认前后版本一致。
