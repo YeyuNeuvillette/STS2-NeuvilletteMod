@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Godot;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Ascension;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -15,11 +16,13 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using Neuvillette.Monsters.Afflictions;
 using Neuvillette.Monsters.Cards;
 using Neuvillette.Monsters.Powers;
-using MegaCrit.Sts2.Core.Nodes.Combat;
+using Neuvillette.Scripts;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using STS2RitsuLib.Scaffolding.Godot;
@@ -210,12 +213,15 @@ public class AllDevouringNarwhal : ModMonsterTemplate
 
         await CreatureCmd.SetMaxAndCurrentHp(Creature, 9999);
 
+        UpdateVisuals(true);
         SetMoveImmediate(GetBellyDefendState());
     }
 
     public async Task ExitBelly()
     {
         _isInBelly = false;
+
+        UpdateVisuals(false);
 
         Creature.SetMaxHpInternal((decimal)_savedMaxHp);
         Creature.SetCurrentHpInternal((decimal)_savedHp);
@@ -265,5 +271,14 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     private MoveState GetBellyDefendState()
     {
         return (MoveState)_moveStateMachine.States["BELLY_DEFEND"];
+    }
+
+    private void UpdateVisuals(bool isInBelly)
+    {
+        var creatureNode = NCombatRoom.Instance?.GetCreatureNode(Creature);
+        if (creatureNode?.Visuals is NarwhalCreatureVisuals visuals)
+        {
+            visuals.SetBellyState(isInBelly);
+        }
     }
 }

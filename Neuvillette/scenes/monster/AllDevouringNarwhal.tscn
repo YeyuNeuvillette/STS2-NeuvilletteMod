@@ -1,14 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqouo5a6qnj7r"]
+[gd_scene load_steps=4 format=3 uid="uid://dqouo5a6qnj7r"]
 
 [ext_resource type="Texture2D" uid="uid://cfg63dqfovrc0" path="res://Neuvillette/images/monsters/AllDevouringNarwhal.png" id="1_t3qds"]
+[ext_resource type="Texture2D" uid="uid://bfc62774eqk1o" path="res://Neuvillette/images/monsters/？？？.png" id="2_ac6j5"]
+[ext_resource type="Script" path="res://Scripts/NarwhalCreatureVisuals.cs" id="3_narwhal"]
 
 [node name="AllDevouringNarwhal" type="Node2D"]
+script = ExtResource("3_narwhal")
 
 [node name="Visuals" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+
+[node name="AllDevouringNarwhal" type="Sprite2D" parent="Visuals"]
 position = Vector2(0.4999771, -359.74994)
 scale = Vector2(0.66699994, 0.66699994)
 texture = ExtResource("1_t3qds")
+
+[node name="???" type="Sprite2D" parent="Visuals"]
+visible = false
+position = Vector2(1, -294)
+scale = Vector2(0.390625, 0.39062503)
+texture = ExtResource("2_ac6j5")
 
 [node name="Bounds" type="Control" parent="."]
 unique_name_in_owner = true
