@@ -19,8 +19,10 @@ using MegaCrit.Sts2.Core.ValueProps;
 using Neuvillette.Monsters.Afflictions;
 using Neuvillette.Monsters.Cards;
 using Neuvillette.Monsters.Powers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using STS2RitsuLib.Scaffolding.Godot;
 
 namespace Neuvillette.Monsters;
 
@@ -46,8 +48,13 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     public override int MaxInitialHp => MinInitialHp;
 
     public override MonsterAssetProfile AssetProfile => new(
-        VisualsScenePath: "res://Neuvillette/scenes/all_devouring_narwhal.tscn"
+        VisualsScenePath: "res://Neuvillette/scenes/monster/AllDevouringNarwhal.tscn"
     );
+
+    protected override NCreatureVisuals? TryCreateCreatureVisuals()
+    {
+        return RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(AssetProfile.VisualsScenePath!);
+    }
 
     public override async Task AfterAddedToRoom()
     {
