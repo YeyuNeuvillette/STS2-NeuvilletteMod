@@ -25,6 +25,7 @@ public sealed class NeuvilletteAct : ActModel
     public override Color MapTraveledColor => new Color("ffffff");
     public override Color MapUntraveledColor => new Color("b0b0b0");
 
+    public override string ChestSpineResourcePath => "res://animations/backgrounds/treasure_room/chest_room_act_3_skel_data.tres";
     public override string ChestSpineSkinNameNormal => "act3";
     public override string ChestSpineSkinNameStroke => "act3_stroke";
     public override string ChestOpenSfx => "event:/sfx/ui/treasure/treasure_act3";

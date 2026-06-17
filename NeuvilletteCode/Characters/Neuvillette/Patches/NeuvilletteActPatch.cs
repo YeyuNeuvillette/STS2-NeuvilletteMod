@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Nodes.Audio;
+using MegaCrit.Sts2.Core.Nodes.RestSite;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using Neuvillette.Characters.Neuvillette.Act;
@@ -117,6 +118,42 @@ public static class NeuvilletteActPatch
         }
     }
 
+    [HarmonyPatch(typeof(ActModel), "get_MapTopBgPath")]
+    [HarmonyPrefix]
+    public static bool Prefix_MapTopBgPath(ActModel __instance, ref string __result)
+    {
+        if (__instance is NeuvilletteAct)
+        {
+            __result = "res://images/packed/map/map_bgs/glory/map_top_glory.png";
+            return false;
+        }
+        return true;
+    }
+
+    [HarmonyPatch(typeof(ActModel), "get_MapMidBgPath")]
+    [HarmonyPrefix]
+    public static bool Prefix_MapMidBgPath(ActModel __instance, ref string __result)
+    {
+        if (__instance is NeuvilletteAct)
+        {
+            __result = "res://images/packed/map/map_bgs/glory/map_middle_glory.png";
+            return false;
+        }
+        return true;
+    }
+
+    [HarmonyPatch(typeof(ActModel), "get_MapBotBgPath")]
+    [HarmonyPrefix]
+    public static bool Prefix_MapBotBgPath(ActModel __instance, ref string __result)
+    {
+        if (__instance is NeuvilletteAct)
+        {
+            __result = "res://images/packed/map/map_bgs/glory/map_bottom_glory.png";
+            return false;
+        }
+        return true;
+    }
+
     [HarmonyPatch(typeof(ActModel), "get_MapTopBg")]
     [HarmonyPrefix]
     public static bool Prefix_MapTopBg(ActModel __instance, ref Texture2D __result)
@@ -215,6 +252,42 @@ public static class NeuvilletteActPatch
         var state = AccessTools.Property(typeof(RunManager), "State").GetValue(RunManager.Instance) as RunState;
         if (state != null && state.Act is NeuvilletteAct) return false;
         return true;
+    }
+
+    [HarmonyPatch(typeof(TreasureRoom), MethodType.Constructor, typeof(int))]
+    [HarmonyPrefix]
+    public static void Prefix_TreasureRoom(ref int actIndex)
+    {
+        if (actIndex > 2) actIndex = 2;
+    }
+
+    private static int _restoredActIndex = -1;
+
+    [HarmonyPatch(typeof(NRestSiteCharacter), "_Ready")]
+    [HarmonyPrefix]
+    public static void Prefix_RestSiteReady(NRestSiteCharacter __instance)
+    {
+        var runState = __instance.Player?.RunState;
+        if (runState != null && runState.CurrentActIndex > 2)
+        {
+            _restoredActIndex = runState.CurrentActIndex;
+            AccessTools.Field(typeof(RunState), "_currentActIndex").SetValue(runState, 2);
+        }
+    }
+
+    [HarmonyPatch(typeof(NRestSiteCharacter), "_Ready")]
+    [HarmonyPostfix]
+    public static void Postfix_RestSiteReady(NRestSiteCharacter __instance)
+    {
+        if (_restoredActIndex > 2)
+        {
+            var runState = __instance.Player?.RunState;
+            if (runState != null)
+            {
+                AccessTools.Field(typeof(RunState), "_currentActIndex").SetValue(runState, _restoredActIndex);
+            }
+            _restoredActIndex = -1;
+        }
     }
 
     private static void SetPoint(MapPoint[,] grid, int col, int row, MapPointType type)
