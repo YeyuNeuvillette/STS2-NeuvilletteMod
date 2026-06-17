@@ -1,5 +1,5 @@
 {
   "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.title": "渴求",
-  "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.description": "在你的回合结束时，如果此牌在你手中，则消耗该牌并生成1张裂隙。",
-  "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.extraCardText": "渴求：回合结束时消耗此牌并生成裂隙。"
+  "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.description": "虚无。消耗此牌后，生成1张裂隙。",
+  "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.extraCardText": "回合结束时，消耗此牌并生成裂隙。"
 }
