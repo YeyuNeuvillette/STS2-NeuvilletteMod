@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://4evbvqifw66b"]
+
+[ext_resource type="Script" uid="uid://1cjcxjl1pnvm" path="res://Scripts/Act4Bg.cs" id="1_act4bg"]
+[ext_resource type="Texture2D" uid="uid://cbx51qnhscd3a" path="res://Neuvillette/images/ui/act4_bg.png" id="2_dbhbl"]
+
+[node name="Act4Bg" type="TextureRect"]
+offset_left = -11.0
+offset_top = -18.0
+offset_right = -11.0
+offset_bottom = -18.0
+script = ExtResource("1_act4bg")
+
+[node name="Layer_00" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+
+[node name="Act4BgSprite" type="Sprite2D" parent="Layer_00"]
+position = Vector2(80.81921, -161.25478)
+scale = Vector2(0.6392051, 0.63920534)
+texture = ExtResource("2_dbhbl")
+
+[node name="Layer_01" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+
+[node name="Layer_02" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+
+[node name="Layer_03" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+
+[node name="Foreground" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0

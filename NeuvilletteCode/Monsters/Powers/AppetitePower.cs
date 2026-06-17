@@ -64,6 +64,9 @@ public sealed class AppetitePower : NeuvillettePower
         var player = Owner.Player ?? Owner.PetOwner ?? CombatState?.Players.FirstOrDefault();
         if (player == null) return;
 
+        var narwhal = Applier?.Monster as AllDevouringNarwhal;
+        narwhal?.RecordCravingExhaustedCard(card);
+
         CardCmd.ClearAffliction(card);
 
         var riftCard = card.CardScope?.CreateCard<RiftCard>(player);

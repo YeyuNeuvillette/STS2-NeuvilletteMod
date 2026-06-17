@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Nodes.Audio;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using Neuvillette.Characters.Neuvillette.Act;
 using Neuvillette.Monsters;
@@ -184,6 +185,25 @@ public static class NeuvilletteActPatch
         if (__instance is NeuvilletteAct)
         {
             __result = new BackgroundAssets("glory", rng);
+            return false;
+        }
+        return true;
+    }
+
+    [HarmonyPatch(typeof(NCombatBackground), nameof(NCombatBackground.Create))]
+    [HarmonyPrefix]
+    public static bool Prefix_CreateCombatBg(BackgroundAssets bg, ref NCombatBackground __result)
+    {
+        var state = AccessTools.Property(typeof(RunManager), "State").GetValue(RunManager.Instance) as RunState;
+        MainFile.Logger.Info($"[Neuvillette Act] Prefix_CreateCombatBg called, act={state?.Act?.GetType().Name ?? "null"}");
+        if (state != null && state.Act is NeuvilletteAct)
+        {
+            MainFile.Logger.Info("[Neuvillette Act] Loading custom act4_bg.tscn...");
+            var scene = MegaCrit.Sts2.Core.Assets.PreloadManager.Cache.GetScene("res://Neuvillette/scenes/ui/act4_bg.tscn");
+            MainFile.Logger.Info($"[Neuvillette Act] Scene loaded: {scene != null}, instantiating...");
+            var combatBg = scene!.Instantiate<NCombatBackground>(PackedScene.GenEditState.Disabled);
+            MainFile.Logger.Info($"[Neuvillette Act] Instantiate result: {combatBg != null}");
+            __result = combatBg!;
             return false;
         }
         return true;
