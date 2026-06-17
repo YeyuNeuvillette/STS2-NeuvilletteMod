@@ -205,6 +205,6 @@
   "NEUVILLETTE_CARD_PAST_DRACONIC_GLORIES.description": "获得1张{IfUpgraded:show:衡平推裁+|衡平推裁}。\n衡平推裁使你额外失去2点生命，但造成的伤害翻倍。",
   "NEUVILLETTE_CARD_SPIDER_SILK_TRACE.title": "蛛丝马迹",
   "NEUVILLETTE_CARD_SPIDER_SILK_TRACE.description": "将你手牌中的状态牌与诅咒牌[gold]呈堂[/gold]，并抽等量的牌。",
-  "RIFT_CARD.title": "裂隙",
-  "RIFT_CARD.description": "不可打出。\n在你的回合结束时，如果此牌在你手中，吞星之鲸将吞噬你的{Damage}点最大生命。"
+  "NEUVILLETTE_CARD_RIFT_CARD.title": "裂隙",
+  "NEUVILLETTE_CARD_RIFT_CARD.description": "在你的回合结束时，如果此牌在你手中，吞星之鲸将吞噬你的{Damage}点最大生命，并增加{Damage}点最大生命。"
 }

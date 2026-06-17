@@ -29,7 +29,7 @@ public sealed class AppetitePower : NeuvillettePower
     {
         if (side != Owner.Side) return;
 
-        var player = Owner.Player;
+        var player = Owner.Player ?? Owner.PetOwner ?? combatState.Players.FirstOrDefault();
         if (player == null) return;
 
         var hand = PileType.Hand.GetPile(player);
@@ -56,33 +56,20 @@ public sealed class AppetitePower : NeuvillettePower
         await CardCmd.AfflictAndPreview<CravingAffliction>(selected, 1, CardPreviewStyle.HorizontalLayout);
     }
 
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool causedByEthereal)
     {
-        if (side != Owner.Side) return;
+        if (!causedByEthereal) return;
+        if (card.Affliction is not CravingAffliction) return;
 
-        var player = Owner.Player;
+        var player = Owner.Player ?? Owner.PetOwner ?? CombatState?.Players.FirstOrDefault();
         if (player == null) return;
 
-        var allCards = player.PlayerCombatState?.AllCards.ToList() ?? new List<CardModel>();
-        var cravingCardsInHand = allCards
-            .Where(c => c.Affliction is CravingAffliction && c.Pile?.Type == PileType.Hand)
-            .ToList();
+        CardCmd.ClearAffliction(card);
 
-        foreach (var card in cravingCardsInHand)
+        var riftCard = card.CardScope?.CreateCard<RiftCard>(player);
+        if (riftCard != null)
         {
-            CardCmd.ClearAffliction(card);
-            await CardPileCmd.RemoveFromDeck(card, showPreview: true);
-            var riftCard = card.CardScope?.CreateCard<RiftCard>(player);
-            if (riftCard != null)
-            {
-                await CardPileCmd.AddGeneratedCardToCombat(riftCard, PileType.Hand, player);
-            }
-        }
-
-        var remainingCraving = allCards.Where(c => c.Affliction is CravingAffliction).ToList();
-        foreach (var card in remainingCraving)
-        {
-            CardCmd.ClearAffliction(card);
+            await CardPileCmd.AddGeneratedCardToCombat(riftCard, PileType.Hand, player);
         }
     }
 }

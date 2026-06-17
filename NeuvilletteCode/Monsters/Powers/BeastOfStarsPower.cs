@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -33,12 +34,9 @@ public sealed class BeastOfStarsPower : NeuvillettePower
         if (target != Owner || result.UnblockedDamage <= 0) return;
 
         decimal healPercent = Amount / 100m;
-        int healAmount = (int)(result.UnblockedDamage * healPercent);
-        if (healAmount > 0)
-        {
-            Flash();
-            await CreatureCmd.Heal(Owner, healAmount);
-            await PowerCmd.ModifyAmount(choiceContext, this, 10m, null, null);
-        }
+        int healAmount = Math.Max(1, (int)Math.Round(result.UnblockedDamage * healPercent));
+        Flash();
+        await CreatureCmd.Heal(Owner, healAmount);
+        await PowerCmd.ModifyAmount(choiceContext, this, 10m, null, null);
     }
 }

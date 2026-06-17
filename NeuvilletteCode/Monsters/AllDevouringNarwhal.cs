@@ -141,7 +141,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             var currentPile = card.Pile?.Type ?? PileType.Hand;
 
             CardCmd.ClearAffliction(card);
-            await CardPileCmd.RemoveFromDeck(card, showPreview: true);
+            await CardCmd.Exhaust(new ThrowingPlayerChoiceContext(), card);
             var riftCard = card.CardScope?.CreateCard<RiftCard>(player);
             if (riftCard == null) continue;
             await CardPileCmd.AddGeneratedCardToCombat(riftCard, currentPile, player);
@@ -221,7 +221,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             var riftCards = allCards.Where(c => c is RiftCard).ToList();
             foreach (var rift in riftCards)
             {
-                await CardPileCmd.RemoveFromDeck(rift, showPreview: false);
+                await CardCmd.Exhaust(new ThrowingPlayerChoiceContext(), rift);
             }
 
             var cravingCards = allCards.Where(c => c.Affliction is CravingAffliction).ToList();
