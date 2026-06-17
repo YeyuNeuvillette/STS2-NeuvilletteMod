@@ -74,8 +74,14 @@ public class AllDevouringNarwhal : ModMonsterTemplate
 
     public override async Task AfterAddedToRoom()
     {
-        await PowerCmd.Apply<BeastOfStarsPower>(new ThrowingPlayerChoiceContext(), Creature, 10m, Creature, null);
+        foreach (var opponent in Creature.CombatState!.GetOpponentsOf(Creature))
+        {
+            var beastPower = (BeastOfStarsPower)ModelDb.Power<BeastOfStarsPower>().ToMutable();
+            beastPower.Target = opponent;
+            await PowerCmd.Apply(new ThrowingPlayerChoiceContext(), beastPower, Creature, 10m, Creature, null);
+        }
         await PowerCmd.Apply<DevourPower>(new ThrowingPlayerChoiceContext(), Creature, 25m, Creature, null);
+        await PowerCmd.Apply<HostilityPower>(new ThrowingPlayerChoiceContext(), Creature, 75m, Creature, null);
     }
 
     protected override MonsterMoveStateMachine GenerateMoveStateMachine()
@@ -184,6 +190,12 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             if (riftCard == null) continue;
             await CardPileCmd.AddGeneratedCardToCombat(riftCard, currentPile, player);
         }
+
+        var hunger = Creature.Powers.FirstOrDefault(p => p is InsatiableHungerPower);
+        if (hunger != null)
+        {
+            await PowerCmd.Remove(hunger);
+        }
     }
 
     private async Task DoubleAttackMove(IReadOnlyList<Creature> targets)
@@ -267,6 +279,21 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             }
             _delayedPowersToReapply = null;
         }
+
+        if (side == CombatSide.Player && !_isInBelly)
+        {
+            var existingHunger = Creature.Powers.FirstOrDefault(p => p is InsatiableHungerPower);
+            if (existingHunger != null)
+            {
+                await PowerCmd.Remove(existingHunger);
+            }
+
+            if (NextMove.Id == "DEVOUR_CRAVING")
+            {
+                await PowerCmd.Apply<InsatiableHungerPower>(new ThrowingPlayerChoiceContext(), Creature, 1m, Creature, null);
+            }
+        }
+
         await base.AfterSideTurnStart(side, participants, combatState);
     }
 
@@ -311,7 +338,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             .Where(p => p is BeastOfStarsPower || p is DevourPower)
             .ToList();
         var immediatePowers = _phaseOnePowers
-            .Where(p => p is not BeastOfStarsPower && p is not DevourPower && p is not StrengthPower)
+            .Where(p => p is not BeastOfStarsPower && p is not DevourPower && p is not StrengthPower && p is not InsatiableHungerPower && p is not HostilityPower)
             .ToList();
 
         foreach (var power in immediatePowers)
@@ -319,6 +346,12 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             await PowerCmd.Apply(new ThrowingPlayerChoiceContext(), power, Creature, power.Amount, power.Applier, null);
         }
         _phaseOnePowers.Clear();
+
+        if (!_triggered25)
+        {
+            var threshold = _triggered75 ? 25m : 75m;
+            await PowerCmd.Apply<HostilityPower>(new ThrowingPlayerChoiceContext(), Creature, threshold, Creature, null);
+        }
 
         _delayedPowersToReapply = delayedPowers;
 

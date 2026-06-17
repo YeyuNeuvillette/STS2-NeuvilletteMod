@@ -85,7 +85,7 @@ public static class NeuvilletteActPatch
 
             SetPoint(grid, 3, 1, MapPointType.RestSite);
             SetPoint(grid, 3, 2, MapPointType.Shop);
-            SetPoint(grid, 3, 3, MapPointType.Elite);
+            SetPoint(grid, 3, 3, MapPointType.Treasure);
             SetPoint(grid, 3, 4, MapPointType.RestSite);
 
             __instance.StartingMapPoint.PointType = MapPointType.Ancient;
@@ -113,7 +113,6 @@ public static class NeuvilletteActPatch
             {
                 rooms.Boss = ModelDb.Encounter<NarwhalBossEncounter>();
                 rooms.eliteEncounters.Clear();
-                rooms.eliteEncounters.Add(ModelDb.Encounter<ByrdonisElite>());
             }
         }
     }

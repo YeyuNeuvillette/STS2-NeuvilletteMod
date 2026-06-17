@@ -79,5 +79,10 @@
   "NEUVILLETTE_POWER_APPETITE_POWER.title": "Appetite",
   "NEUVILLETTE_POWER_APPETITE_POWER.description": "At the start of your turn, afflict 3 random cards in your hand with [gold]Craving[/gold]. At the end of your turn, Exhaust cards in your hand with [gold]Craving[/gold] and add that many Rifts.",
   "NEUVILLETTE_POWER_PHANTOM_POWER.title": "Phantom",
-  "NEUVILLETTE_POWER_PHANTOM_POWER.description": "After losing all Block, return from the belly of the whale."
+  "NEUVILLETTE_POWER_PHANTOM_POWER.description": "After losing all Block, return from the belly of the whale.",
+  "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.title": "Insatiable Hunger",
+  "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.description": "The All-Devouring Narwhal is about to devour 1 of your cards with [gold]Craving[/gold], leaving a [gold]Rift[/gold] in its place.",
+  "NEUVILLETTE_POWER_HOSTILITY_POWER.title": "Hostility",
+  "NEUVILLETTE_POWER_HOSTILITY_POWER.description": "When the All-Devouring Narwhal's HP drops below a threshold, it swallows you into its belly.",
+  "NEUVILLETTE_POWER_HOSTILITY_POWER.smartDescription": "When the All-Devouring Narwhal's HP drops below [blue]{Threshold}[/blue], it swallows you into its belly."
 }

@@ -18,6 +18,7 @@ public sealed class BeastOfStarsPower : NeuvillettePower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     public override async Task AfterSideTurnStart(MegaCrit.Sts2.Core.Combat.CombatSide side, System.Collections.Generic.IReadOnlyList<Creature> participants, MegaCrit.Sts2.Core.Combat.ICombatState combatState)
     {
@@ -32,6 +33,7 @@ public sealed class BeastOfStarsPower : NeuvillettePower
     public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
         if (target != Owner || result.UnblockedDamage <= 0) return;
+        if (Target != null && dealer != Target) return;
 
         decimal healPercent = Amount / 100m;
         int healAmount = Math.Max(1, (int)Math.Round(result.UnblockedDamage * healPercent));

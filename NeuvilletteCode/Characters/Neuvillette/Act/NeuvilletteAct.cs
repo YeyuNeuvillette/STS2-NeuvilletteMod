@@ -33,8 +33,7 @@ public sealed class NeuvilletteAct : ActModel
     {
         return new List<EncounterModel>
         {
-            ModelDb.Encounter<NarwhalBossEncounter>(),
-            ModelDb.Encounter<ByrdonisElite>()
+            ModelDb.Encounter<NarwhalBossEncounter>()
         };
     }
 
@@ -42,9 +41,12 @@ public sealed class NeuvilletteAct : ActModel
     {
         get
         {
-            var neow = ModelDb.AncientEvent<Neow>();
-            if (neow != null) return new List<AncientEventModel> { neow };
-            return new List<AncientEventModel>();
+            return new List<AncientEventModel>
+            {
+                ModelDb.AncientEvent<Nonupeipe>(),
+                ModelDb.AncientEvent<Tanx>(),
+                ModelDb.AncientEvent<Vakuu>()
+            };
         }
     }
 
