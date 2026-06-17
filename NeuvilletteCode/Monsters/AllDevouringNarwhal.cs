@@ -17,6 +17,7 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+using MegaCrit.Sts2.Core.Nodes.Audio;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -39,7 +40,11 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     private bool _pendingBellyEntry;
     private int _savedHp;
     private int _savedMaxHp;
+    private int _phaseOneLoopCount;
     private new MonsterMoveStateMachine _moveStateMachine = null!;
+    private MoveState _devourCravingState = null!;
+    private MoveState _doubleAttackState = null!;
+    private MoveState _empowerAttackState = null!;
     private List<PowerModel> _phaseOnePowers = new();
     private List<PowerModel> _phaseTwoPowers = new();
     private List<PowerModel>? _delayedPowersToReapply;
@@ -50,6 +55,8 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     private int AttackDamage1 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 16, 16);
     private int AttackDamage2 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 20, 20);
     private int AttackDamage3 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 10, 10);
+    private int EmpowerDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 15, 15);
+    private int EmpowerStrength => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 5, 5);
     private int BellyBlock => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 160, 160);
     private int BellyDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 42, 42);
 
@@ -80,17 +87,24 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             new DebuffIntent()
         );
 
-        var devourCraving = new MoveState(
+        _devourCravingState = new MoveState(
             "DEVOUR_CRAVING",
             DevourCravingMove,
             new SingleAttackIntent(AttackDamage2),
             new StatusIntent(1)
         );
 
-        var doubleAttack = new MoveState(
+        _doubleAttackState = new MoveState(
             "DOUBLE_ATTACK",
             DoubleAttackMove,
             new MultiAttackIntent(AttackDamage3, 2)
+        );
+
+        _empowerAttackState = new MoveState(
+            "EMPOWER_ATTACK",
+            EmpowerAttackMove,
+            new SingleAttackIntent(EmpowerDamage),
+            new BuffIntent()
         );
 
         var bellyDefend = new MoveState(
@@ -105,16 +119,17 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             new SingleAttackIntent(BellyDamage)
         );
 
-        attackWithAppetite.FollowUpState = devourCraving;
-        devourCraving.FollowUpState = doubleAttack;
-        doubleAttack.FollowUpState = devourCraving;
+        attackWithAppetite.FollowUpState = _devourCravingState;
+        _devourCravingState.FollowUpState = _doubleAttackState;
+        _doubleAttackState.FollowUpState = _devourCravingState;
+        _empowerAttackState.FollowUpState = _devourCravingState;
 
         bellyDefend.MustPerformOnceBeforeTransitioning = true;
         bellyDefend.FollowUpState = bellyAttack;
         bellyAttack.FollowUpState = bellyAttack;
 
         _moveStateMachine = new MonsterMoveStateMachine(
-            [attackWithAppetite, devourCraving, doubleAttack, bellyDefend, bellyAttack],
+            [attackWithAppetite, _devourCravingState, _doubleAttackState, _empowerAttackState, bellyDefend, bellyAttack],
             attackWithAppetite
         );
 
@@ -179,6 +194,22 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             .WithAttackerFx(null, AttackSfx)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(null);
+
+        _phaseOneLoopCount++;
+        _doubleAttackState.FollowUpState = _phaseOneLoopCount % 2 == 0
+            ? _empowerAttackState
+            : _devourCravingState;
+    }
+
+    private async Task EmpowerAttackMove(IReadOnlyList<Creature> targets)
+    {
+        await DamageCmd.Attack(EmpowerDamage)
+            .FromMonster(this)
+            .WithAttackerFx(null, AttackSfx)
+            .WithHitFx("vfx/vfx_attack_blunt")
+            .Execute(null);
+
+        await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), Creature, EmpowerStrength, Creature, null);
     }
 
     private async Task BellyDefendMove(IReadOnlyList<Creature> targets)
@@ -244,6 +275,8 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         _isInBelly = true;
         _savedHp = Creature.CurrentHp;
         _savedMaxHp = Creature.MaxHp;
+        _phaseOneLoopCount = 0;
+        _doubleAttackState.FollowUpState = _devourCravingState;
 
         _phaseOnePowers = Creature.Powers.ToList();
         foreach (var power in _phaseOnePowers.ToList())
@@ -260,6 +293,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         _phaseTwoPowers = Creature.Powers.ToList();
 
         UpdateVisuals(true);
+        NRunMusicController.Instance?.PlayCustomMusic("event:/Neuvillette/music/AllDevouringNarwhalTheme2");
         SetMoveImmediate(GetBellyDefendState(), forceTransition: true);
     }
 
@@ -277,7 +311,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             .Where(p => p is BeastOfStarsPower || p is DevourPower)
             .ToList();
         var immediatePowers = _phaseOnePowers
-            .Where(p => p is not BeastOfStarsPower && p is not DevourPower)
+            .Where(p => p is not BeastOfStarsPower && p is not DevourPower && p is not StrengthPower)
             .ToList();
 
         foreach (var power in immediatePowers)
@@ -293,6 +327,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         Creature.SetCurrentHpInternal((decimal)_savedHp);
 
         UpdateVisuals(false);
+        NRunMusicController.Instance?.PlayCustomMusic("event:/Neuvillette/music/AllDevouringNarwhalTheme");
 
         var player = Creature.CombatState?.Players.FirstOrDefault();
         if (player != null)
@@ -350,7 +385,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         }
         _devouredCards.Clear();
 
-        await CreatureCmd.Stun(Creature, "DEVOUR_CRAVING");
+        await CreatureCmd.Stun(Creature, "ATTACK_WITH_APPETITE");
     }
 
     public void RecordDevouredCard(CardModel card, decimal originalBaseDamage)

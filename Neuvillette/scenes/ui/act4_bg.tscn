@@ -22,7 +22,7 @@ texture = ExtResource("2_dbhbl")
 
 [node name="Act4BgBellySprite" type="Sprite2D" parent="Layer_00"]
 visible = false
-position = Vector2(117, -52.999992)
+position = Vector2(-15, 9.999996)
 scale = Vector2(0.89301676, 0.89301705)
 texture = ExtResource("3_belly")
 

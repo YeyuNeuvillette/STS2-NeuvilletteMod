@@ -11,6 +11,7 @@
 {25843eb8-0f79-4253-aed6-bee1449d8e7e} bus:/master/sfx/chorus
 {9062adad-d974-41ef-b812-79c56bb6c25f} bus:/master/sfx_ducking_bass
 {bfa231d3-c7a0-4395-bb21-4afdf4149043} bus:/master/sfx_ducking_big
+{0c828fb0-8871-46b1-b76b-e855e49868b3} event:/Neuvillette/music/AllDevouringNarwhalTheme
 {7b01e812-9371-47fd-90e7-0f2b562f2763} event:/Neuvillette/sfx/LetTheMighty
 {23986ca1-9e88-43fb-a060-36dc7ab25e92} event:/Neuvillette/sfx/Select
 {01160b96-fb6d-4745-875d-8c7f491019de} event:/Neuvillette/sfx/Silence

@@ -15,6 +15,8 @@ public class NarwhalBossEncounter : ModEncounterTemplate
 
     public override RoomType RoomType => RoomType.Boss;
 
+    public override string CustomBgm => "event:/Neuvillette/music/AllDevouringNarwhalTheme";
+
     protected override IReadOnlyList<(MonsterModel, string?)> GenerateMonsters() =>
         [(ModelDb.Monster<AllDevouringNarwhal>().ToMutable(), null)];
 }
