@@ -378,5 +378,10 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         {
             visuals.SetBellyState(isInBelly);
         }
+
+        if (NCombatRoom.Instance?.Background is Act4Bg bg)
+        {
+            bg.SetBellyState(isInBelly);
+        }
     }
 }
