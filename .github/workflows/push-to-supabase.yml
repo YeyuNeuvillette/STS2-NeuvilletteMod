@@ -1,0 +1,21 @@
+name: 自动发布更新到公告板
+
+# 触发条件：当你在这个 GitHub 仓库发布一个新的 Release 时
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 跑腿小哥正在联系 Supabase...
+        run: |
+          curl -X POST '${{ secrets.SUPABASE_URL }}/rest/v1/mod_versions' \
+          -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "version": "${{ github.event.release.tag_name }}",
+            "changelog": ${{ toJSON(github.event.release.body) }}
+          }'
