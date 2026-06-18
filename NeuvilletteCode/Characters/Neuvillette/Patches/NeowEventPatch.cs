@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
@@ -133,5 +135,51 @@ public static class NeowEventPatch
 
         __result = finalOptions;
         return false;
+    }
+}
+
+/// <summary>
+///     Adds BraveTeaCup to Neow's AllPossibleOptions so it can appear in the relic pool.
+/// </summary>
+[HarmonyPatch(typeof(Neow), "get_AllPossibleOptions")]
+public static class NeowAllPossibleOptionsPatch
+{
+    [HarmonyPostfix]
+    public static void Postfix(Neow __instance, ref IEnumerable<EventOption> __result)
+    {
+        if (__instance.Owner?.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        {
+            return;
+        }
+
+        var list = __result.ToList();
+        if (list.Any(o => o.Relic is BraveTeaCup))
+        {
+            __result = list;
+            return;
+        }
+
+        var relicOptionMethod = AccessTools.Method(
+            typeof(MegaCrit.Sts2.Core.Models.AncientEventModel),
+            nameof(MegaCrit.Sts2.Core.Models.AncientEventModel.RelicOption),
+            System.Type.EmptyTypes);
+
+        if (relicOptionMethod == null)
+        {
+            relicOptionMethod = AccessTools.Method(
+                typeof(MegaCrit.Sts2.Core.Models.AncientEventModel),
+                "RelicOption",
+                new[] { typeof(string), typeof(string) });
+        }
+
+        var genericMethod = relicOptionMethod?.MakeGenericMethod(typeof(BraveTeaCup));
+        var option = (EventOption?)genericMethod?.Invoke(__instance, new object?[] { "INITIAL", "NEOW.pages.DONE.POSITIVE.description" });
+
+        if (option != null)
+        {
+            list.Add(option);
+        }
+
+        __result = list;
     }
 }

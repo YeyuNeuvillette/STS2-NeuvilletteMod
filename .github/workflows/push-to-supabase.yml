@@ -9,7 +9,7 @@ jobs:
   update-supabase:
     runs-on: ubuntu-latest
     steps:
-      - name: 跑腿小哥正在联系 Supabase...
+      - name: 正在联系 Supabase...
         run: |
           curl -X POST '${{ secrets.SUPABASE_URL }}/rest/v1/mod_versions' \
           -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
