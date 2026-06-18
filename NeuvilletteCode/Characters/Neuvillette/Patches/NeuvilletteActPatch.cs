@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Acts;
 using MegaCrit.Sts2.Core.Models.Encounters;
+using MegaCrit.Sts2.Core.Models.Singleton;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Nodes.Audio;
@@ -288,6 +289,17 @@ public static class NeuvilletteActPatch
             }
             _restoredActIndex = -1;
         }
+    }
+
+    [HarmonyPatch(typeof(MultiplayerScalingModel), nameof(MultiplayerScalingModel.GetMultiplayerScaling))]
+    [HarmonyPrefix]
+    public static bool Prefix_GetMultiplayerScaling(EncounterModel? encounter, ref int actIndex, ref decimal __result)
+    {
+        if (actIndex > 2)
+        {
+            actIndex = 2;
+        }
+        return true;
     }
 
     private static void SetPoint(MapPoint[,] grid, int col, int row, MapPointType type)
