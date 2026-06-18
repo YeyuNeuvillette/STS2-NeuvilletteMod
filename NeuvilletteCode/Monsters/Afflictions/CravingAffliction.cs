@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using Neuvillette.Monsters.Cards;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content.Patches;
 
@@ -20,6 +23,8 @@ public sealed class CravingAffliction : AfflictionModel
     }
 
     public override bool HasExtraCardText => true;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[] { HoverTipFactory.FromCard<RiftCard>() };
 
     public override void AfterApplied()
     {

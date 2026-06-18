@@ -19,11 +19,7 @@ public sealed class HostilityPower : NeuvillettePower
 
     protected override IEnumerable<DynamicVar> CanonicalVars
     {
-        get
-        {
-            int threshold = Owner != null ? (int)(Owner.MaxHp * Amount / 100m) : 0;
-            yield return new DynamicVar("Threshold", threshold);
-        }
+        get { yield return new DynamicVar("Threshold", 0m); }
     }
 
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
@@ -31,6 +27,7 @@ public sealed class HostilityPower : NeuvillettePower
         if (Owner != null)
         {
             Owner.MaxHpChanged += OnMaxHpChanged;
+            UpdateThreshold();
         }
         return Task.CompletedTask;
     }
@@ -42,6 +39,11 @@ public sealed class HostilityPower : NeuvillettePower
     }
 
     private void OnMaxHpChanged(int oldMaxHp, int newMaxHp)
+    {
+        UpdateThreshold();
+    }
+
+    private void UpdateThreshold()
     {
         if (DynamicVars.TryGetValue("Threshold", out var thresholdVar))
         {
