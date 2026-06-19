@@ -1,7 +1,7 @@
 {
-  "NEUVILLETTE_CARD_STRIKE_NEUVILLETTE.title": "Strike Neuvillette",
+  "NEUVILLETTE_CARD_STRIKE_NEUVILLETTE.title": "Strike",
   "NEUVILLETTE_CARD_STRIKE_NEUVILLETTE.description": "Deal {Damage:diff()} damage.",
-  "NEUVILLETTE_CARD_DEFEND_NEUVILLETTE.title": "Defend Neuvillette",
+  "NEUVILLETTE_CARD_DEFEND_NEUVILLETTE.title": "Defend",
   "NEUVILLETTE_CARD_DEFEND_NEUVILLETTE.description": "Gain {Block:diff()} [gold]Block[/gold].",
   "NEUVILLETTE_CARD_TIDE.title": "Tide",
   "NEUVILLETTE_CARD_TIDE.description": "Gain {Block:diff()} Block.\n[gold]Surge[/gold] {Surge:diff()}{IfUpgraded:show: twice.|.}",
