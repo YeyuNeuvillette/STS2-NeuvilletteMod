@@ -80,7 +80,12 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             beastPower.Target = opponent;
             await PowerCmd.Apply(new ThrowingPlayerChoiceContext(), beastPower, Creature, 10m, Creature, null);
         }
-        await PowerCmd.Apply<DevourPower>(new ThrowingPlayerChoiceContext(), Creature, 25m, Creature, null);
+        foreach (var opponent in Creature.CombatState!.GetOpponentsOf(Creature))
+        {
+            var devourPower = (DevourPower)ModelDb.Power<DevourPower>().ToMutable();
+            devourPower.Target = opponent;
+            await PowerCmd.Apply(new ThrowingPlayerChoiceContext(), devourPower, Creature, 1m, Creature, null);
+        }
         await PowerCmd.Apply<HostilityPower>(new ThrowingPlayerChoiceContext(), Creature, 75m, Creature, null);
     }
 

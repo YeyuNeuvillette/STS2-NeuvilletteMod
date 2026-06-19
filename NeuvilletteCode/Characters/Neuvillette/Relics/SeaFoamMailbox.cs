@@ -41,7 +41,7 @@ public sealed class SeaFoamMailbox : BaseRelic
             return;
         }
 
-        if (Owner.PlayerCombatState.TurnNumber > 1)
+        if (Owner.PlayerCombatState is not { TurnNumber: <= 1 })
         {
             return;
         }
