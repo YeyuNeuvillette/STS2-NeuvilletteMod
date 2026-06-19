@@ -1,5 +1,5 @@
 {
   "NEUVILLETTE_ORB_OCEAN_ORB.title": "Primordial Sea",
-  "NEUVILLETTE_ORB_OCEAN_ORB.description": "Orb: Gain Surge.",
-  "NEUVILLETTE_ORB_OCEAN_ORB.smartDescription": "Passive: At the start of your turn, gain Surge {Passive}.\nEvoke: Gain Surge 8."
+  "NEUVILLETTE_ORB_OCEAN_ORB.description": "Orb: Gain [gold]Surge[/gold].",
+  "NEUVILLETTE_ORB_OCEAN_ORB.smartDescription": "[gold]Passive:[/gold] At the start of your turn, [gold]Surge[/gold] [blue]{Passive}[/blue].\n[gold]Evoke:[/gold] [gold]Surge[/gold] [blue]8[/blue]"
 }

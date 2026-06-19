@@ -1,0 +1,25 @@
+{
+  "title": "\u90A3\u7EF4\u83B1\u7279Mod",
+  "description": "\u6DFB\u52A0\u4E86\u6765\u81EA\u300A\u539F\u795E\u300B\u4E2D\u7684\u89D2\u8272\u90A3\u7EF4\u83B1\u7279\u4F5C\u4E3A\u53EF\u73A9\u89D2\u8272\uFF0C\u90A3\u7EF4\u83B1\u7279\u62E5\u6709\u72EC\u7279\u7684\u751F\u547D\u503C\u53D8\u52A8\u673A\u5236\uFF0C\u7279\u6B8A\u7684\u80DC\u5229\u65B9\u5F0F\u4EE5\u53CA\u591A\u6837\u7684\u6D41\u6D3E\u642D\u914D\u3002\u5E76\u6DFB\u52A0\u4E86ACT4\uFF0C\u4EE5\u53CA\u201C\u541E\u661F\u4E4B\u9CB8\u201D\u4F5C\u4E3A\u6700\u7EC8Boss\u3002",
+  "localizedTitles": {
+    "english": "NeuvilletteMod"
+  },
+  "localizedDescriptions": {
+    "english": "Added Neuvillette from Genshin Impact as a playable character. He features unique HP fluctuation mechanics, special victory conditions, and diverse build options. Additionally, Act 4 has been introduced, featuring the \u0022All-Devouring Narwhal\u0022 as the final boss."
+  },
+  "visibility": "public",
+  "changeNote": null,
+  "tags": [
+    "Acts",
+    "Cards",
+    "Characters",
+    "Events",
+    "Potions",
+    "Relics"
+  ],
+  "dependencies": [
+    3747602295
+  ],
+  "minBranch": null,
+  "maxBranch": null
+}

@@ -1,12 +1,12 @@
 {
   "NEUVILLETTE_KEYWORD_SOURCEWATERDROPLET.title": "Sourcewater Droplet",
-  "NEUVILLETTE_KEYWORD_SOURCEWATERDROPLET.description": "A unique resource consumed by certain cards.",
+  "NEUVILLETTE_KEYWORD_SOURCEWATERDROPLET.description": "Can hold up to 6. Some cards can consume [gold]Sourcewater Droplet[/gold] to produce additional effects.",
   "NEUVILLETTE_KEYWORD_SURGE.title": "Surge",
-  "NEUVILLETTE_KEYWORD_SURGE.description": "Heal for the listed amount, then lose that much HP at the end of combat, but never below 50% of Max HP.",
+  "NEUVILLETTE_KEYWORD_SURGE.description": "Heal HP. At the end of combat, lose that much HP (this effect can reduce HP to at most [blue]50%[/blue] of Max HP).",
   "NEUVILLETTE_KEYWORD_SUBMIT.title": "Submit",
-  "NEUVILLETTE_KEYWORD_SUBMIT.description": "Exhaust the chosen card and gain Oratrice based on its resolved cost.",
+  "NEUVILLETTE_KEYWORD_SUBMIT.description": "[gold]Exhaust[/gold] it and gain [gold]Oratrice[/gold] based on its cost (0-cost cards grant 10, each additional cost grants 10 more). When [gold]Oratrice[/gold] reaches 100, clear it and obtain a [gold]Final Judgment[/gold].",
   "NEUVILLETTE_KEYWORD_AGILITY.title": "Agility",
-  "NEUVILLETTE_KEYWORD_AGILITY.description": "The next time you play a Skill that gains Block, it gains additional Block equal to this amount, then lose that much Agility.",
+  "NEUVILLETTE_KEYWORD_AGILITY.description": "Your next Skill card that gains Block gains additional Block.",
   "NEUVILLETTE_KEYWORD_MELUSINESTICKER.title": "Melusine Sticker",
-  "NEUVILLETTE_KEYWORD_MELUSINESTICKER.description": "A special sticker card used by Melusine-related effects."
+  "NEUVILLETTE_KEYWORD_MELUSINESTICKER.description": "A type of Skill card that costs 0 and has [gold]Retain[/gold] and [gold]Exhaust[/gold]."
 }

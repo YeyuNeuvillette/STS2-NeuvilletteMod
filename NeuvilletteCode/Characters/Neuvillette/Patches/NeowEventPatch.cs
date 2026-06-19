@@ -14,8 +14,34 @@ using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 /// <summary>
+///     Adds BraveTeaCup to Neow's AllPossibleOptions so it can appear in the third option pool.
+/// </summary>
+[HarmonyPatch(typeof(Neow), "get_AllPossibleOptions")]
+public static class NeowAllPossibleOptionsPatch
+{
+    [HarmonyPostfix]
+    public static void Postfix(Neow __instance, ref IEnumerable<EventOption> __result)
+    {
+        if (__instance.Owner?.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        {
+            return;
+        }
+
+        var list = __result.ToList();
+        if (list.Any(o => o.Relic is BraveTeaCup))
+        {
+            __result = list;
+            return;
+        }
+
+        list.Add(__instance.RelicOption<BraveTeaCup>("INITIAL", "NEOW.pages.DONE.POSITIVE.description"));
+        __result = list;
+    }
+}
+
+/// <summary>
 ///     Modifies Neow event options for Neuvillette character:
-///     - Replaces the curse relic pool (third option) with one that excludes LeafyPoultice and PrecariousShears, and includes BraveTeaCup
+///     - The third option is drawn from AllPossibleOptions (which includes BraveTeaCup via the patch above)
 ///     - Reduces the probability of NutritiousOyster and StoneHumidifier by 40%
 /// </summary>
 [HarmonyPatch(typeof(Neow), "GenerateInitialOptions")]
@@ -44,28 +70,19 @@ public static class NeowEventPatch
 
         Logger.Info("No modifiers, generating custom options");
 
-        var curseOptions = new List<EventOption>
+        var thirdOptionPool = __instance.AllPossibleOptions.ToList();
+        thirdOptionPool.RemoveAll(r => r.Relic != null && !r.Relic.IsAllowed(__instance.Owner.RunState));
+
+        Logger.Info($"Third option pool count after filtering: {thirdOptionPool.Count}");
+
+        if (thirdOptionPool.Count == 0)
         {
-            __instance.RelicOption<CursedPearl>("INITIAL", "NEOW.pages.DONE.CURSED.description"),
-            __instance.RelicOption<HeftyTablet>("INITIAL", "NEOW.pages.DONE.CURSED.description"),
-            __instance.RelicOption<LargeCapsule>("INITIAL", "NEOW.pages.DONE.CURSED.description"),
-            __instance.RelicOption<SilverCrucible>("INITIAL", "NEOW.pages.DONE.CURSED.description"),
-            __instance.RelicOption<NeowsBones>("INITIAL", "NEOW.pages.DONE.POSITIVE.description"),
-            __instance.RelicOption<BraveTeaCup>("INITIAL", "NEOW.pages.DONE.POSITIVE.description")
-        };
-
-        curseOptions.RemoveAll(r => r.Relic != null && !r.Relic.IsAllowed(__instance.Owner.RunState));
-
-        Logger.Info($"Curse options count after filtering: {curseOptions.Count}");
-
-        if (curseOptions.Count == 0)
-        {
-            Logger.Warn("No curse options available, returning empty list");
+            Logger.Warn("No third option available, returning empty list");
             __result = Array.Empty<EventOption>();
             return false;
         }
 
-        var thirdOption = __instance.Rng.NextItem(curseOptions);
+        var thirdOption = __instance.Rng.NextItem(thirdOptionPool);
 
         if (thirdOption == null || thirdOption.Relic == null)
         {
@@ -135,51 +152,5 @@ public static class NeowEventPatch
 
         __result = finalOptions;
         return false;
-    }
-}
-
-/// <summary>
-///     Adds BraveTeaCup to Neow's AllPossibleOptions so it can appear in the relic pool.
-/// </summary>
-[HarmonyPatch(typeof(Neow), "get_AllPossibleOptions")]
-public static class NeowAllPossibleOptionsPatch
-{
-    [HarmonyPostfix]
-    public static void Postfix(Neow __instance, ref IEnumerable<EventOption> __result)
-    {
-        if (__instance.Owner?.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
-        {
-            return;
-        }
-
-        var list = __result.ToList();
-        if (list.Any(o => o.Relic is BraveTeaCup))
-        {
-            __result = list;
-            return;
-        }
-
-        var relicOptionMethod = AccessTools.Method(
-            typeof(MegaCrit.Sts2.Core.Models.AncientEventModel),
-            nameof(MegaCrit.Sts2.Core.Models.AncientEventModel.RelicOption),
-            System.Type.EmptyTypes);
-
-        if (relicOptionMethod == null)
-        {
-            relicOptionMethod = AccessTools.Method(
-                typeof(MegaCrit.Sts2.Core.Models.AncientEventModel),
-                "RelicOption",
-                new[] { typeof(string), typeof(string) });
-        }
-
-        var genericMethod = relicOptionMethod?.MakeGenericMethod(typeof(BraveTeaCup));
-        var option = (EventOption?)genericMethod?.Invoke(__instance, new object?[] { "INITIAL", "NEOW.pages.DONE.POSITIVE.description" });
-
-        if (option != null)
-        {
-            list.Add(option);
-        }
-
-        __result = list;
     }
 }

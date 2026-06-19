@@ -1,5 +1,5 @@
 {
   "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.title": "Craving",
-  "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.description": "At the end of your turn, if this card is in your hand, Exhaust it and add 1 Rift to the same pile.",
-  "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.extraCardText": "Craving: Exhaust this card at end of turn and add a Rift."
+  "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.description": "[gold]Ethereal[/gold]. When this card is [gold]Exhausted[/gold], add 1 [gold]Rift[/gold] to the same pile.",
+  "NEUVILLETTE_AFFLICTION_CRAVING_AFFLICTION.extraCardText": "When Exhausted due to [gold]Ethereal[/gold], add a [gold]Rift[/gold]."
 }

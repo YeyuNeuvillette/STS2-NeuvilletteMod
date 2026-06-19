@@ -1,7 +1,7 @@
 {
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.title": "Neuvillette",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.titleObject": "Neuvillette",
-  "NEUVILLETTE_CHARACTER_NEUVILLETTE.description": "The solitary judge of Fontaine.\nHarness the tides of judgment.",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.description": "The impartial Supreme Judge of Fontaine.\nHarness Sourcewater Droplets to pass judgment on the sins atop the tower.",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.selectMessage": "Time for a fair verdict.",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.pronounObject": "him",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.possessiveAdjective": "his",
@@ -10,8 +10,8 @@
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.cardsModifierTitle": "Neuvillette Cards",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.cardsModifierDescription": "Neuvillette cards can now appear in rewards and shops.",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.unlockText": "Win a run as [pink]{Prerequisite}[/pink] to unlock this character.",
-  "NEUVILLETTE_CHARACTER_NEUVILLETTE.aromaPrinciple": "...",
-  "NEUVILLETTE_CHARACTER_NEUVILLETTE.goldMonologue": "I must admit that, under certain human laws, this is more efficient than due process.",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.aromaPrinciple": "[sine][blue]...[/blue][/sine]",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.goldMonologue": "[sine]I must admit that, under certain human laws, this is more efficient than due process.[/sine]",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.eventDeathPrevention": "When the tide rises again, I shall return...",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.banter.alive.endTurnPing": "Please deliberate carefully.",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.banter.dead.endTurnPing": "..."

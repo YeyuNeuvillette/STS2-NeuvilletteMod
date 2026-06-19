@@ -134,6 +134,11 @@ public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, Ca
 
     public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
     {
+        if (card != this)
+        {
+            return base.TryModifyEnergyCostInCombat(card, originalCost, out modifiedCost);
+        }
+
         var isModified = base.TryModifyEnergyCostInCombat(card, originalCost, out modifiedCost);
         if (!isModified)
         {

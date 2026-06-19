@@ -17,6 +17,10 @@ public sealed class NeuvilletteAct : ActModel
 {
     protected override int BaseNumberOfRooms => 7;
 
+    public override int Index => -1;
+    public override bool IsDefault => false;
+    public override bool IsUnlocked(UnlockState unlockState) => true;
+
     public override string[] BgMusicOptions => new string[] { "event:/music/act3_boss_queen", "event:/music/act3_boss_queen" };
     public override string[] MusicBankPaths => new string[] { "res://banks/desktop/act3_a1.bank", "res://banks/desktop/act3_a2.bank" };
     public override string AmbientSfx => "event:/sfx/ambience/act3_ambience";

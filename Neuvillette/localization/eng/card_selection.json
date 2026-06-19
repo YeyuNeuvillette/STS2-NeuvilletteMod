@@ -1,8 +1,8 @@
 {
-  "TO_ADD_TO_HAND": "Choose {Amount} card(s) to add to your hand.",
-  "TO_SUBMIT": "Choose {Amount} card(s) to [gold]Submit[/gold].",
-  "NEUVILLETTE-IN_DEPTH_INQUIRY.selectionScreenPrompt": "Choose a card in your hand to replay",
-  "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "Choose a card to transform into a [gold]Melusine Sticker[/gold]",
+  "TO_ADD_TO_HAND": "Choose [blue]{Amount}[/blue] card(s) to add to your [gold]Hand[/gold].",
+  "TO_SUBMIT": "Choose [blue]{Amount}[/blue] card(s) to [gold]Submit[/gold].",
+  "NEUVILLETTE-IN_DEPTH_INQUIRY.selectionScreenPrompt": "Choose a card in your hand to replay.",
+  "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "Choose a card to transform into a [gold]Melusine Sticker[/gold].",
   "NEUVILLETTE-EXILE.selectionScreenPrompt": "Choose a card to put at the bottom of your [gold]Draw Pile[/gold].",
   "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "Choose any card to transform into a [gold]Melusine Sticker[/gold]."
 }
