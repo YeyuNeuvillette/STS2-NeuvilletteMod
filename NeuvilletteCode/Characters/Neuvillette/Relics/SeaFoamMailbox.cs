@@ -41,6 +41,11 @@ public sealed class SeaFoamMailbox : BaseRelic
             return;
         }
 
+        if (Owner.PlayerCombatState.TurnNumber > 1)
+        {
+            return;
+        }
+
         var hand = PileType.Hand.GetPile(Owner).Cards.ToList();
         if (hand.Count == 0)
         {

@@ -1,0 +1,6 @@
+{
+  "neuvillette.settings.page.title": "Neuvillette",
+  "neuvillette.settings.section.act4.title": "Act 4",
+  "neuvillette.settings.act4.enabled.label": "Enable Act 4",
+  "neuvillette.settings.act4.enabled.description": "When enabled, proceed to Act 4 (All-Devouring Narwhal boss fight) after Act 3. When disabled, the run ends after Act 3 as in vanilla."
+}

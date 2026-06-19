@@ -6,6 +6,8 @@ using MegaCrit.Sts2.Core.Modding;
 using STS2RitsuLib;
 using STS2RitsuLib.Audio;
 using STS2RitsuLib.Interop;
+using STS2RitsuLib.Settings;
+using STS2RitsuLib.Utils.Persistence;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Neuvillette;
@@ -32,9 +34,35 @@ public partial class MainFile : Node
         Harmony harmony = new(ModId);
         harmony.PatchAll();
 
+        NeuvilletteSettingsStore.Register();
+        RegisterSettingsPage();
+
         QueueNeuvilletteFmodAfterDeferredInitialization();
 
         Logger.Info("Neuvillette mod initialized successfully");
+    }
+
+    private static void RegisterSettingsPage()
+    {
+        var i18n = NeuvilletteSettingsStore.Localization;
+        RitsuLibFramework.RegisterModSettings(
+            ModId,
+            page => page
+                .WithTitle(ModSettingsText.I18N(i18n, "neuvillette.settings.page.title", "Neuvillette"))
+                .WithModDisplayName(ModSettingsText.I18N(i18n, "neuvillette.settings.page.title", "Neuvillette"))
+                .AddSection("act4", section => section
+                    .WithTitle(ModSettingsText.I18N(i18n, "neuvillette.settings.section.act4.title", "Act 4"))
+                    .AddToggle(
+                        "act4_enabled",
+                        ModSettingsText.I18N(i18n, "neuvillette.settings.act4.enabled.label", "Enable Act 4"),
+                        new ModSettingsValueBinding<NeuvilletteSettings, bool>(
+                            ModId,
+                            NeuvilletteSettingsStore.SettingsKey,
+                            SaveScope.Global,
+                            s => s.Act4Enabled,
+                            (s, value) => s.Act4Enabled = value),
+                        ModSettingsText.I18N(i18n, "neuvillette.settings.act4.enabled.description",
+                            "When enabled, proceed to Act 4 (All-Devouring Narwhal boss fight) after Act 3. When disabled, the run ends after Act 3 as in vanilla."))));
     }
 
     /// <summary>

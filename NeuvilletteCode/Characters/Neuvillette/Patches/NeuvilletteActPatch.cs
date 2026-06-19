@@ -55,6 +55,12 @@ public static class NeuvilletteActPatch
 
         if (state.CurrentActIndex == 2)
         {
+            if (!NeuvilletteSettingsStore.IsAct4Enabled())
+            {
+                MainFile.Logger.Info("[Neuvillette Act] 第四幕已被设置关闭，跳过注入。");
+                return true;
+            }
+
             var acts = state.Acts.ToList();
             if (acts.Count == 3)
             {

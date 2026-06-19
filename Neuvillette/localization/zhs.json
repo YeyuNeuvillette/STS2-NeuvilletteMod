@@ -1,0 +1,6 @@
+{
+  "neuvillette.settings.page.title": "Neuvillette",
+  "neuvillette.settings.section.act4.title": "第四幕",
+  "neuvillette.settings.act4.enabled.label": "启用第四幕",
+  "neuvillette.settings.act4.enabled.description": "开启后，在第三幕结束后进入第四幕（吞天巨鲸 Boss 战）。关闭则按原版流程结束。"
+}
