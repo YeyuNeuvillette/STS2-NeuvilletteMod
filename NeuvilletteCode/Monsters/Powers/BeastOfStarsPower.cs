@@ -30,12 +30,14 @@ public sealed class BeastOfStarsPower : NeuvillettePower
         }
     }
 
-    public override async Task AfterCurrentHpChanged(Creature creature, decimal delta)
+    public override async Task AfterDamageGiven(PlayerChoiceContext choiceContext, Creature? dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
     {
-        if (creature != Owner || delta >= 0m) return;
+        if (target != Owner) return;
+        if (dealer != Target) return;
+        if (result.UnblockedDamage <= 0) return;
 
         decimal healPercent = Amount / 100m;
-        int healAmount = Math.Max(1, (int)Math.Round(-delta * healPercent));
+        int healAmount = Math.Max(1, (int)Math.Round(result.UnblockedDamage * healPercent));
         Flash();
         await CreatureCmd.Heal(Owner, healAmount);
         await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), this, 10m, null, null);

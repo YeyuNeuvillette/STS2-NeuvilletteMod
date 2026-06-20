@@ -257,10 +257,12 @@ public class AllDevouringNarwhal : ModMonsterTemplate
                 _triggered25 = true;
 
             _pendingBellyEntry = true;
-            var player = Creature.CombatState?.Players.FirstOrDefault();
-            if (player != null)
+            if (Creature.CombatState != null)
             {
-                PlayerCmd.EndTurn(player, canBackOut: false);
+                foreach (var player in Creature.CombatState.Players)
+                {
+                    PlayerCmd.EndTurn(player, canBackOut: false);
+                }
             }
         }
     }
