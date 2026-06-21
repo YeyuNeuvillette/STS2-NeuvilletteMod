@@ -369,8 +369,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         UpdateVisuals(false);
         NRunMusicController.Instance?.PlayCustomMusic("event:/Neuvillette/music/AllDevouringNarwhalTheme");
 
-        var player = Creature.CombatState?.Players.FirstOrDefault();
-        if (player != null)
+        foreach (var player in Creature.CombatState?.Players ?? Array.Empty<Player>())
         {
             var playerDebuffs = player.Creature.Powers
                 .Where(p => p.Type == PowerType.Debuff)
@@ -411,9 +410,9 @@ public class AllDevouringNarwhal : ModMonsterTemplate
                 {
                     await CardPileCmd.Shuffle(new ThrowingPlayerChoiceContext(), player);
                 }
-                _cravingExhaustedCards.Clear();
             }
         }
+        _cravingExhaustedCards.Clear();
 
         foreach (var kvp in _devouredCards)
         {
