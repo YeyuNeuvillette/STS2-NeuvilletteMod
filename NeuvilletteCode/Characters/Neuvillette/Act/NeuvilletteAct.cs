@@ -25,9 +25,9 @@ public sealed class NeuvilletteAct : ActModel
     public override string[] MusicBankPaths => new string[] { "res://banks/desktop/act3_a1.bank", "res://banks/desktop/act3_a2.bank" };
     public override string AmbientSfx => "event:/sfx/ambience/act3_ambience";
 
-    public override Color MapBgColor => new Color(0f, 0f, 0f, 0f);
-    public override Color MapTraveledColor => new Color("ffffff");
-    public override Color MapUntraveledColor => new Color("b0b0b0");
+    public override Color MapBgColor => new Color("819A97");
+    public override Color MapTraveledColor => new Color("1D1E2F");
+    public override Color MapUntraveledColor => new Color("60717C");
 
     public override string ChestSpineResourcePath => "res://animations/backgrounds/treasure_room/chest_room_act_3_skel_data.tres";
     public override string ChestSpineSkinNameNormal => "act3";

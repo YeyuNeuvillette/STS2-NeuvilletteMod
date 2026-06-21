@@ -12,7 +12,7 @@ namespace Neuvillette.Monsters;
 [RegisterActEncounter(typeof(NeuvilletteAct))]
 public class NarwhalBossEncounter : ModEncounterTemplate
 {
-    private static readonly string IconBasePath = "res://Neuvillette/images/map/all_devouring_narwhal_boss_icon";
+    private static readonly string IconBasePath = "res://Neuvillette/images/map/all_devouring_narwhal_icon";
 
     public override IEnumerable<MonsterModel> AllPossibleMonsters => [ModelDb.Monster<AllDevouringNarwhal>()];
 
@@ -20,7 +20,7 @@ public class NarwhalBossEncounter : ModEncounterTemplate
 
     public override string CustomBgm => "event:/Neuvillette/music/AllDevouringNarwhalTheme";
 
-    public override string BossNodePath => IconBasePath;
+    public override string BossNodePath => "res://Neuvillette/images/map/all_devouring_narwhal_boss_icon";
 
     public override MegaSkeletonDataResource? BossNodeSpineResource => null;
 
