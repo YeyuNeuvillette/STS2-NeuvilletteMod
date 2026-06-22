@@ -17,7 +17,7 @@ public sealed class OriginalSin() : NeuvilletteCard(0, CardType.Skill, CardRarit
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<ContemptOfCourtPower>(2m)
+        new PowerVar<ContemptOfCourtPower>(3m)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -34,7 +34,7 @@ public sealed class OriginalSin() : NeuvilletteCard(0, CardType.Skill, CardRarit
 
     protected override void OnUpgrade()
     {
-        DynamicVars["ContemptOfCourtPower"].UpgradeValueBy(1m);
+        DynamicVars["ContemptOfCourtPower"].UpgradeValueBy(2m);
     }
 
     public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)

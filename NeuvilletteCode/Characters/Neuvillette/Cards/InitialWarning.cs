@@ -16,8 +16,8 @@ public sealed class InitialWarning() : NeuvilletteCard(0, CardType.Attack, CardR
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(3m, ValueProp.Move),
-        new PowerVar<ContemptOfCourtPower>(3m)
+        new DamageVar(4m, ValueProp.Move),
+        new PowerVar<ContemptOfCourtPower>(4m)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -37,7 +37,7 @@ public sealed class InitialWarning() : NeuvilletteCard(0, CardType.Attack, CardR
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(1m);
-        DynamicVars["ContemptOfCourtPower"].UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars["ContemptOfCourtPower"].UpgradeValueBy(2m);
     }
 }

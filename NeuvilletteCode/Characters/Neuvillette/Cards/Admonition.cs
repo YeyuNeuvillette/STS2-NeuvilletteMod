@@ -12,14 +12,14 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class Admonition() : SurgeCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
-    protected override int BaseSurgeValue => 2;
-    protected override int UpgradeSurgeValue => 0;
+    protected override int BaseSurgeValue => 3;
+    protected override int UpgradeSurgeValue => 2;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         base.AdditionalHoverTips.Concat([HoverTipFactory.FromPower<ContemptOfCourtPower>()]);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        base.CanonicalVars.Concat([new PowerVar<ContemptOfCourtPower>(2m)]);
+        base.CanonicalVars.Concat([new PowerVar<ContemptOfCourtPower>(3m)]);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -29,12 +29,11 @@ public sealed class Admonition() : SurgeCard(1, CardType.Skill, CardRarity.Uncom
         await PowerCmd.Apply<ContemptOfCourtPower>(choiceContext, cardPlay.Target, contemptAmount, Owner.Creature, this);
 
         await ApplySurgeLogic(choiceContext);
-        if (IsUpgraded)
-            await ApplySurgeLogic(choiceContext);
     }
 
     protected override void OnUpgrade()
     {
+        DynamicVars["ContemptOfCourtPower"].UpgradeValueBy(2m);
         base.OnUpgrade();
     }
 }

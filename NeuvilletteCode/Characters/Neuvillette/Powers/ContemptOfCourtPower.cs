@@ -24,11 +24,6 @@ public sealed class ContemptOfCourtPower : NeuvillettePower
 
         Flash();
         await CreatureCmd.Damage(choiceContext, Owner, Amount, ValueProp.Unpowered, Owner, null);
-    }
-
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
-    {
-        if (side == Owner.Side)
-            await PowerCmd.TickDownDuration(this);
+        await PowerCmd.Decrement(this);
     }
 }
