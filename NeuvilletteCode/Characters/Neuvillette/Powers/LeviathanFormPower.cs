@@ -14,6 +14,8 @@ namespace Neuvillette.Characters.Neuvillette.Powers;
 [RegisterPower]
 public sealed class LeviathanFormPower : NeuvillettePower
 {
+    private const decimal InfiniteHpValue = 999999999m;
+
     private int storedMaxHp;
     private decimal storedCurrentHp;
     private bool isInfiniteHpActive;
@@ -24,20 +26,25 @@ public sealed class LeviathanFormPower : NeuvillettePower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    private static bool IsInfiniteHp(Creature creature)
+    {
+        return creature.MaxHp >= InfiniteHpValue;
+    }
+
     public override async Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
     {
         Log.Info($"[LeviathanFormPower] BeforeApplied START: target.CurrentHp={target.CurrentHp}, target.MaxHp={target.MaxHp}");
         
-        if (target.MaxHp >= 999999999m)
+        if (IsInfiniteHp(target))
         {
             Log.Info($"[LeviathanFormPower] BeforeApplied: Detected infinite HP state, deactivating all LeviathanFormPower infinite HP");
             
             var leviathanPowers = target.Powers.OfType<LeviathanFormPower>().ToList();
             foreach (var power in leviathanPowers)
             {
-                if (power.isInfiniteHpActive && power != this)
+                if (power != this)
                 {
-                    Log.Info($"[LeviathanFormPower] BeforeApplied: Deactivating other LeviathanFormPower's infinite HP");
+                    Log.Info($"[LeviathanFormPower] BeforeApplied: Deactivating other LeviathanFormPower's infinite HP (isInfiniteHpActive={power.isInfiniteHpActive})");
                     await power.DeactivateInfiniteHpInternal();
                 }
             }
@@ -60,10 +67,10 @@ public sealed class LeviathanFormPower : NeuvillettePower
         if (side != Owner.Side)
             return;
 
-        if (isInfiniteHpActive)
+        if (isInfiniteHpActive || IsInfiniteHp(Owner))
         {
-            Log.Info($"[LeviathanFormPower] AfterSideTurnStart: Deactivating infinite HP");
-            await DeactivateInfiniteHp();
+            Log.Info($"[LeviathanFormPower] AfterSideTurnStart: Deactivating infinite HP (isInfiniteHpActive={isInfiniteHpActive}, MaxHp={Owner.MaxHp})");
+            await DeactivateInfiniteHpInternal();
         }
 
         if (Amount > 1m)
@@ -80,25 +87,29 @@ public sealed class LeviathanFormPower : NeuvillettePower
 
     public override async Task AfterCombatEnd(CombatRoom room)
     {
-        if (isInfiniteHpActive)
-            await DeactivateInfiniteHp();
+        if (isInfiniteHpActive || (Owner != null && IsInfiniteHp(Owner)))
+        {
+            Log.Info($"[LeviathanFormPower] AfterCombatEnd: Deactivating infinite HP (isInfiniteHpActive={isInfiniteHpActive}, MaxHp={Owner?.MaxHp})");
+            await DeactivateInfiniteHpInternal();
+        }
     }
 
     public override async Task AfterRemoved(Creature oldOwner)
     {
-        Log.Info($"[LeviathanFormPower] AfterRemoved: isInfiniteHpActive={isInfiniteHpActive}, Owner.CurrentHp={Owner?.CurrentHp}, Owner.MaxHp={Owner?.MaxHp}");
+        bool wasInfiniteHpActive = isInfiniteHpActive || (oldOwner != null && IsInfiniteHp(oldOwner));
         
-        bool wasInfiniteHpActive = isInfiniteHpActive;
+        Log.Info($"[LeviathanFormPower] AfterRemoved: wasInfiniteHpActive={wasInfiniteHpActive}, isInfiniteHpActive={isInfiniteHpActive}, oldOwner.MaxHp={oldOwner?.MaxHp}");
+        
         if (wasInfiniteHpActive)
-            await DeactivateInfiniteHp();
+            await DeactivateInfiniteHpInternal();
         
-        if (wasInfiniteHpActive && Owner != null && !Owner.IsDead)
+        if (wasInfiniteHpActive && oldOwner != null && !oldOwner.IsDead)
         {
-            Log.Info($"[LeviathanFormPower] AfterRemoved: Setting Owner.CurrentHp to 0 to ensure death");
-            Owner.LoseHpInternal(Owner.CurrentHp, ValueProp.Unblockable | ValueProp.Unpowered);
+            Log.Info($"[LeviathanFormPower] AfterRemoved: Setting oldOwner.CurrentHp to 0 to ensure death");
+            oldOwner.LoseHpInternal(oldOwner.CurrentHp, ValueProp.Unblockable | ValueProp.Unpowered);
         }
         
-        Log.Info($"[LeviathanFormPower] AfterRemoved END: Owner.CurrentHp={Owner?.CurrentHp}, Owner.MaxHp={Owner?.MaxHp}");
+        Log.Info($"[LeviathanFormPower] AfterRemoved END: oldOwner.CurrentHp={oldOwner?.CurrentHp}, oldOwner.MaxHp={oldOwner?.MaxHp}");
     }
 
     private async Task ActivateInfiniteHp()
@@ -116,29 +127,38 @@ public sealed class LeviathanFormPower : NeuvillettePower
         Log.Info($"[LeviathanFormPower] ActivateInfiniteHp: storedMaxHp={storedMaxHp}, storedCurrentHp={storedCurrentHp}");
         
         Owner.HpDisplay = HpDisplay.InfiniteWithoutNumbers;
-        await CreatureCmd.SetMaxAndCurrentHp(Owner, 999999999m);
+        await CreatureCmd.SetMaxAndCurrentHp(Owner, InfiniteHpValue);
         
         Log.Info($"[LeviathanFormPower] ActivateInfiniteHp: After SetMaxAndCurrentHp, Owner.CurrentHp={Owner.CurrentHp}, Owner.MaxHp={Owner.MaxHp}");
     }
 
-    private async Task DeactivateInfiniteHp()
-    {
-        await DeactivateInfiniteHpInternal();
-    }
-
     private async Task DeactivateInfiniteHpInternal()
     {
-        Log.Info($"[LeviathanFormPower] DeactivateInfiniteHp: isInfiniteHpActive={isInfiniteHpActive}, Owner.CurrentHp={Owner.CurrentHp}, Owner.MaxHp={Owner.MaxHp}, storedMaxHp={storedMaxHp}, storedCurrentHp={storedCurrentHp}");
+        Log.Info($"[LeviathanFormPower] DeactivateInfiniteHp: isInfiniteHpActive={isInfiniteHpActive}, Owner.CurrentHp={Owner?.CurrentHp}, Owner.MaxHp={Owner?.MaxHp}, storedMaxHp={storedMaxHp}, storedCurrentHp={storedCurrentHp}");
         
-        if (!isInfiniteHpActive)
+        if (!isInfiniteHpActive && (Owner == null || !IsInfiniteHp(Owner)))
+            return;
+
+        if (Owner == null)
             return;
 
         Flash();
-        isInfiniteHpActive = false;
         Owner.HpDisplay = HpDisplay.Normal;
 
-        await CreatureCmd.SetMaxHp(Owner, storedMaxHp);
-        await CreatureCmd.SetCurrentHp(Owner, storedCurrentHp);
+        if (storedMaxHp > 0 && storedMaxHp < InfiniteHpValue)
+        {
+            await CreatureCmd.SetMaxHp(Owner, storedMaxHp);
+            await CreatureCmd.SetCurrentHp(Owner, Math.Min(storedCurrentHp, storedMaxHp));
+        }
+        else
+        {
+            Log.Info($"[LeviathanFormPower] DeactivateInfiniteHp: storedMaxHp={storedMaxHp} is invalid, using fallback");
+            var fallbackMaxHp = Owner.Player?.Character?.StartingHp ?? 50;
+            await CreatureCmd.SetMaxHp(Owner, fallbackMaxHp);
+            await CreatureCmd.SetCurrentHp(Owner, Math.Min(1, fallbackMaxHp));
+        }
+
+        isInfiniteHpActive = false;
         
         Log.Info($"[LeviathanFormPower] DeactivateInfiniteHp: After restore, Owner.CurrentHp={Owner.CurrentHp}, Owner.MaxHp={Owner.MaxHp}");
     }
