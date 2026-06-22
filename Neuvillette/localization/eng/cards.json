@@ -182,7 +182,7 @@
   "NEUVILLETTE_CARD_RAIN_DEW_SHARE.title": "Rain Dew Share",
   "NEUVILLETTE_CARD_RAIN_DEW_SHARE.description": "[gold]Surge[/gold] {Surge:diff()} for all players{IfUpgraded:show: twice.|.}",
   "NEUVILLETTE_CARD_ADMONITION.title": "Admonition",
-  "NEUVILLETTE_CARD_ADMONITION.description": "Apply {ContemptOfCourtPower:diff()} [gold]Contempt of Court[/gold].\n[gold]Surge[/gold] {Surge:diff()}{IfUpgraded:show: twice.|.}",
+  "NEUVILLETTE_CARD_ADMONITION.description": "Apply {ContemptOfCourtPower:diff()} [gold]Contempt of Court[/gold].\n[gold]Surge[/gold] {Surge:diff()}.",
   "NEUVILLETTE_CARD_INDIGNATION.title": "Indignation",
   "NEUVILLETTE_CARD_INDIGNATION.description": "Lose {HpLoss:diff()} HP.\nDeal {Damage:diff()} damage.",
   "NEUVILLETTE_CARD_OCEANIC_EDICT.title": "Oceanic Edict",

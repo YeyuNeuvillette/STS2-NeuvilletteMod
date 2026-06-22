@@ -43,10 +43,16 @@ public sealed class AsWaterSeeksEquilibrium : BaseRelic
         GD.Print($"AsWaterSeeksEquilibrium.AfterCurrentHpChanged: IsPlayer={creature.IsPlayer}, _isPlayerTurn={_isPlayerTurn}, delta={delta}, CurrentHp={creature.CurrentHp}, MaxHp={creature.MaxHp}, PreviousHp={_previousHp}");
 
         if (!creature.IsPlayer || Owner == null || creature != Owner.Creature || !_isPlayerTurn)
+        {
+            _previousHp = creature.CurrentHp;
             return;
+        }
 
         if (delta > 0m && _previousHp >= creature.MaxHp)
+        {
+            _previousHp = creature.CurrentHp;
             return;
+        }
 
         _previousHp = creature.CurrentHp;
 

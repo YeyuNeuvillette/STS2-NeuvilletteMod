@@ -182,7 +182,7 @@
   "NEUVILLETTE_CARD_RAIN_DEW_SHARE.title": "雨露均沾",
   "NEUVILLETTE_CARD_RAIN_DEW_SHARE.description": "为所有玩家[gold]潮涌[/gold]{Surge:diff()}{IfUpgraded:show:两次。|。}",
   "NEUVILLETTE_CARD_ADMONITION.title": "训诫",
-  "NEUVILLETTE_CARD_ADMONITION.description": "给予{ContemptOfCourtPower:diff()}层[gold]藐视法庭[/gold]。\n[gold]潮涌[/gold]{Surge:diff()}{IfUpgraded:show:两次。|。}",
+  "NEUVILLETTE_CARD_ADMONITION.description": "给予{ContemptOfCourtPower:diff()}层[gold]藐视法庭[/gold]。\n[gold]潮涌[/gold]{Surge:diff()}。",
   "NEUVILLETTE_CARD_INDIGNATION.title": "忿怒",
   "NEUVILLETTE_CARD_INDIGNATION.description": "失去{HpLoss:diff()}点生命。\n造成{Damage:diff()}点伤害。",
   "NEUVILLETTE_CARD_OCEANIC_EDICT.title": "渊海律令",
