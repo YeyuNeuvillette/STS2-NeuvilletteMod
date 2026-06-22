@@ -43,7 +43,7 @@ public sealed class ResistStrictly() : NeuvilletteCard(1, CardType.Attack, CardR
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(5m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
         DynamicVars["ContemptOfCourtPower"].UpgradeValueBy(1m);
     }
 }

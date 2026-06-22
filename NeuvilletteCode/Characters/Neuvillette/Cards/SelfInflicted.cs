@@ -20,15 +20,15 @@ public sealed class SelfInflicted() : NeuvilletteCard(1, CardType.Attack, CardRa
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
         new ExtraDamageVar(1m),
-         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(static (CardModel _, Creature? target) =>
-         {
-             if (target?.Monster == null)
-                 return 0m;
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(static (CardModel _, Creature? target) =>
+        {
+            if (target?.Monster == null)
+                return 0m;
 
-             var attackIntent = target.Monster.NextMove.Intents.OfType<AttackIntent>().FirstOrDefault();
-             return attackIntent?.GetSingleDamage(new[] { target }, target) ?? 0m;
-         }),
-         new CalculatedVar("CalculatedHits").WithMultiplier(static (CardModel _, Creature? target) =>
+            var attackIntent = target.Monster.NextMove.Intents.OfType<AttackIntent>().FirstOrDefault();
+            return attackIntent?.DamageCalc?.Invoke() ?? 0m;
+        }),
+        new CalculatedVar("CalculatedHits").WithMultiplier(static (CardModel _, Creature? target) =>
         {
             if (target?.Monster == null)
                 return 1m;
@@ -50,12 +50,12 @@ public sealed class SelfInflicted() : NeuvilletteCard(1, CardType.Attack, CardRa
 
         var target = cardPlay.Target;
         var attackIntent = target.Monster?.NextMove.Intents.OfType<AttackIntent>().FirstOrDefault();
-        var hitDamage = attackIntent?.GetSingleDamage(new[] { target }, target) ?? 0m;
+        var baseDamage = attackIntent?.DamageCalc?.Invoke() ?? 0m;
         var repeats = attackIntent == null ? 1 : Math.Max(attackIntent.Repeats, 1);
-        if (hitDamage <= 0)
+        if (baseDamage <= 0)
             return;
 
-        await DamageCmd.Attack(hitDamage)
+        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .WithHitCount(repeats)
             .FromCard(this)
             .Targeting(cardPlay.Target)
