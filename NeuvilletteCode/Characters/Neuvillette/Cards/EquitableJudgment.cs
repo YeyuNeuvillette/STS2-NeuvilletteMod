@@ -10,7 +10,6 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
-using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes;
@@ -28,7 +27,6 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCharacterStarterCard(typeof(Neuvillette))]
 public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, CardRarity.Basic, TargetType.AllEnemies)
 {
-    private const string CalculatedDamageKey = "CalculatedDamage";
     private const string CalculatedHpLossKey = "CalculatedHpLoss";
 
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
@@ -40,8 +38,10 @@ public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, Ca
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new HpLossVar(2m),
-        new DamageVar(15m, ValueProp.Move),
-        new JudgmentDamageVar(),
+        new CalculationBaseVar(15m),
+        new ExtraDamageVar(15m),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(static (CardModel card, Creature? _) =>
+            GetPastDraconicGloriesPower(card)?.Amount ?? 0m),
         new JudgmentHpLossVar()
     ];
 
@@ -54,60 +54,10 @@ public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, Ca
         return card.Owner.Creature.GetPower<PastDraconicGloriesPower>();
     }
 
-    private static decimal GetDamageMultiplier(CardModel card)
-    {
-        var power = GetPastDraconicGloriesPower(card);
-        return power != null ? 1m + power.Amount : 1m;
-    }
-
     private static decimal GetAdditionalHpLoss(CardModel card)
     {
         var power = GetPastDraconicGloriesPower(card);
         return power != null ? 2m * power.Amount : 0m;
-    }
-
-    private static decimal ModifyDamageForCard(CardModel card, Creature? target, CardPreviewMode previewMode)
-    {
-        if (card.RunState == null || card.CombatState == null)
-        {
-            return card.DynamicVars.Damage.BaseValue * GetDamageMultiplier(card);
-        }
-
-        var modified = Hook.ModifyDamage(
-            card.RunState,
-            card.CombatState,
-            target,
-            card.Owner?.Creature,
-            card.DynamicVars.Damage.BaseValue,
-            card.DynamicVars.Damage.Props,
-            card,
-            ModifyDamageHookType.All,
-            previewMode,
-            out IEnumerable<AbstractModel> _);
-
-        return modified * GetDamageMultiplier(card);
-    }
-
-    private sealed class JudgmentDamageVar : DynamicVar
-    {
-        public JudgmentDamageVar() : base(CalculatedDamageKey, 15m)
-        {
-        }
-
-        protected override decimal GetBaseValueForIConvertible()
-        {
-            return _owner is EquitableJudgment card
-                ? ModifyDamageForCard(card, null, CardPreviewMode.None)
-                : BaseValue;
-        }
-
-        public override void UpdateCardPreview(CardModel card, CardPreviewMode previewMode, Creature? target, bool runGlobalHooks)
-        {
-            if (_owner is EquitableJudgment)
-            {
-                base.PreviewValue = ModifyDamageForCard(card, target, previewMode);
-            }
-        }
     }
 
     private sealed class JudgmentHpLossVar : DynamicVar
@@ -165,13 +115,11 @@ public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, Ca
             await PowerCmd.Remove(dropletPower);
         }
 
-        var finalDamage = ModifyDamageForCard(this, null, CardPreviewMode.None);
-
         if (CombatState != null && RunState != null)
         {
             var enemies = CombatState.Enemies.Where(e => e.IsAlive).ToList();
 
-            await DamageCmd.Attack(finalDamage)
+            await DamageCmd.Attack(DynamicVars.CalculatedDamage)
                 .FromCard(this)
                 .TargetingAllOpponents(CombatState)
                 .WithAttackerAnim("Cast", 0.5f)
@@ -209,6 +157,7 @@ public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, Ca
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(5m);
+        DynamicVars.CalculationBase.UpgradeValueBy(5m);
+        DynamicVars.ExtraDamage.UpgradeValueBy(5m);
     }
 }
