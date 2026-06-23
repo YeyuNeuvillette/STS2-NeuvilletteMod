@@ -23,7 +23,7 @@
   "NEUVILLETTE_POWER_NO_RETRIAL_POWER.title": "不予再审",
   "NEUVILLETTE_POWER_NO_RETRIAL_POWER.description": "当你失去生命值时，获得1层[gold]缓冲[/gold]。",
   "NEUVILLETTE_POWER_CONTEMPT_OF_COURT_POWER.title": "藐视法庭",
-  "NEUVILLETTE_POWER_CONTEMPT_OF_COURT_POWER.description": "在你获得[gold]源水之滴[/gold]后，受到伤害。",
+  "NEUVILLETTE_POWER_CONTEMPT_OF_COURT_POWER.description": "在你获得[gold]源水之滴[/gold]后，受到伤害。触发后失去1层。",
   "NEUVILLETTE_POWER_SURGE_NEXT_TURN_POWER.title": "下回合潮涌",
   "NEUVILLETTE_POWER_SURGE_NEXT_TURN_POWER.description": "在你的下个回合开始时，[gold]潮涌[/gold]。",
   "NEUVILLETTE_POWER_PLUIE_SUR_LA_VILLE_POWER.title": "轻雨何故落",

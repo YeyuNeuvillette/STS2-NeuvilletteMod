@@ -23,7 +23,7 @@
   "NEUVILLETTE_POWER_NO_RETRIAL_POWER.title": "No Retrial",
   "NEUVILLETTE_POWER_NO_RETRIAL_POWER.description": "When you lose HP, gain 1 stack of [gold]Buffer[/gold].",
   "NEUVILLETTE_POWER_CONTEMPT_OF_COURT_POWER.title": "Contempt of Court",
-  "NEUVILLETTE_POWER_CONTEMPT_OF_COURT_POWER.description": "After you gain [gold]Sourcewater Droplet[/gold], take damage.",
+  "NEUVILLETTE_POWER_CONTEMPT_OF_COURT_POWER.description": "After you gain [gold]Sourcewater Droplet[/gold], take damage. Lose 1 stack after triggered.",
   "NEUVILLETTE_POWER_SURGE_NEXT_TURN_POWER.title": "Surge Next Turn",
   "NEUVILLETTE_POWER_SURGE_NEXT_TURN_POWER.description": "At the start of your next turn, [gold]Surge[/gold].",
   "NEUVILLETTE_POWER_PLUIE_SUR_LA_VILLE_POWER.title": "Pluie Sur La Ville",
