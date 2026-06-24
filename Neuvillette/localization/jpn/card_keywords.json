@@ -1,0 +1,12 @@
+{
+  "NEUVILLETTE_KEYWORD_SOURCEWATERDROPLET.title": "源水の雫",
+  "NEUVILLETTE_KEYWORD_SOURCEWATERDROPLET.description": "最大6枚まで保持できる。一部のカードは[gold]源水の雫[/gold]を消費して追加効果を発動できる。",
+  "NEUVILLETTE_KEYWORD_SURGE.title": "波動",
+  "NEUVILLETTE_KEYWORD_SURGE.description": "HPを回復する。戦闘終了時、同じ値のHPを失う（この効果はHPを最大HPの[blue]50%[/blue]以下にはできない）。",
+  "NEUVILLETTE_KEYWORD_SUBMIT.title": "提出",
+  "NEUVILLETTE_KEYWORD_SUBMIT.description": "[gold]廃棄[/gold]し、そのコストに応じて[gold]諭示値[/gold]を得る（0コストのカードは10、コスト1につきさらに10追加）。[gold]諭示値[/gold]が100に達した時、リセットし[gold]最終裁判[/gold]を1枚得る。",
+  "NEUVILLETTE_KEYWORD_AGILITY.title": "俊敏",
+  "NEUVILLETTE_KEYWORD_AGILITY.description": "次に[gold]ブロック[/gold]を得るスキルの[gold]ブロック[/gold]が増加する。",
+  "NEUVILLETTE_KEYWORD_MELUSINESTICKER.title": "メリュジーヌシール",
+  "NEUVILLETTE_KEYWORD_MELUSINESTICKER.description": "コスト0で[gold]保留[/gold]と[gold]廃棄[/gold]を持つスキルカードの分類。"
+}

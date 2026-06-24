@@ -1,0 +1,11 @@
+{
+  "NEUVILLETTE_POTION_WATER_BOTTLE.title": "水瓶",
+  "NEUVILLETTE_POTION_WATER_BOTTLE.description": "[gold]波動[/gold]10。",
+  "NEUVILLETTE_POTION_WATER_BOTTLE.selectionScreenPrompt": "水瓶の対象を選択。",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.title": "瓶詰め召喚状",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.description": "[gold]法廷侮辱[/gold]8を付与する。",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.selectionScreenPrompt": "瓶詰め召喚状の対象を選択。",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.title": "濃縮声援",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.description": "手札をランダムな[gold]メリュジーヌシール[/gold]で埋める。",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.selectionScreenPrompt": "濃縮声援の対象を選択。"
+}

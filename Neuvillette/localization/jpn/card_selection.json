@@ -1,0 +1,8 @@
+{
+  "TO_ADD_TO_HAND": "[gold]手札[/gold]に加えるカードを[blue]{Amount}[/blue]枚選択。",
+  "TO_SUBMIT": "[gold]提出[/gold]するカードを[blue]{Amount}[/blue]枚選択。",
+  "NEUVILLETTE-IN_DEPTH_INQUIRY.selectionScreenPrompt": "[gold]リプレイ[/gold]を付与する[gold]手札[/gold]のカードを1枚選択。",
+  "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "[gold]メリュジーヌシール[/gold]に[gold]変化[/gold]させるカードを1枚選択。",
+  "NEUVILLETTE-EXILE.selectionScreenPrompt": "[gold]山札[/gold]の一番下に置くカードを1枚選択。",
+  "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "[gold]メリュジーヌシール[/gold]に[gold]変化[/gold]させるカードを1枚選択。"
+}
