@@ -78,7 +78,7 @@
   "NEUVILLETTE_POWER_PHANTOM_POWER.title": "Phantom",
   "NEUVILLETTE_POWER_PHANTOM_POWER.description": "After losing all [gold]Block[/gold], return from outside the whale's belly: exhaust all your Rift cards, shuffle cards exhausted due to Craving back into your draw pile, and heal to full.",
   "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.title": "Insatiable Hunger",
-  "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.description": "The All-Devouring Narwhal is about to devour 1 of your cards with [gold]Craving[/gold], leaving a [gold]Rift[/gold] in its place.",
+  "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.description": "The All-Devouring Narwhal is about to devour the last card you played with [gold]Craving[/gold], leaving a [gold]Rift[/gold] in its place.",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.title": "Hostility",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.description": "After the All-Devouring Narwhal's HP drops below a certain value, swallow you into its belly.",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.smartDescription": "After the All-Devouring Narwhal's HP drops below [blue]{Threshold}[/blue], swallow you into its belly."

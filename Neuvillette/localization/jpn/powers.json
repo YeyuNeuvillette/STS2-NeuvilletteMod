@@ -78,7 +78,7 @@
   "NEUVILLETTE_POWER_PHANTOM_POWER.title": "幻影",
   "NEUVILLETTE_POWER_PHANTOM_POWER.description": "すべての[gold]ブロック[/gold]を失った後、鯨の腹から脱出する：すべての狭間カードを[gold]廃棄[/gold]し、渇望で[gold]廃棄[/gold]されたカードを[gold]山札[/gold]に戻し、HPを全回復する。",
   "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.title": "飢渇",
-  "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.description": "呑星の鯨が[gold]渇望[/gold]を持つカード1枚を呑み込もうとしている。その場所に[gold]狭間[/gold]を1枚残す。",
+  "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.description": "呑星の鯨があなたが最後にプレイした[gold]渇望[/gold]を持つカード1枚を呑み込もうとしている。その場所に[gold]狭間[/gold]を1枚残す。",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.title": "敵意",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.description": "呑星の鯨のHPが一定値を下回ると、あなたを鯨の腹に呑み込む。",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.smartDescription": "呑星の鯨のHPが[blue]{Threshold}[/blue]を下回ると、あなたを鯨の腹に呑み込む。"

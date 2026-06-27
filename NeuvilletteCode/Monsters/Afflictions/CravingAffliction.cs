@@ -12,14 +12,15 @@ namespace Neuvillette.Monsters.Afflictions;
 [RegisterAffliction]
 public sealed class CravingAffliction : AfflictionModel
 {
-    private static readonly PackedScene? PlaceholderOverlay = ResourceLoader.Load<PackedScene>(
-        "res://scenes/cards/overlays/afflictions/hexed.tscn", null, ResourceLoader.CacheMode.Reuse);
+    private const string PlaceholderOverlayPath = "res://scenes/cards/overlays/afflictions/hexed.tscn";
 
     static CravingAffliction()
     {
         ExternalAssetOverrideRegistry.RegisterAfflictionOverlaySceneProvider(
             nameof(CravingAffliction),
-            affliction => affliction is CravingAffliction ? PlaceholderOverlay : null);
+            affliction => affliction is CravingAffliction
+                ? ResourceLoader.Load<PackedScene>(PlaceholderOverlayPath, null, ResourceLoader.CacheMode.Reuse)
+                : null);
     }
 
     public override bool HasExtraCardText => true;

@@ -37,7 +37,6 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     private bool _isInBelly;
     private bool _triggered75;
     private bool _triggered25;
-    private bool _pendingBellyEntry;
     private int _savedHp;
     private int _savedMaxHp;
     private int _phaseOneLoopCount;
@@ -45,12 +44,14 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     private MoveState _devourCravingState = null!;
     private MoveState _doubleAttackState = null!;
     private MoveState _empowerAttackState = null!;
+    private MoveState _enterBellyState = null!;
     private List<PowerModel> _phaseOnePowers = new();
     private List<PowerModel> _phaseTwoPowers = new();
     private List<PowerModel>? _delayedPowersToReapply;
 
     private readonly Dictionary<CardModel, decimal> _devouredCards = new();
     private readonly HashSet<CardModel> _cravingExhaustedCards = new();
+    private readonly Dictionary<Player, CardModel> _lastPlayedCravingCard = new();
 
     private int AttackDamage1 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 16, 16);
     private int AttackDamage2 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 20, 20);
@@ -130,6 +131,14 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             new SingleAttackIntent(BellyDamage)
         );
 
+        _enterBellyState = new MoveState(
+            "ENTER_BELLY",
+            EnterBellyMove,
+            new StunIntent()
+        );
+        _enterBellyState.MustPerformOnceBeforeTransitioning = true;
+        _enterBellyState.FollowUpState = bellyDefend;
+
         attackWithAppetite.FollowUpState = _devourCravingState;
         _devourCravingState.FollowUpState = _doubleAttackState;
         _doubleAttackState.FollowUpState = _devourCravingState;
@@ -140,7 +149,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         bellyAttack.FollowUpState = bellyAttack;
 
         _moveStateMachine = new MonsterMoveStateMachine(
-            [attackWithAppetite, _devourCravingState, _doubleAttackState, _empowerAttackState, bellyDefend, bellyAttack],
+            [attackWithAppetite, _devourCravingState, _doubleAttackState, _empowerAttackState, _enterBellyState, bellyDefend, bellyAttack],
             attackWithAppetite
         );
 
@@ -174,17 +183,20 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             var player = target.Player ?? target.PetOwner;
             if (player == null) continue;
 
-            var combatState = player.PlayerCombatState;
-            if (combatState == null) continue;
+            CardModel? card = null;
+            if (_lastPlayedCravingCard.TryGetValue(player, out var lastCard))
+            {
+                var combatState = player.PlayerCombatState;
+                if (combatState != null)
+                {
+                    var allCards = combatState.AllCards.ToList();
+                    if (allCards.Contains(lastCard) && lastCard.Affliction is CravingAffliction)
+                    {
+                        card = lastCard;
+                    }
+                }
+            }
 
-            var handCards = PileType.Hand.GetPile(player).Cards;
-            var drawCards = PileType.Draw.GetPile(player).Cards;
-            var discardCards = PileType.Discard.GetPile(player).Cards;
-            var allCards = handCards.Concat(drawCards).Concat(discardCards).ToList();
-            var cravingCards = allCards.Where(c => c.Affliction is CravingAffliction).ToList();
-            if (cravingCards.Count == 0) continue;
-
-            var card = base.RunRng.CombatCardGeneration.NextItem(cravingCards);
             if (card == null) continue;
             var currentPile = card.Pile?.Type ?? PileType.Hand;
 
@@ -195,6 +207,8 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             if (riftCard == null) continue;
             await CardPileCmd.AddGeneratedCardToCombat(riftCard, currentPile, player);
         }
+
+        _lastPlayedCravingCard.Clear();
 
         var hunger = Creature.Powers.FirstOrDefault(p => p is InsatiableHungerPower);
         if (hunger != null)
@@ -243,6 +257,32 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             .Execute(null);
     }
 
+    private async Task EnterBellyMove(IReadOnlyList<Creature> targets)
+    {
+        await EnterBelly();
+    }
+
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        if (_isInBelly)
+        {
+            await base.AfterCardPlayed(choiceContext, cardPlay);
+            return;
+        }
+
+        var card = cardPlay.Card;
+        if (card.Affliction is CravingAffliction)
+        {
+            var player = card.Owner;
+            if (player != null)
+            {
+                _lastPlayedCravingCard[player] = card;
+            }
+        }
+
+        await base.AfterCardPlayed(choiceContext, cardPlay);
+    }
+
     public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
         if (target != Creature || _isInBelly) return;
@@ -256,7 +296,8 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             if (!_triggered25 && hpPercent <= 0.25f)
                 _triggered25 = true;
 
-            _pendingBellyEntry = true;
+            SetMoveImmediate(_enterBellyState, forceTransition: true);
+
             if (Creature.CombatState != null)
             {
                 foreach (var player in Creature.CombatState.Players)
@@ -264,15 +305,6 @@ public class AllDevouringNarwhal : ModMonsterTemplate
                     PlayerCmd.EndTurn(player, canBackOut: false);
                 }
             }
-        }
-    }
-
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
-    {
-        if (side == CombatSide.Enemy && _pendingBellyEntry)
-        {
-            _pendingBellyEntry = false;
-            await EnterBelly();
         }
     }
 
@@ -328,7 +360,6 @@ public class AllDevouringNarwhal : ModMonsterTemplate
 
         UpdateVisuals(true);
         NRunMusicController.Instance?.PlayCustomMusic("event:/Neuvillette/music/AllDevouringNarwhalTheme2");
-        SetMoveImmediate(GetBellyDefendState(), forceTransition: true);
     }
 
     public async Task ExitBelly()
@@ -413,6 +444,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             }
         }
         _cravingExhaustedCards.Clear();
+        _lastPlayedCravingCard.Clear();
 
         foreach (var kvp in _devouredCards)
         {
@@ -438,11 +470,6 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     public void RecordCravingExhaustedCard(CardModel card)
     {
         _cravingExhaustedCards.Add(card);
-    }
-
-    private MoveState GetBellyDefendState()
-    {
-        return (MoveState)_moveStateMachine.States["BELLY_DEFEND"];
     }
 
     private void UpdateVisuals(bool isInBelly)

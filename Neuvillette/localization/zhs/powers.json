@@ -78,7 +78,7 @@
   "NEUVILLETTE_POWER_PHANTOM_POWER.title": "幻影",
   "NEUVILLETTE_POWER_PHANTOM_POWER.description": "失去所有[gold]格挡[/gold]后，回到巨鲸之腹外部：消耗你所有的裂隙牌，将因渴求而被消耗的卡牌洗回你的抽牌堆，并为你回满生命。",
   "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.title": "饥不可待",
-  "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.description": "吞星之鲸即将吞噬你的1张具有[gold]渴求[/gold]的牌，在原地留下1张[gold]裂隙[/gold]。",
+  "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.description": "吞星之鲸即将吞噬你最后打出的1张具有[gold]渴求[/gold]的牌，在原地留下1张[gold]裂隙[/gold]。",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.title": "敌意",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.description": "在吞星之鲸的生命值被降低至一定值以下后，将你吞入鲸腹。",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.smartDescription": "在吞星之鲸的生命值被降低至[blue]{Threshold}[/blue]点以下后，将你吞入鲸腹。"
