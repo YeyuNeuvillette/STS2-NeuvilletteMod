@@ -34,6 +34,7 @@ public sealed class BeastOfStarsPower : NeuvillettePower
     {
         if (target != Owner) return;
         if (dealer != Target) return;
+        if (!props.IsPoweredAttack()) return;
         if (result.UnblockedDamage <= 0) return;
 
         decimal healPercent = Amount / 100m;

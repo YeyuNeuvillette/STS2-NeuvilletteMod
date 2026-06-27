@@ -43,6 +43,16 @@ public sealed class DevourPower : NeuvillettePower
             Flash();
             DynamicVars[BonusDamageKey].BaseValue += bonusAmount;
             InvokeDisplayAmountChanged();
+
+            if (cardSource.DynamicVars?.TryGetValue("Damage", out var damageVar) == true)
+            {
+                var narwhal = Owner.Monster as AllDevouringNarwhal;
+                if (narwhal != null)
+                {
+                    narwhal.RecordDevouredCard(cardSource, damageVar.BaseValue);
+                }
+                damageVar.BaseValue -= bonusAmount;
+            }
         }
     }
 
