@@ -53,10 +53,10 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     private readonly HashSet<CardModel> _cravingExhaustedCards = new();
     private readonly Dictionary<Player, CardModel> _lastPlayedCravingCard = new();
 
-    private int AttackDamage1 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 16, 16);
-    private int AttackDamage2 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 20, 20);
-    private int AttackDamage3 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 10, 10);
-    private int EmpowerDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 15, 15);
+    private int AttackDamage1 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 20, 20);
+    private int AttackDamage2 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 23, 23);
+    private int AttackDamage3 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 13, 13);
+    private int EmpowerDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 18, 18);
     private int EmpowerStrength => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 5, 5);
     private int BellyBlock => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 160, 160);
     private int BellyDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 42, 42);

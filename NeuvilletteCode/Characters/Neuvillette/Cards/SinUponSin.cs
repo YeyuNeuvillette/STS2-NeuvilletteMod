@@ -13,7 +13,7 @@ public sealed class SinUponSin() : NeuvilletteCard(0, CardType.Skill, CardRarity
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<SinUponSinPower>(1m)
+        new PowerVar<SinUponSinPower>(2m)
     ];
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.SourcewaterDroplet];
