@@ -449,7 +449,17 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         foreach (var kvp in _devouredCards)
         {
             var card = kvp.Key;
-            if (card.DynamicVars?.TryGetValue("Damage", out var damageVar) == true)
+            DynamicVar? damageVar = null;
+            if (card.DynamicVars?.TryGetValue("Damage", out var plainDamageVar) == true)
+            {
+                damageVar = plainDamageVar;
+            }
+            else if (card.DynamicVars?.TryGetValue("CalculatedDamage", out var calcDamageVar) == true)
+            {
+                damageVar = calcDamageVar;
+            }
+
+            if (damageVar != null)
             {
                 damageVar.BaseValue = kvp.Value;
             }

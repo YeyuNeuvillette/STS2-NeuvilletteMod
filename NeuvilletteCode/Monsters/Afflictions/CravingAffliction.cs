@@ -3,6 +3,7 @@ using Godot;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Cards;
 using Neuvillette.Monsters.Cards;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content.Patches;
@@ -30,10 +31,18 @@ public sealed class CravingAffliction : AfflictionModel
     public override void AfterApplied()
     {
         Card?.AddKeyword(CardKeyword.Ethereal);
+        if (Card != null)
+        {
+            NCard.FindOnTable(Card)?.UpdateVisuals(Card.Pile?.Type ?? PileType.Hand, CardPreviewMode.Normal);
+        }
     }
 
     public override void BeforeRemoved()
     {
         Card?.RemoveKeyword(CardKeyword.Ethereal);
+        if (Card != null)
+        {
+            NCard.FindOnTable(Card)?.UpdateVisuals(Card.Pile?.Type ?? PileType.Hand, CardPreviewMode.Normal);
+        }
     }
 }
