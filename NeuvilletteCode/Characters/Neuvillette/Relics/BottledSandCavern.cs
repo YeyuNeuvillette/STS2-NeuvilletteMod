@@ -19,7 +19,7 @@ public sealed class BottledSandCavern : BaseRelic
     private int _progressCounter;
     private bool _killTriggered;
 
-    public override RelicRarity Rarity => RelicRarity.Event;
+    public override RelicRarity Rarity => RelicRarity.Ancient;
     public override bool ShowCounter => true;
     public override int DisplayAmount => _progressCounter;
 

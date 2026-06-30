@@ -1,15 +1,21 @@
 using HarmonyLib;
 using Godot;
+using MegaCrit.Sts2.Core.Entities.Ascension;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Models.Singleton;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Nodes.Audio;
+using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Screens;
 using MegaCrit.Sts2.Core.Nodes.RestSite;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
+using Neuvillette.Characters.Neuvillette.Ancients;
 using Neuvillette.Characters.Neuvillette.Act;
 using Neuvillette.Monsters;
 
@@ -52,6 +58,25 @@ public static class NeuvilletteActPatch
         }
     }
 
+    [HarmonyPatch(typeof(RunManager), nameof(RunManager.GenerateRooms))]
+    [HarmonyPostfix]
+    public static void Postfix_GenerateRooms(RunManager __instance)
+    {
+        var state = AccessTools.Property(typeof(RunManager), "State").GetValue(__instance) as RunState;
+        if (state == null || state.Acts.Count <= 3) return;
+
+        if (__instance.AscensionManager.HasLevel(AscensionLevel.DoubleBoss))
+        {
+            var gloryAct = state.Acts[2];
+            if (!gloryAct.HasSecondBoss)
+            {
+                var secondBoss = state.Rng.UpFront.NextItem(
+                    gloryAct.AllBossEncounters.Where(e => e.Id != gloryAct.BossEncounter.Id));
+                gloryAct.SetSecondBossEncounter(secondBoss);
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(ActModel), nameof(ActModel.GenerateRooms))]
     [HarmonyPostfix]
     public static void Postfix_Rooms(ActModel __instance)
@@ -62,9 +87,28 @@ public static class NeuvilletteActPatch
             if (rooms != null)
             {
                 rooms.Boss = ModelDb.Encounter<NarwhalBossEncounter>();
+                rooms.Ancient = ModelDb.AncientEvent<ArchitectAncient>();
                 rooms.eliteEncounters.Clear();
             }
         }
+    }
+
+    [HarmonyPatch(typeof(NRewardsScreen), "ShowScreen")]
+    [HarmonyPrefix]
+    public static bool Prefix_ShowScreen(RewardsSet set, bool isTerminal, IRunState runState)
+    {
+        if (!isTerminal || runState.CurrentRoom.RoomType != RoomType.Boss) return true;
+        if (runState.CurrentActIndex != 2) return true;
+
+        if (runState.Map.SecondBossMapPoint != null
+            && runState.CurrentMapCoord == runState.Map.BossMapPoint.coord)
+        {
+            TaskHelper.RunSafely(RunManager.Instance.ProceedFromTerminalRewardsScreen());
+            return false;
+        }
+
+        RunManager.Instance.ActChangeSynchronizer.SetLocalPlayerReady();
+        return false;
     }
 
     [HarmonyPatch(typeof(NCombatBackground), nameof(NCombatBackground.Create))]
