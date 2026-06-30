@@ -1,24 +1,30 @@
 using System.Collections.Generic;
 using Godot;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Acts;
 using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Unlocks;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Map;
 using Neuvillette.Monsters;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Neuvillette.Characters.Neuvillette.Act;
 
-public sealed class NeuvilletteAct : ActModel
+[RegisterAct]
+public sealed class NeuvilletteAct : ModActTemplate
 {
+    public override ActAssetProfile AssetProfile => ContentAssetProfiles.Act("glory");
+
+    public override string? CustomChestSpineResourcePath => "res://animations/backgrounds/treasure_room/chest_room_act_3_skel_data.tres";
+
     protected override int BaseNumberOfRooms => 7;
 
-    public override int Index => -1;
-    public override bool IsDefault => false;
+    public override int Index => 3;
+    public override bool IsDefault => true;
+    public override bool AllowInRandomActList => true;
     public override bool IsUnlocked(UnlockState unlockState) => true;
 
     public override string[] BgMusicOptions => new string[] { "event:/music/act3_boss_queen", "event:/music/act3_boss_queen" };
@@ -29,7 +35,6 @@ public sealed class NeuvilletteAct : ActModel
     public override Color MapTraveledColor => new Color("1D1E2F");
     public override Color MapUntraveledColor => new Color("60717C");
 
-    public override string ChestSpineResourcePath => "res://animations/backgrounds/treasure_room/chest_room_act_3_skel_data.tres";
     public override string ChestSpineSkinNameNormal => "act3";
     public override string ChestSpineSkinNameStroke => "act3_stroke";
     public override string ChestOpenSfx => "event:/sfx/ui/treasure/treasure_act3";
@@ -42,13 +47,7 @@ public sealed class NeuvilletteAct : ActModel
         };
     }
 
-    public override IEnumerable<AncientEventModel> AllAncients
-    {
-        get
-        {
-            return new List<AncientEventModel>();
-        }
-    }
+    public override IEnumerable<AncientEventModel> AllAncients => new List<AncientEventModel>();
 
     public override IEnumerable<AncientEventModel> GetUnlockedAncients(UnlockState state) => AllAncients;
 

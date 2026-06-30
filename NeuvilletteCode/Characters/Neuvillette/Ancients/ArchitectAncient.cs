@@ -7,6 +7,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using STS2RitsuLib.Utils;
 
+
 namespace Neuvillette.Characters.Neuvillette.Ancients;
 
 [RegisterActAncient(typeof(NeuvilletteAct))]
@@ -30,44 +31,32 @@ public class ArchitectAncient : ModAncientEventTemplate
 
     public override IEnumerable<EventOption> AllPossibleOptions =>
     [
-        CreateModRelicOption<Gavel>(),
-        CreateModRelicOption<Monocle>(),
-        CreateModRelicOption<StoppedPocketWatch>(),
-        CreateModRelicOption<StatueFragment>(),
-        CreateModRelicOption<ShatteredCrown>(),
-        CreateModRelicOption<Plumule>(),
-        CreateModRelicOption<KindredFruitBasket>(),
-        CreateModRelicOption<BottledSandCavern>(),
         CreateModRelicOption<InjectReagent>(),
+        CreateModRelicOption<BottledSandCavern>(),
+        CreateModRelicOption<KindredFruitBasket>(),
     ];
 
     protected override IReadOnlyList<EventOption> GenerateInitialOptions()
     {
-        var pool1 = new[]
+        var pool1 = new WeightedList<EventOption>
         {
-            CreateModRelicOption<Gavel>(),
-            CreateModRelicOption<Monocle>(),
+            { CreateModRelicOption<InjectReagent>(), 1 },
         };
 
-        var pool2 = new[]
+        var pool2 = new WeightedList<EventOption>
         {
-            CreateModRelicOption<StoppedPocketWatch>(),
-            CreateModRelicOption<StatueFragment>(),
+            { CreateModRelicOption<BottledSandCavern>(), 1 },
         };
 
         var pool3 = new WeightedList<EventOption>
         {
-            { CreateModRelicOption<ShatteredCrown>(), 2 },
-            { CreateModRelicOption<Plumule>(), 1 },
             { CreateModRelicOption<KindredFruitBasket>(), 1 },
-            { CreateModRelicOption<BottledSandCavern>(), 1 },
-            { CreateModRelicOption<InjectReagent>(), 1 },
         };
 
         return
         [
-            Rng.NextItem(pool1)!,
-            Rng.NextItem(pool2)!,
+            pool1.GetRandom(Rng),
+            pool2.GetRandom(Rng),
             pool3.GetRandom(Rng),
         ];
     }

@@ -2,7 +2,6 @@ using HarmonyLib;
 using Godot;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Acts;
 using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Models.Singleton;
 using MegaCrit.Sts2.Core.Rooms;
@@ -13,69 +12,12 @@ using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using Neuvillette.Characters.Neuvillette.Act;
 using Neuvillette.Monsters;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch]
 public static class NeuvilletteActPatch
 {
-    [HarmonyPatch(typeof(RunManager), nameof(RunManager.SetActInternal))]
-    [HarmonyPostfix]
-    public static void Postfix_SyncAct(RunManager __instance, int actIndex)
-    {
-        if (actIndex == 3)
-        {
-            var state = AccessTools.Property(typeof(RunManager), "State").GetValue(__instance) as RunState;
-            if (state == null) return;
-
-            var syncField = AccessTools.GetDeclaredFields(typeof(RunManager))
-                .FirstOrDefault(f => f.FieldType == typeof(MapSelectionSynchronizer));
-
-            if (syncField != null)
-            {
-                var synchronizer = syncField.GetValue(__instance) as MapSelectionSynchronizer;
-                if (synchronizer != null)
-                {
-                    AccessTools.Method(typeof(MapSelectionSynchronizer), "BeforeMapGenerated")?.Invoke(synchronizer, null);
-                    MainFile.Logger.Info("[Neuvillette Act] 同步器状态已强制更新至第四幕。");
-                }
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(RunManager), nameof(RunManager.EnterNextAct))]
-    [HarmonyPrefix]
-    public static bool Prefix_Sequence(RunManager __instance, ref Task __result)
-    {
-        var state = AccessTools.Property(typeof(RunManager), "State").GetValue(__instance) as RunState;
-        if (state == null) return true;
-
-        if (state.CurrentActIndex == 2)
-        {
-            if (!NeuvilletteSettingsStore.IsAct4Enabled())
-            {
-                MainFile.Logger.Info("[Neuvillette Act] 第四幕已被设置关闭，跳过注入。");
-                return true;
-            }
-
-            var acts = state.Acts.ToList();
-            if (acts.Count == 3)
-            {
-                var finalAct = ModelDb.Act<NeuvilletteAct>().ToMutable();
-                finalAct.GenerateRooms(state.Rng.UpFront, state.UnlockState, state.Players.Count > 1);
-
-                acts.Add(finalAct);
-                AccessTools.Property(typeof(RunState), "Acts").SetValue(state, acts);
-                MainFile.Logger.Info("[Neuvillette Act] 已在关卡序列末尾成功注入第四层。");
-            }
-            return true;
-        }
-        return true;
-    }
-
     [HarmonyPatch(typeof(StandardActMap), "AssignPointTypes")]
     [HarmonyPostfix]
     public static void Postfix_Map(StandardActMap __instance)
@@ -123,114 +65,6 @@ public static class NeuvilletteActPatch
                 rooms.eliteEncounters.Clear();
             }
         }
-    }
-
-    [HarmonyPatch(typeof(ActModel), "get_MapTopBgPath")]
-    [HarmonyPrefix]
-    public static bool Prefix_MapTopBgPath(ActModel __instance, ref string __result)
-    {
-        if (__instance is NeuvilletteAct)
-        {
-            __result = "res://images/packed/map/map_bgs/glory/map_top_glory.png";
-            return false;
-        }
-        return true;
-    }
-
-    [HarmonyPatch(typeof(ActModel), "get_MapMidBgPath")]
-    [HarmonyPrefix]
-    public static bool Prefix_MapMidBgPath(ActModel __instance, ref string __result)
-    {
-        if (__instance is NeuvilletteAct)
-        {
-            __result = "res://images/packed/map/map_bgs/glory/map_middle_glory.png";
-            return false;
-        }
-        return true;
-    }
-
-    [HarmonyPatch(typeof(ActModel), "get_MapBotBgPath")]
-    [HarmonyPrefix]
-    public static bool Prefix_MapBotBgPath(ActModel __instance, ref string __result)
-    {
-        if (__instance is NeuvilletteAct)
-        {
-            __result = "res://images/packed/map/map_bgs/glory/map_bottom_glory.png";
-            return false;
-        }
-        return true;
-    }
-
-    [HarmonyPatch(typeof(ActModel), "get_MapTopBg")]
-    [HarmonyPrefix]
-    public static bool Prefix_MapTopBg(ActModel __instance, ref Texture2D __result)
-    {
-        if (__instance is NeuvilletteAct)
-        {
-            __result = MegaCrit.Sts2.Core.Assets.PreloadManager.Cache.GetCompressedTexture2D("res://images/packed/map/map_bgs/glory/map_top_glory.png");
-            return false;
-        }
-        return true;
-    }
-
-    [HarmonyPatch(typeof(ActModel), "get_MapMidBg")]
-    [HarmonyPrefix]
-    public static bool Prefix_MapMidBg(ActModel __instance, ref Texture2D __result)
-    {
-        if (__instance is NeuvilletteAct)
-        {
-            __result = MegaCrit.Sts2.Core.Assets.PreloadManager.Cache.GetCompressedTexture2D("res://images/packed/map/map_bgs/glory/map_middle_glory.png");
-            return false;
-        }
-        return true;
-    }
-
-    [HarmonyPatch(typeof(ActModel), "get_MapBotBg")]
-    [HarmonyPrefix]
-    public static bool Prefix_MapBotBg(ActModel __instance, ref Texture2D __result)
-    {
-        if (__instance is NeuvilletteAct)
-        {
-            __result = MegaCrit.Sts2.Core.Assets.PreloadManager.Cache.GetCompressedTexture2D("res://images/packed/map/map_bgs/glory/map_bottom_glory.png");
-            return false;
-        }
-        return true;
-    }
-
-    [HarmonyPatch(typeof(ActModel), "get_RestSiteBackgroundPath")]
-    [HarmonyPrefix]
-    public static bool Prefix_Rest(ActModel __instance, ref string __result)
-    {
-        if (__instance is NeuvilletteAct)
-        {
-            __result = "res://scenes/rest_site/glory_rest_site.tscn";
-            return false;
-        }
-        return true;
-    }
-
-    [HarmonyPatch(typeof(ActModel), "get_BackgroundScenePath")]
-    [HarmonyPrefix]
-    public static bool Prefix_Bg(ActModel __instance, ref string __result)
-    {
-        if (__instance is NeuvilletteAct)
-        {
-            __result = "res://scenes/backgrounds/glory/glory_background.tscn";
-            return false;
-        }
-        return true;
-    }
-
-    [HarmonyPatch(typeof(ActModel), nameof(ActModel.GenerateBackgroundAssets))]
-    [HarmonyPrefix]
-    public static bool Prefix_Assets(ActModel __instance, MegaCrit.Sts2.Core.Random.Rng rng, ref BackgroundAssets __result)
-    {
-        if (__instance is NeuvilletteAct)
-        {
-            __result = new BackgroundAssets("glory", rng);
-            return false;
-        }
-        return true;
     }
 
     [HarmonyPatch(typeof(NCombatBackground), nameof(NCombatBackground.Create))]

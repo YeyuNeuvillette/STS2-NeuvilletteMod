@@ -12,7 +12,7 @@ namespace Neuvillette.Monsters;
 [RegisterActEncounter(typeof(NeuvilletteAct))]
 public class NarwhalBossEncounter : ModEncounterTemplate
 {
-    private static readonly string IconBasePath = "res://Neuvillette/images/map/all_devouring_narwhal_icon";
+    private static readonly string IconBasePath = "res://Neuvillette/images/map/all_devouring_narwhal_boss_icon";
 
     public override IEnumerable<MonsterModel> AllPossibleMonsters => [ModelDb.Monster<AllDevouringNarwhal>()];
 
