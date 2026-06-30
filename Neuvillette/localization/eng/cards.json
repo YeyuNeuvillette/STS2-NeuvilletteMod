@@ -206,5 +206,7 @@
   "NEUVILLETTE_CARD_SPIDER_SILK_TRACE.title": "Spider Silk Trace",
   "NEUVILLETTE_CARD_SPIDER_SILK_TRACE.description": "[gold]Submit[/gold] all Status and Curse cards in your hand, then draw that many cards.",
   "NEUVILLETTE_CARD_RIFT_CARD.title": "Rift",
-  "NEUVILLETTE_CARD_RIFT_CARD.description": "At the end of your turn, if this card is in your hand, the All-Devouring Narwhal devours {Damage} of your Max HP."
+  "NEUVILLETTE_CARD_RIFT_CARD.description": "At the end of your turn, if this card is in your hand, the All-Devouring Narwhal devours {Damage} of your Max HP.",
+  "NEUVILLETTE_CARD_SAND_VORTEX.title": "Sand Vortex",
+  "NEUVILLETTE_CARD_SAND_VORTEX.description": "Increase [gold]Bottled Sand Cavern[/gold]'s counter and this card's cost by 1."
 }

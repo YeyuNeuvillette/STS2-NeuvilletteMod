@@ -46,5 +46,14 @@
   "NEUVILLETTE_RELIC_SEA_FOAM_MAILBOX.flavor": "海精灵们赠与你的小小信箱，总能不时从中找到来自美露莘们（尤其是珀西芙）的来信。",
   "NEUVILLETTE_RELIC_EXCUSE_NOTE.title": "假条",
   "NEUVILLETTE_RELIC_EXCUSE_NOTE.description": "[gold]?[/gold]房间中会出现休息处。",
-  "NEUVILLETTE_RELIC_EXCUSE_NOTE.flavor": "一张你自己写就，自己批复的假条，得以让你在高塔中找到休息的理由。"
+  "NEUVILLETTE_RELIC_EXCUSE_NOTE.flavor": "一张你自己写就，自己批复的假条，得以让你在高塔中找到休息的理由。",
+  "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.title": "同族果篮",
+  "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.description": "拾起后，分别获得一个[gold]草莓[/gold]、[gold]梨[/gold]和[gold]芒果[/gold]。",
+  "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.flavor": "装满同族果实的篮子，每一颗都蕴含着生命的甘甜。",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.title": "瓶装沙穴",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.description": "在每场战斗的第30个回合开始时，消灭所有敌人。战斗开始时，将六张[gold]沙涡[/gold]洗入抽牌堆。",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.flavor": "沙粒在瓶中无声流转，三十回合后，一切归于沉寂。",
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.title": "注射试剂",
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.description": "将最大生命值变为一半。在你即将受到致命伤害时，改为回复全部生命值（仅能起效2次）。",
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.flavor": "针管中的液体泛着诡异的光，是续命还是催命，全凭一针之间。"
 }

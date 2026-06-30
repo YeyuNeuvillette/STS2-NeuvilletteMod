@@ -28,6 +28,7 @@ using Neuvillette.Scripts;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using STS2RitsuLib.Scaffolding.Godot;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace Neuvillette.Monsters;
 

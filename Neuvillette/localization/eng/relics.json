@@ -46,5 +46,14 @@
   "NEUVILLETTE_RELIC_SEA_FOAM_MAILBOX.flavor": "A small mailbox gifted by the sea elves, where you can always find letters from the Melusines (especially Percival).",
   "NEUVILLETTE_RELIC_EXCUSE_NOTE.title": "Excuse Note",
   "NEUVILLETTE_RELIC_EXCUSE_NOTE.description": "Rest sites will appear in [gold]?[/gold] rooms.",
-  "NEUVILLETTE_RELIC_EXCUSE_NOTE.flavor": "A note you wrote and approved yourself, allowing you to find a reason to rest in the tower."
+  "NEUVILLETTE_RELIC_EXCUSE_NOTE.flavor": "A note you wrote and approved yourself, allowing you to find a reason to rest in the tower.",
+  "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.title": "Kindred Fruit Basket",
+  "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.description": "Upon pickup, obtain a [gold]Strawberry[/gold], [gold]Pear[/gold], and [gold]Mango[/gold].",
+  "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.flavor": "A basket filled with kindred fruits, each one brimming with the sweetness of life.",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.title": "Bottled Sand Cavern",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.description": "At the start of the 30th round of each combat, kill all enemies. At the start of combat, shuffle 6 [gold]Sand Vortex[/gold] into your draw pile.",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.flavor": "Grains of sand swirl silently in the bottle; after thirty rounds, all falls silent.",
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.title": "Inject Reagent",
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.description": "Set your Max HP to half. When you would take fatal damage, heal to full HP instead (can trigger 2 times).",
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.flavor": "The liquid in the syringe glows with an eerie light—lifesaver or death sentence, all in one prick."
 }

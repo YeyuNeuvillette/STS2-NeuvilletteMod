@@ -46,5 +46,14 @@
   "NEUVILLETTE_RELIC_SEA_FOAM_MAILBOX.flavor": "海の妖精たちから贈られた小さな郵便箱、いつでもメリュジーヌたち（特にパーシヴァル）からの手紙が見つかる。",
   "NEUVILLETTE_RELIC_EXCUSE_NOTE.title": "欠勤届",
   "NEUVILLETTE_RELIC_EXCUSE_NOTE.description": "[gold]?[/gold]部屋に休憩所が出現する。",
-  "NEUVILLETTE_RELIC_EXCUSE_NOTE.flavor": "あなたが自ら書き、自ら承認した欠勤届、高塔で休む理由を見つけることができる。"
+  "NEUVILLETTE_RELIC_EXCUSE_NOTE.flavor": "あなたが自ら書き、自ら承認した欠勤届、高塔で休む理由を見つけることができる。",
+  "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.title": "同族の果物籠",
+  "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.description": "取得時、[gold]イチゴ[/gold]、[gold]梨[/gold]、[gold]マンゴー[/gold]をそれぞれ1つ得る。",
+  "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.flavor": "同族の果実が満ちた籠、その一つ一つが命の甘さを宿している。",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.title": "瓶詰めの砂穴",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.description": "各戦闘の第30ターン開始時、全ての敵を消滅させる。戦闘開始時、[gold]砂渦[/gold]6枚を引き札にシャッフルする。",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.flavor": "砂粒が瓶の中で音もなく流れ、三十ターンの後、全ては静寂に帰す。",
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.title": "注射試薬",
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.description": "最大HPを半分にする。致命的なダメージを受ける時、代わりにHPを全回復する（2回のみ発動可能）。",
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.flavor": "注射器の中の液体が不気味な光を放つ——命綱ぎか死の招きか、すべては一刺しに。"
 }

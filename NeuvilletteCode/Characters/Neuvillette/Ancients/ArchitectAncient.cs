@@ -12,6 +12,19 @@ namespace Neuvillette.Characters.Neuvillette.Ancients;
 [RegisterActAncient(typeof(NeuvilletteAct))]
 public class ArchitectAncient : ModAncientEventTemplate
 {
+    private static readonly string IconBasePath = "res://Neuvillette/images/map/architect_ancient_icon";
+
+    public override EventAssetProfile AssetProfile => new(
+        BackgroundScenePath: "res://Neuvillette/scenes/ancients/architect_ancient.tscn"
+    );
+
+    public override AncientEventPresentationAssetProfile AncientPresentationAssetProfile => new(
+        MapIconPath: IconBasePath + ".png",
+        MapIconOutlinePath: IconBasePath + "_outline.png",
+        RunHistoryIconPath: IconBasePath + ".png",
+        RunHistoryIconOutlinePath: IconBasePath + "_outline.png"
+    );
+
     public override Color ButtonColor => new(0.15f, 0.12f, 0.08f, 0.75f);
     public override Color DialogueColor => new Color("3D2E1A");
 
@@ -23,6 +36,9 @@ public class ArchitectAncient : ModAncientEventTemplate
         CreateModRelicOption<StatueFragment>(),
         CreateModRelicOption<ShatteredCrown>(),
         CreateModRelicOption<Plumule>(),
+        CreateModRelicOption<KindredFruitBasket>(),
+        CreateModRelicOption<BottledSandCavern>(),
+        CreateModRelicOption<InjectReagent>(),
     ];
 
     protected override IReadOnlyList<EventOption> GenerateInitialOptions()
@@ -43,6 +59,9 @@ public class ArchitectAncient : ModAncientEventTemplate
         {
             { CreateModRelicOption<ShatteredCrown>(), 2 },
             { CreateModRelicOption<Plumule>(), 1 },
+            { CreateModRelicOption<KindredFruitBasket>(), 1 },
+            { CreateModRelicOption<BottledSandCavern>(), 1 },
+            { CreateModRelicOption<InjectReagent>(), 1 },
         };
 
         return

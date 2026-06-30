@@ -208,5 +208,7 @@
   "NEUVILLETTE_CARD_THOUSAND_FINGERS_POINTING.title": "千人の指弾",
   "NEUVILLETTE_CARD_THOUSAND_FINGERS_POINTING.description": "{Damage:diff()}ダメージを与える。\n[gold]諭示値[/gold]10ごとに1回追加で命中する。",
   "NEUVILLETTE_CARD_SPIDER_SILK_TRACE.title": "蜘蛛の糸の痕跡",
-  "NEUVILLETTE_CARD_SPIDER_SILK_TRACE.description": "[gold]手札[/gold]の状態カードと呪いカードをすべて[gold]提出[/gold]し、その枚数だけカードを引く。"
+  "NEUVILLETTE_CARD_SPIDER_SILK_TRACE.description": "[gold]手札[/gold]の状態カードと呪いカードをすべて[gold]提出[/gold]し、その枚数だけカードを引く。",
+  "NEUVILLETTE_CARD_SAND_VORTEX.title": "砂渦",
+  "NEUVILLETTE_CARD_SAND_VORTEX.description": "[gold]瓶詰めの砂穴[/gold]のカウンターとこのカードのコストを1増加させる。"
 }

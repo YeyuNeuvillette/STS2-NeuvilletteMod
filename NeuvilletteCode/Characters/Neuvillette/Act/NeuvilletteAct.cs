@@ -46,12 +46,7 @@ public sealed class NeuvilletteAct : ActModel
     {
         get
         {
-            return new List<AncientEventModel>
-            {
-                ModelDb.AncientEvent<Nonupeipe>(),
-                ModelDb.AncientEvent<Tanx>(),
-                ModelDb.AncientEvent<Vakuu>()
-            };
+            return new List<AncientEventModel>();
         }
     }
 
