@@ -3,6 +3,7 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
+using Neuvillette.Telemetry;
 using STS2RitsuLib;
 using STS2RitsuLib.Audio;
 using STS2RitsuLib.Interop;
@@ -36,6 +37,7 @@ public partial class MainFile : Node
 
         NeuvilletteSettingsStore.Register();
         RegisterSettingsPage();
+        NeuvilletteTelemetry.Register();
 
         QueueNeuvilletteFmodAfterDeferredInitialization();
 

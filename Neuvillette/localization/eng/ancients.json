@@ -100,13 +100,13 @@
   "THE_ARCHITECT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.2-5r.ancient": "Go back, judge.",
   "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.title": "Architect",
   "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.epithet": "Weaver of Rules",
-  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.0-0.char": "This workshop is suffused with the aura of order. Are you... the architect of this spire?",
-  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.0-0.next": "Continue",
-  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.0-1.ancient": "One who perceives order... It has been long since I met a visitor who could discern the threads of rules. These are my woven creations — choose one.",
-  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.1-0r.ancient": "Judge, you have stepped into my domain once more. The rules never rest, nor do my creations.",
-  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.2-0.ancient": "Each creation bears the mark of the spire's order. Choose one that resonates with you.",
-  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.2-0.next": "Examine",
-  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.2-1.char": "The power of order within these creations... it would indeed complement the authority of judgment.",
-  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.2-1.next": "Continue",
-  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.NEUVILLETTE_CHARACTER_NEUVILLETTE.2-2.ancient": "Go forth — may the warp and weft of order guide you through the chaos."
+  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.ANY.0-0r.ancient": "Fine... fine... I suppose we can set aside these disputes for now.",
+  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.ANY.0-0r.next": "Continue",
+  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.ANY.0-1r.ancient": "The Mother of Resurrection has brought a great calamity from beyond, understand? The spire must not be destroyed.",
+  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.ANY.0-1r.next": "Continue",
+  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.ANY.0-2r.ancient": "I will remain here, and sustain the path to the Primordial Sea for you.",
+  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.ANY.0-2r.next": "Continue",
+  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.ANY.0-3r.ancient": "Pick one and be on your way. There's limited room for belongings on the road ahead.",
+  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.ANY.0-3r.next": "Continue",
+  "NEUVILLETTE_EVENT_ARCHITECT_ANCIENT.talk.ANY.0-4r.ancient": "The spire blesses you..."
 }

@@ -97,7 +97,7 @@ public static class NeuvilletteActPatch
     [HarmonyPrefix]
     public static bool Prefix_ShowScreen(RewardsSet set, bool isTerminal, IRunState runState)
     {
-        if (!isTerminal || runState.CurrentRoom.RoomType != RoomType.Boss) return true;
+        if (!isTerminal || runState.CurrentRoom?.RoomType != RoomType.Boss) return true;
         if (runState.CurrentActIndex != 2) return true;
 
         if (runState.Map.SecondBossMapPoint != null
