@@ -5,7 +5,13 @@
   "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.DEVOUR_CRAVING.title": "Devouring Craving",
   "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.DEVOUR_CRAVING.banter": "[jitter]I know all your desires.[/jitter]",
   "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.DOUBLE_ATTACK.title": "Double Tail Sweep",
-  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_DEFEND.title": "Abyssal Curl",
-  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_ATTACK.title": "Gastric Acid Eruption",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.DOUBLE_ATTACK.banter": "[jitter]Nowhere to hide.[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.EMPOWER_ATTACK.title": "Sipping the Primordial Sea",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.EMPOWER_ATTACK.banter": "[jitter]Power... surges.[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.ENTER_BELLY.title": "Whale's Devouring Extinction",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.ENTER_BELLY.banter": "[jitter]Come inside...[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_DEFEND.title": "Curl",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_DEFEND.banter": "[jitter]So safe in here...[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_ATTACK.title": "Eruption",
   "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_ATTACK.banter": "[jitter]Nowhere to run.[/jitter]"
 }

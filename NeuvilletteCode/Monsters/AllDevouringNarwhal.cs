@@ -54,15 +54,15 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     private readonly HashSet<CardModel> _cravingExhaustedCards = new();
     private readonly Dictionary<Player, CardModel> _lastPlayedCravingCard = new();
 
-    private int AttackDamage1 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 20, 20);
-    private int AttackDamage2 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 23, 23);
-    private int AttackDamage3 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 13, 13);
-    private int EmpowerDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 18, 18);
+    private int AttackDamage1 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 22, 22);
+    private int AttackDamage2 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 25, 25);
+    private int AttackDamage3 => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 15, 15);
+    private int EmpowerDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 20, 20);
     private int EmpowerStrength => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 5, 5);
     private int BellyBlock => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 160, 160);
     private int BellyDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 42, 42);
 
-    public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 999, 979);
+    public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 1111, 1091);
     public override int MaxInitialHp => MinInitialHp;
 
     public override MonsterAssetProfile AssetProfile => new(

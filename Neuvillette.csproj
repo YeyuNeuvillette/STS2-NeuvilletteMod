@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="STS2.RitsuLib" Version="0.4.44" PrivateAssets="all"/>
+    <PackageReference Include="STS2.RitsuLib" Version="0.4.45" PrivateAssets="all"/>
     <AdditionalFiles Include="localization/**/*.json"/>
   </ItemGroup>
 

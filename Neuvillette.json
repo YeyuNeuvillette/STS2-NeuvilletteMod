@@ -3,13 +3,13 @@
   "name": "Neuvillette",
   "author": "叶羽",
   "description": "Add Neuvillette from Genshin Impact as a playable character in Slay the Spire 2.",
-  "version": "0.23.5-beta",
+  "version": "0.24.0-beta",
   "has_pck": true,
   "has_dll": true,
   "dependencies": [
     {
       "id": "STS2-RitsuLib",
-      "min_version": "0.4.44"
+      "min_version": "0.4.45"
     }
   ],
   "affects_gameplay": true
