@@ -17,14 +17,16 @@ public static class NeuvilletteTelemetry
             DisplayName = "Neuvillette",
             DisplayNameText = ModSettingsText.Literal("Neuvillette"),
             Adapter = new PostHogTelemetryAdapter(
-                host: "https://neuvillette.neuvillette.workers.dev",
+                host: "https://telemetry.yutopiatelemetry.xyz",
                 projectApiKey: "proxy"),
             Requests =
             [
                 TelemetryRequest.BasicUsage(
                     ModSettingsText.Literal("Send version, platform, language, and anonymous install ID to estimate compatibility issues.")),
                 TelemetryRequest.RunHistory(
-                    ModSettingsText.Literal("Send completed run history data to analyze balance.")),
+                    ModSettingsText.Literal("Send completed run history data to analyze balance."),
+                    captureFilter: evt => !evt.IsAbandoned
+                        && evt.Run.Players.Any(p => p.CharacterId?.Entry == "NEUVILLETTE_CHARACTER_NEUVILLETTE")),
                 TelemetryRequest.Diagnostics(
                     ModSettingsText.Literal("Send exceptions and diagnostic context to locate crashes.")),
             ],
