@@ -23,9 +23,9 @@ public sealed class NeuvilletteAct : ModActTemplate
     protected override int BaseNumberOfRooms => 7;
 
     public override int Index => 3;
-    public override bool IsDefault => true;
-    public override bool AllowInRandomActList => true;
-    public override bool IsUnlocked(UnlockState unlockState) => true;
+    public override bool IsDefault => NeuvilletteSettingsStore.IsAct4Enabled();
+    public override bool AllowInRandomActList => NeuvilletteSettingsStore.IsAct4Enabled();
+    public override bool IsUnlocked(UnlockState unlockState) => NeuvilletteSettingsStore.IsAct4Enabled();
 
     public override string[] BgMusicOptions => new string[] { "event:/music/act3_boss_queen", "event:/music/act3_boss_queen" };
     public override string[] MusicBankPaths => new string[] { "res://banks/desktop/act3_a1.bank", "res://banks/desktop/act3_a2.bank" };

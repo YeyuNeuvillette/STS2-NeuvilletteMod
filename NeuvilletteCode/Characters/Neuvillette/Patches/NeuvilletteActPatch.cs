@@ -28,6 +28,8 @@ public static class NeuvilletteActPatch
     [HarmonyPostfix]
     public static void Postfix_Map(StandardActMap __instance)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return;
+
         var rm = RunManager.Instance;
         var state = AccessTools.Property(typeof(RunManager), "State").GetValue(rm) as RunState;
 
@@ -62,6 +64,8 @@ public static class NeuvilletteActPatch
     [HarmonyPostfix]
     public static void Postfix_GenerateRooms(RunManager __instance)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return;
+
         var state = AccessTools.Property(typeof(RunManager), "State").GetValue(__instance) as RunState;
         if (state == null || state.Acts.Count <= 3) return;
 
@@ -81,6 +85,8 @@ public static class NeuvilletteActPatch
     [HarmonyPostfix]
     public static void Postfix_Rooms(ActModel __instance)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return;
+
         if (__instance is NeuvilletteAct)
         {
             var rooms = AccessTools.Field(typeof(ActModel), "_rooms").GetValue(__instance) as RoomSet;
@@ -97,6 +103,8 @@ public static class NeuvilletteActPatch
     [HarmonyPrefix]
     public static bool Prefix_ShowScreen(RewardsSet set, bool isTerminal, IRunState runState)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return true;
+
         if (!isTerminal || runState.CurrentRoom?.RoomType != RoomType.Boss) return true;
         if (runState.CurrentActIndex != 2) return true;
 
@@ -115,6 +123,8 @@ public static class NeuvilletteActPatch
     [HarmonyPrefix]
     public static bool Prefix_CreateCombatBg(BackgroundAssets bg, ref NCombatBackground __result)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return true;
+
         var state = AccessTools.Property(typeof(RunManager), "State").GetValue(RunManager.Instance) as RunState;
         MainFile.Logger.Info($"[Neuvillette Act] Prefix_CreateCombatBg called, act={state?.Act?.GetType().Name ?? "null"}");
         if (state != null && state.Act is NeuvilletteAct)
@@ -134,6 +144,8 @@ public static class NeuvilletteActPatch
     [HarmonyPrefix]
     public static bool Prefix_Music()
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return true;
+
         var state = AccessTools.Property(typeof(RunManager), "State").GetValue(RunManager.Instance) as RunState;
         if (state != null && state.Act is NeuvilletteAct) return false;
         return true;
@@ -143,6 +155,8 @@ public static class NeuvilletteActPatch
     [HarmonyPrefix]
     public static void Prefix_TreasureRoom(ref int actIndex)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return;
+
         if (actIndex > 2) actIndex = 2;
     }
 
@@ -152,6 +166,8 @@ public static class NeuvilletteActPatch
     [HarmonyPrefix]
     public static void Prefix_RestSiteReady(NRestSiteCharacter __instance)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return;
+
         var runState = __instance.Player?.RunState;
         if (runState != null && runState.CurrentActIndex > 2)
         {
@@ -164,6 +180,8 @@ public static class NeuvilletteActPatch
     [HarmonyPostfix]
     public static void Postfix_RestSiteReady(NRestSiteCharacter __instance)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return;
+
         if (_restoredActIndex > 2)
         {
             var runState = __instance.Player?.RunState;
@@ -179,6 +197,8 @@ public static class NeuvilletteActPatch
     [HarmonyPrefix]
     public static bool Prefix_GetMultiplayerScaling(EncounterModel? encounter, ref int actIndex, ref decimal __result)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return true;
+
         if (actIndex > 2)
         {
             actIndex = 2;
