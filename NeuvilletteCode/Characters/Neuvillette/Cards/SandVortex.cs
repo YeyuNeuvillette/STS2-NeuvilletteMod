@@ -15,6 +15,8 @@ public sealed class SandVortex() : NeuvilletteCard(0, CardType.Skill, CardRarity
         if (relic != null)
         {
             await relic.IncrementProgressCounter();
+            if (IsUpgraded)
+                await relic.IncrementProgressCounter();
         }
 
         EnergyCost.AddThisCombat(1);

@@ -51,12 +51,15 @@
   "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.description": "拾起后，分别获得一个[gold]草莓[/gold]、[gold]梨[/gold]和[gold]芒果[/gold]。",
   "NEUVILLETTE_RELIC_KINDRED_FRUIT_BASKET.flavor": "装满同族果实的篮子，每一颗都蕴含着生命的甘甜。",
   "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.title": "瓶装沙穴",
-  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.description": "在每场战斗的第35个回合开始时，消灭所有敌人。拾起时，将至多6张牌变化为[gold]沙涡[/gold]。",
-  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.flavor": "沙粒在瓶中无声流转，三十回合后，一切归于沉寂。",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.description": "在每场战斗的第25个回合开始时，消灭所有敌人。拾起时，将至多6张牌变化为[gold]沙涡[/gold]。",
+  "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.flavor": "沙粒在瓶中无声流转，二十五回合后，一切归于沉寂。",
   "NEUVILLETTE_RELIC_INJECT_REAGENT.title": "注射试剂",
   "NEUVILLETTE_RELIC_INJECT_REAGENT.description": "将最大生命值变为2/3。在你即将受到致命伤害时，改为回复全部生命值（仅能起效2次）。",
   "NEUVILLETTE_RELIC_INJECT_REAGENT.flavor": "针管中的液体泛着诡异的光，是续命还是催命，全凭一针之间。",
   "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.title": "蟹壳盾",
   "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.description": "你的[gold]覆甲[/gold]层数不会减少。战斗开始时，获得{PlatingPower:diff()}层[gold]覆甲[/gold]。",
-  "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.flavor": "来自深海的甲壳，坚硬得连潮汐也无法侵蚀。"
+  "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.flavor": "来自深海的甲壳，坚硬得连潮汐也无法侵蚀。",
+  "NEUVILLETTE_RELIC_INK_SPIRIT_GEL.title": "墨灵胶",
+  "NEUVILLETTE_RELIC_INK_SPIRIT_GEL.description": "在你于一回合内造成至少{DamageThreshold:diff()}点伤害后，获得{SlipperyPower:diff()}层[gold]滑溜[/gold]。",
+  "NEUVILLETTE_RELIC_INK_SPIRIT_GEL.flavor": "深海墨灵凝结的胶质，在战斗的狂热中流淌于身。"
 }

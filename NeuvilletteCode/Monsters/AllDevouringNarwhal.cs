@@ -62,7 +62,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     private int BellyBlock => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 160, 160);
     private int BellyDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 42, 42);
 
-    public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 1111, 1091);
+    public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 1444, 1344);
     public override int MaxInitialHp => MinInitialHp;
 
     public override MonsterAssetProfile AssetProfile => new(

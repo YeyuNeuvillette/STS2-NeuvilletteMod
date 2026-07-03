@@ -210,5 +210,5 @@
   "NEUVILLETTE_CARD_SPIDER_SILK_TRACE.title": "蜘蛛の糸の痕跡",
   "NEUVILLETTE_CARD_SPIDER_SILK_TRACE.description": "[gold]手札[/gold]の状態カードと呪いカードをすべて[gold]提出[/gold]し、その枚数だけカードを引く。",
   "NEUVILLETTE_CARD_SAND_VORTEX.title": "砂渦",
-  "NEUVILLETTE_CARD_SAND_VORTEX.description": "[gold]瓶詰めの砂穴[/gold]のカウンターを1増加させる。\nこのカードのコストが1{energyPrefix:energyIcons(1)}増加する。"
+  "NEUVILLETTE_CARD_SAND_VORTEX.description": "[gold]瓶詰めの砂穴[/gold]のカウンターを{IfUpgraded:show:2|1}増加させる。\nこのカードのコストが1{energyPrefix:energyIcons(1)}増加する。"
 }

@@ -72,7 +72,7 @@ public sealed class BottledSandCavern : BaseRelic
         _progressCounter++;
         InvokeDisplayAmountChanged();
 
-        if (_progressCounter < 35 || _killTriggered)
+        if (_progressCounter < 25 || _killTriggered)
             return;
 
         var creature = Owner?.Creature;
@@ -92,7 +92,7 @@ public sealed class BottledSandCavern : BaseRelic
         _progressCounter++;
         InvokeDisplayAmountChanged();
 
-        if (_progressCounter < 35 || _killTriggered)
+        if (_progressCounter < 25 || _killTriggered)
             return;
 
         var creature = Owner?.Creature;

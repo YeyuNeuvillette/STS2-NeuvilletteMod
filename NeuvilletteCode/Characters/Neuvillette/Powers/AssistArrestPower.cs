@@ -10,9 +10,8 @@ namespace Neuvillette.Characters.Neuvillette.Powers;
 [RegisterPower]
 public sealed class AssistArrestPower : NeuvillettePower
 {
-    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override async Task AfterCurrentHpChanged(Creature creature, decimal delta)
     {
@@ -28,6 +27,6 @@ public sealed class AssistArrestPower : NeuvillettePower
             return;
 
         Flash();
-        await OstyCmd.Summon(new ThrowingPlayerChoiceContext(), Owner.Player, actualHpGained, this);
+        await OstyCmd.Summon(new ThrowingPlayerChoiceContext(), Owner.Player, actualHpGained * Amount, this);
     }
 }

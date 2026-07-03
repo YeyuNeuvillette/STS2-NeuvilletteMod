@@ -35,6 +35,7 @@ public class ArchitectAncient : ModAncientEventTemplate
         CreateModRelicOption<BottledSandCavern>(),
         CreateModRelicOption<CrabShellShield>(),
         CreateModRelicOption<KindredFruitBasket>(),
+        CreateModRelicOption<InkSpiritGel>(),
     ];
 
     protected override IReadOnlyList<EventOption> GenerateInitialOptions()
@@ -53,6 +54,7 @@ public class ArchitectAncient : ModAncientEventTemplate
         var pool3 = new WeightedList<EventOption>
         {
             { CreateModRelicOption<KindredFruitBasket>(), 1 },
+            { CreateModRelicOption<InkSpiritGel>(), 1 },
         };
 
         return
