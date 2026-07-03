@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(EventCardPool))]
-public sealed class SandVortex() : NeuvilletteCard(1, CardType.Skill, CardRarity.Ancient, TargetType.Self)
+public sealed class SandVortex() : NeuvilletteCard(0, CardType.Skill, CardRarity.Ancient, TargetType.Self)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -16,7 +16,5 @@ public sealed class SandVortex() : NeuvilletteCard(1, CardType.Skill, CardRarity
         {
             await relic.IncrementProgressCounter();
         }
-
-        EnergyCost.AddThisCombat(1);
     }
 }

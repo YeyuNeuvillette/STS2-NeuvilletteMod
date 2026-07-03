@@ -36,7 +36,7 @@ public sealed class InjectReagent : BaseRelic
     public override async Task AfterObtained()
     {
         var creature = Owner.Creature;
-        var newMaxHp = Math.Max(1, creature.MaxHp / 2);
+        var newMaxHp = Math.Max(1, creature.MaxHp * 2 / 3);
         await CreatureCmd.SetMaxHp(creature, newMaxHp);
         _remainingUses = 2;
         InvokeDisplayAmountChanged();

@@ -208,5 +208,5 @@
   "NEUVILLETTE_CARD_RIFT_CARD.title": "Rift",
   "NEUVILLETTE_CARD_RIFT_CARD.description": "At the end of your turn, if this card is in your hand, the All-Devouring Narwhal devours {Damage} of your Max HP.",
   "NEUVILLETTE_CARD_SAND_VORTEX.title": "Sand Vortex",
-  "NEUVILLETTE_CARD_SAND_VORTEX.description": "Increase [gold]Bottled Sand Cavern[/gold]'s counter and this card's cost by 1."
+  "NEUVILLETTE_CARD_SAND_VORTEX.description": "Increase [gold]Bottled Sand Cavern[/gold]'s counter by 1."
 }

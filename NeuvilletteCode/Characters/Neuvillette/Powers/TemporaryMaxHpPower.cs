@@ -16,11 +16,13 @@ public sealed class TemporaryMaxHpPower : NeuvillettePower
 
     public override async Task AfterCombatEnd(CombatRoom room)
     {
-        if (isSettled)
-            return;
+        if (!isSettled)
+        {
+            await CreatureCmd.LoseMaxHp(new ThrowingPlayerChoiceContext(), Owner, Amount, false);
+            isSettled = true;
+            Amount = 0;
+        }
 
-        await CreatureCmd.LoseMaxHp(new ThrowingPlayerChoiceContext(), Owner, Amount, false);
-        isSettled = true;
-        Amount = 0;
+        await PowerCmd.Remove(this);
     }
 }

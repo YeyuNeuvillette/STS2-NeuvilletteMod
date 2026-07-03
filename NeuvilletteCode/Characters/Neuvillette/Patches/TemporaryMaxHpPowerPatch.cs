@@ -13,7 +13,7 @@ namespace Neuvillette.Characters.Neuvillette.Patches;
 public static class TemporaryMaxHpPowerPatch
 {
     [HarmonyPriority(Priority.First)]
-    public static void Prefix(IRunState runState, CombatState? combatState, CombatRoom room)
+    public static async void Prefix(IRunState runState, CombatState? combatState, CombatRoom room)
     {
         if (combatState == null)
             return;
@@ -22,13 +22,13 @@ public static class TemporaryMaxHpPowerPatch
         {
             Creature owner = player.Creature;
 
-            var temporaryMaxHpPower = owner.Powers.OfType<TemporaryMaxHpPower>().FirstOrDefault();
-            if (temporaryMaxHpPower != null)
-                _ = temporaryMaxHpPower.AfterCombatEnd(room);
-
             var leviathanFormPower = owner.Powers.OfType<LeviathanFormPower>().FirstOrDefault();
             if (leviathanFormPower != null)
-                _ = leviathanFormPower.AfterCombatEnd(room);
+                await leviathanFormPower.AfterCombatEnd(room);
+
+            var temporaryMaxHpPower = owner.Powers.OfType<TemporaryMaxHpPower>().FirstOrDefault();
+            if (temporaryMaxHpPower != null)
+                await temporaryMaxHpPower.AfterCombatEnd(room);
 
             MelusineCardPool.CleanupCombat(combatState);
         }
