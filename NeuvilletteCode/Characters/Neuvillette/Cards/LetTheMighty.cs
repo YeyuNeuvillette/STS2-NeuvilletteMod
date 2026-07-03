@@ -40,6 +40,7 @@ public sealed class LetTheMighty() : NeuvilletteCard(1, CardType.Attack, CardRar
             DynamicVars.Damage.BaseValue,
             DynamicVars.Damage.Props,
             this,
+            cardPlay,
             ModifyDamageHookType.All,
             CardPreviewMode.None,
             out IEnumerable<AbstractModel> _);
@@ -47,7 +48,7 @@ public sealed class LetTheMighty() : NeuvilletteCard(1, CardType.Attack, CardRar
         var finalDamage = modifiedDamage * multiplier;
 
         await DamageCmd.Attack(finalDamage)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);

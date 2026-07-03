@@ -33,6 +33,7 @@ public class ArchitectAncient : ModAncientEventTemplate
     [
         CreateModRelicOption<InjectReagent>(),
         CreateModRelicOption<BottledSandCavern>(),
+        CreateModRelicOption<CrabShellShield>(),
         CreateModRelicOption<KindredFruitBasket>(),
     ];
 
@@ -46,6 +47,7 @@ public class ArchitectAncient : ModAncientEventTemplate
         var pool2 = new WeightedList<EventOption>
         {
             { CreateModRelicOption<BottledSandCavern>(), 1 },
+            { CreateModRelicOption<CrabShellShield>(), 1 },
         };
 
         var pool3 = new WeightedList<EventOption>

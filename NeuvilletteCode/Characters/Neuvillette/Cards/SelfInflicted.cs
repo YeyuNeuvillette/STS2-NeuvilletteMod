@@ -57,7 +57,7 @@ public sealed class SelfInflicted() : NeuvilletteCard(1, CardType.Attack, CardRa
 
         await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .WithHitCount(repeats)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);

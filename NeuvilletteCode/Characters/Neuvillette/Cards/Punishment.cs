@@ -23,7 +23,7 @@ public sealed class Punishment() : NeuvilletteCard(2, CardType.Attack, CardRarit
             return;
 
         await DamageCmd.Attack(surgeAmount)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);

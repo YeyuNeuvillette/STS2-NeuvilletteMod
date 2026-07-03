@@ -208,5 +208,5 @@
   "NEUVILLETTE_CARD_RIFT_CARD.title": "裂隙",
   "NEUVILLETTE_CARD_RIFT_CARD.description": "回合结束时，如果此牌在你手中，吞星之鲸将吞噬你的{Damage}点最大生命。",
   "NEUVILLETTE_CARD_SAND_VORTEX.title": "沙涡",
-  "NEUVILLETTE_CARD_SAND_VORTEX.description": "使[gold]瓶装沙穴[/gold]的计数增加1。"
+  "NEUVILLETTE_CARD_SAND_VORTEX.description": "使[gold]瓶装沙穴[/gold]的计数增加1。\n此牌的耗能增加1{energyPrefix:energyIcons(1)}。"
 }

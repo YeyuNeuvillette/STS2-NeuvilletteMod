@@ -26,7 +26,7 @@ public sealed class BreathPower : NeuvillettePower
         var enemies = Owner.CombatState?.HittableEnemies;
         if (enemies != null && enemies.Count > 0)
         {
-            await CreatureCmd.Damage(choiceContext, enemies, amount,  ValueProp.Unpowered, Owner, null);
+            await CreatureCmd.Damage(choiceContext, enemies, amount,  ValueProp.Unpowered, Owner, null, null);
         }
     }
 }

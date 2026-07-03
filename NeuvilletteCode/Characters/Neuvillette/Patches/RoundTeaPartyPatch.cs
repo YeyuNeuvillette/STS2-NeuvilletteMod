@@ -53,7 +53,7 @@ public static class RoundTeaPartyPatch
 
         var targetCreature = @event.Owner.Creature;
         await CreatureCmd.Heal(targetCreature, targetCreature.MaxHp - targetCreature.CurrentHp);
-        await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), targetCreature, 8m, ValueProp.Unblockable | ValueProp.Unpowered, null, null);
+        await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), targetCreature, 8m, ValueProp.Unblockable | ValueProp.Unpowered, null, null, null);
         
         @event.SetEventFinished(@event.L10NLookup("ROUND_TEA_PARTY.pages.DRINK_GOOD_TEA.description"));
     }

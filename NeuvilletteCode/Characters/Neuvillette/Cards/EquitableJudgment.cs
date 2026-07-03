@@ -120,7 +120,7 @@ public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, Ca
             var enemies = CombatState.Enemies.Where(e => e.IsAlive).ToList();
 
             await DamageCmd.Attack(DynamicVars.CalculatedDamage)
-                .FromCard(this)
+                .FromCard(this, cardPlay)
                 .TargetingAllOpponents(CombatState)
                 .WithAttackerAnim("Cast", 0.5f)
                 .BeforeDamage(async () =>
@@ -152,7 +152,8 @@ public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, Ca
             creature,
             hpLoss,
             ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move,
-            this);
+            this,
+            cardPlay);
     }
 
     protected override void OnUpgrade()

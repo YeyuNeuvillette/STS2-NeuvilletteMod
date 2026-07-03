@@ -25,7 +25,7 @@ public sealed class EnforceExecution() : NeuvilletteCard(1, CardType.Attack, Car
         await CreatureCmd.LoseBlock(cardPlay.Target, cardPlay.Target.Block);
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);

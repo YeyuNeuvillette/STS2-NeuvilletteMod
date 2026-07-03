@@ -21,7 +21,7 @@ public sealed class VerenataSticker() : MelusineStickerCard(TargetType.Self)
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Damage(choiceContext, Owner.Creature, DynamicVars.HpLoss.BaseValue, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, this);
+        await CreatureCmd.Damage(choiceContext, Owner.Creature, DynamicVars.HpLoss.BaseValue, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, this, cardPlay);
         await CreatureCmd.Heal(Owner.Creature, DynamicVars["Surge"].BaseValue);
         await PowerCmd.Apply<SurgePower>(choiceContext, Owner.Creature, DynamicVars["Surge"].BaseValue, Owner.Creature, this);
     }

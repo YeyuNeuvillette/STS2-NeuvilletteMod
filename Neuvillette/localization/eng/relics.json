@@ -55,5 +55,8 @@
   "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.flavor": "Grains of sand swirl silently in the bottle; after thirty rounds, all falls silent.",
   "NEUVILLETTE_RELIC_INJECT_REAGENT.title": "Inject Reagent",
   "NEUVILLETTE_RELIC_INJECT_REAGENT.description": "Set your Max HP to two-thirds. When you would take fatal damage, heal to full HP instead (can trigger 2 times).",
-  "NEUVILLETTE_RELIC_INJECT_REAGENT.flavor": "The liquid in the syringe glows with an eerie light—lifesaver or death sentence, all in one prick."
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.flavor": "The liquid in the syringe glows with an eerie light—lifesaver or death sentence, all in one prick.",
+  "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.title": "Crab Shell Shield",
+  "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.description": "Your [gold]Plated Armor[/gold] stacks do not decrease. At the start of combat, gain {PlatingPower:diff()} [gold]Plated Armor[/gold].",
+  "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.flavor": "A shell from the deep sea, so hard that even the tides cannot erode it."
 }

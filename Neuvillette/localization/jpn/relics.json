@@ -55,5 +55,8 @@
   "NEUVILLETTE_RELIC_BOTTLED_SAND_CAVERN.flavor": "砂粒が瓶の中で音もなく流れ、三十ターンの後、全ては静寂に帰す。",
   "NEUVILLETTE_RELIC_INJECT_REAGENT.title": "注射試薬",
   "NEUVILLETTE_RELIC_INJECT_REAGENT.description": "最大HPを3分の2にする。致命的なダメージを受ける時、代わりにHPを全回復する（2回のみ発動可能）。",
-  "NEUVILLETTE_RELIC_INJECT_REAGENT.flavor": "注射器の中の液体が不気味な光を放つ——命綱ぎか死の招きか、すべては一刺しに。"
+  "NEUVILLETTE_RELIC_INJECT_REAGENT.flavor": "注射器の中の液体が不気味な光を放つ——命綱ぎか死の招きか、すべては一刺しに。",
+  "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.title": "蟹殻の盾",
+  "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.description": "あなたの[gold]プレートアーマー[/gold]の層数は減少しない。戦闘開始時、{PlatingPower:diff()}層の[gold]プレートアーマー[/gold]を得る。",
+  "NEUVILLETTE_RELIC_CRAB_SHELL_SHIELD.flavor": "深海からの甲羅、潮汐でさえ侵食できないほど硬い。"
 }

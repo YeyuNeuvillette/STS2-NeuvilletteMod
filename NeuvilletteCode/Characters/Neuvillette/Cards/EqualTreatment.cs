@@ -35,7 +35,7 @@ public sealed class EqualTreatment() : NeuvilletteCard(1, CardType.Attack, CardR
         if (CombatState != null)
         {
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-                .FromCard(this)
+                .FromCard(this, cardPlay)
                 .TargetingAllOpponents(CombatState)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash")
                 .Execute(choiceContext);

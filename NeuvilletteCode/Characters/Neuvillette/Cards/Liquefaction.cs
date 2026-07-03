@@ -31,7 +31,7 @@ public sealed class Liquefaction() : NeuvilletteCard(1, CardType.Attack, CardRar
         var totalSurge = blockAmount + livingWaterAmount;
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 

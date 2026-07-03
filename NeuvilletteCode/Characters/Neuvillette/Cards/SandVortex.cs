@@ -16,5 +16,7 @@ public sealed class SandVortex() : NeuvilletteCard(0, CardType.Skill, CardRarity
         {
             await relic.IncrementProgressCounter();
         }
+
+        EnergyCost.AddThisCombat(1);
     }
 }

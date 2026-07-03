@@ -38,7 +38,7 @@ public sealed class ElphaneSticker() : MelusineStickerCard(TargetType.AnyEnemy)
         }
 
         await DamageCmd.Attack(totalDamage)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
     }

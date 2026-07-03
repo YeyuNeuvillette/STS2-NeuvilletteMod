@@ -26,12 +26,13 @@ public sealed class OceanOrb : ModOrbTemplate
 
     public override async Task AfterTurnStartOrbTrigger(PlayerChoiceContext choiceContext)
     {
-        await Passive(choiceContext, null);
+        await TriggerPassive(choiceContext, null);
     }
 
     public override async Task Passive(PlayerChoiceContext choiceContext, Creature? target)
     {
-        Trigger();
+        ActivatePassive();
+        PlayPassiveSfx();
 
         var surgeAmount = GetModifiedSurgeValue((int)PassiveVal);
         await CreatureCmd.Heal(Owner.Creature, surgeAmount);

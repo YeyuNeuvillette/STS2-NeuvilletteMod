@@ -23,7 +23,7 @@ public sealed class ContemptOfCourtPower : NeuvillettePower
             return;
 
         Flash();
-        await CreatureCmd.Damage(choiceContext, Owner, Amount, ValueProp.Unpowered, Owner, null);
+        await CreatureCmd.Damage(choiceContext, Owner, Amount, ValueProp.Unpowered, Owner, null, null);
         await PowerCmd.Decrement(this);
     }
 }

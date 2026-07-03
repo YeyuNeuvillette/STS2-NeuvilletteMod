@@ -26,6 +26,6 @@ public sealed class PluieSurLaVillePower : NeuvillettePower
             return;
 
         Flash();
-        await CreatureCmd.Damage(choiceContext, Owner, 2m, ValueProp.Unblockable | ValueProp.Unpowered, Owner, null);
+        await CreatureCmd.Damage(choiceContext, Owner, 2m, ValueProp.Unblockable | ValueProp.Unpowered, Owner, null, null);
     }
 }

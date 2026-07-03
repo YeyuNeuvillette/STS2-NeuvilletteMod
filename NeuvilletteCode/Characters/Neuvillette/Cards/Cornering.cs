@@ -21,7 +21,7 @@ public sealed class Cornering() : NeuvilletteCard(1, CardType.Attack, CardRarity
 
         var baseDamage = DynamicVars.Damage.BaseValue;
         await DamageCmd.Attack(baseDamage)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);

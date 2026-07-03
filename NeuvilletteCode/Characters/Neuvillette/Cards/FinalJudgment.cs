@@ -28,7 +28,7 @@ public sealed class FinalJudgment() : NeuvilletteCard(0, CardType.Attack, CardRa
         {
             var hpLoss = Math.Floor(cardPlay.Target.CurrentHp / 2m);
             await CreatureCmd.Damage(choiceContext, cardPlay.Target, hpLoss,
-                ValueProp.Unblockable | ValueProp.Unpowered, this);
+                ValueProp.Unblockable | ValueProp.Unpowered, this, cardPlay);
             return;
         }
 

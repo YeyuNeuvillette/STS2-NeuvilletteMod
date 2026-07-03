@@ -46,12 +46,13 @@ public sealed class ThousandFingersPointing() : NeuvilletteCard(3, CardType.Atta
                 DynamicVars.Damage.BaseValue,
                 DynamicVars.Damage.Props,
                 this,
+                cardPlay,
                 ModifyDamageHookType.All,
                 CardPreviewMode.None,
                 out IEnumerable<AbstractModel> _);
 
             await DamageCmd.Attack(modifiedDamage)
-                .FromCard(this)
+                .FromCard(this, cardPlay)
                 .Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
