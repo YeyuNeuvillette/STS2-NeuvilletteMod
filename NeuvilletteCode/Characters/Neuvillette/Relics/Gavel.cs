@@ -35,7 +35,7 @@ public sealed class Gavel : BaseRelic
 
         foreach (var enemy in enemies)
         {
-            await PowerCmd.Apply<ContemptOfCourtPower>(new ThrowingPlayerChoiceContext(), enemy, 1m, Owner.Creature, null);
+            await PowerCmd.Apply<ContemptOfCourtPower>(new ThrowingPlayerChoiceContext(), enemy, 4m, Owner.Creature, null);
         }
     }
 }

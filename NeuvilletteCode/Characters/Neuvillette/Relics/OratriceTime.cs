@@ -23,11 +23,10 @@ public sealed class OratriceTime : BaseRelic
     {
         await base.AfterPlayerTurnStartEarly(choiceContext, player);
         _isPlayerTurn = true;
-        if (player != Owner || player.Creature?.CombatState?.RoundNumber != 1)
+        if (player != Owner)
             return;
 
         Flash();
-        await TriggerWave();
         await TriggerWave();
     }
 
