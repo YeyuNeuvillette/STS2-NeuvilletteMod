@@ -60,7 +60,7 @@ public class AllDevouringNarwhal : ModMonsterTemplate
     private int EmpowerDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 20, 20);
     private int EmpowerStrength => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 5, 5);
     private int BellyBlock => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 160, 160);
-    private int BellyDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 42, 42);
+    private int BellyDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 40, 40);
 
     public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 1444, 1344);
     public override int MaxInitialHp => MinInitialHp;
@@ -129,7 +129,8 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         var bellyAttack = new MoveState(
             "BELLY_ATTACK",
             BellyAttackMove,
-            new SingleAttackIntent(BellyDamage)
+            new SingleAttackIntent(BellyDamage),
+            new BuffIntent()
         );
 
         _enterBellyState = new MoveState(
@@ -256,6 +257,8 @@ public class AllDevouringNarwhal : ModMonsterTemplate
             .WithAttackerFx(null, AttackSfx)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(null);
+
+        await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), Creature, 10m, Creature, null);
     }
 
     private async Task EnterBellyMove(IReadOnlyList<Creature> targets)
