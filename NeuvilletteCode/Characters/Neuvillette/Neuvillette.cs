@@ -54,7 +54,7 @@ public class Neuvillette : ModCharacterTemplate<NeuvilletteCardPool, Neuvillette
                 new RelicAssetProfile(
                     "res://Neuvillette/images/relics/Neuvillette_YummyCookie.png",
                     "res://Neuvillette/images/relics/Neuvillette_YummyCookie.png",
-                    "res://Neuvillette/images/relics/Neuvillette_YummyCookie.png"))
+                    "res://Neuvillette/images/relics/Neuvillette_YummyCookie_big.png"))
         ]);
 
     public override CharacterWorldProceduralVisualSet? WorldProceduralVisuals =>

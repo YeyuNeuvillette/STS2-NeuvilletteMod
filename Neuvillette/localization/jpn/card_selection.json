@@ -4,5 +4,6 @@
   "NEUVILLETTE-IN_DEPTH_INQUIRY.selectionScreenPrompt": "[gold]リプレイ[/gold]を付与する[gold]手札[/gold]のカードを1枚選択。",
   "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "[gold]メリュジーヌシール[/gold]に[gold]変化[/gold]させるカードを1枚選択。",
   "NEUVILLETTE-EXILE.selectionScreenPrompt": "[gold]山札[/gold]の一番下に置くカードを1枚選択。",
-  "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "[gold]メリュジーヌシール[/gold]に[gold]変化[/gold]させるカードを1枚選択。"
+  "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "[gold]メリュジーヌシール[/gold]に[gold]変化[/gold]させるカードを1枚選択。",
+  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "自動プレイするカードを1枚選択。"
 }

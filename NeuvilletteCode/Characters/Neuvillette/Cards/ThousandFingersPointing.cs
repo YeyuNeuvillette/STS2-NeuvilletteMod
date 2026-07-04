@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-public sealed class ThousandFingersPointing() : NeuvilletteCard(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+public sealed class ThousandFingersPointing() : NeuvilletteCard(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
 {
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Submit];
