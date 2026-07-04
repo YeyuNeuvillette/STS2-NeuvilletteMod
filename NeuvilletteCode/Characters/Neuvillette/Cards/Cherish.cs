@@ -17,7 +17,7 @@ public sealed class Cherish() : NeuvilletteCard(2, CardType.Attack, CardRarity.U
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(15m, ValueProp.Move)
+        new DamageVar(18m, ValueProp.Move)
     ];
 
     public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
@@ -50,7 +50,7 @@ public sealed class Cherish() : NeuvilletteCard(2, CardType.Attack, CardRarity.U
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(5m);
+        DynamicVars.Damage.UpgradeValueBy(6m);
     }
 
     private bool HasMelusineStickerInHand()

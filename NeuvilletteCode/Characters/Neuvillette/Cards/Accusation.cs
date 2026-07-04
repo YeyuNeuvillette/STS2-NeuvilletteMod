@@ -23,7 +23,7 @@ public sealed class Accusation() : NeuvilletteCard(2, CardType.Attack, CardRarit
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(11m, ValueProp.Move)
+        new DamageVar(10m, ValueProp.Move)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

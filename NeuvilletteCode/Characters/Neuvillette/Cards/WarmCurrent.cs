@@ -1,10 +1,9 @@
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -17,15 +16,9 @@ public sealed class WarmCurrent() : NeuvilletteCard(1, CardType.Attack, CardRari
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.MelusineSticker];
     protected override bool ShouldGlowGoldInternal => HasMelusineStickerInHand();
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-        base.AdditionalHoverTips.Concat(
-                [HoverTipFactory.FromPower<VulnerablePower>()]
-        );
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(9m, ValueProp.Move),
-        new PowerVar<VulnerablePower>(2m)
+        new DamageVar(9m, ValueProp.Move)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -38,15 +31,25 @@ public sealed class WarmCurrent() : NeuvilletteCard(1, CardType.Attack, CardRari
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
 
-        if (!HasMelusineStickerInHand())
+        var hand = Owner?.PlayerCombatState?.Hand;
+        if (hand == null)
             return;
 
-        await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
+        var stickerCards = hand.Cards
+            .Where(card => card.Pool is MelusineCardPool)
+            .ToList();
+
+        foreach (var sticker in stickerCards)
+        {
+            var copy = Owner?.RunState?.CloneCard(sticker);
+            if (copy != null)
+                await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, Owner);
+        }
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
     }
 
     private bool HasMelusineStickerInHand()

@@ -80,5 +80,7 @@
   "TRIAL.pages.NEUVILLETTE_REJECT.options.INSIST_REJECT.title": "拒否を貫く",
   "TRIAL.pages.NEUVILLETTE_REJECT.options.INSIST_REJECT.description": "[red]あなたはもはやあなた自身ではなくなる[/red]",
   "TRIAL.pages.NEUVILLETTE_REJECT.options.FOLLOW_HEART.title": "本心に従う",
-  "TRIAL.pages.NEUVILLETTE_REJECT.options.FOLLOW_HEART.description": "最高審判官に就任する"
+  "TRIAL.pages.NEUVILLETTE_REJECT.options.FOLLOW_HEART.description": "最高審判官に就任する",
+  "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NEUVILLETTE.title": "水色",
+  "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NEUVILLETTE.description": "ヌヴィレットのカードを[blue]{Cards}[/blue]枚獲得する。"
 }

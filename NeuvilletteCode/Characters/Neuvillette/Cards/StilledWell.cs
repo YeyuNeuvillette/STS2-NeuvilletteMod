@@ -31,6 +31,7 @@ public sealed class StilledWell() : NeuvilletteCard(1, CardType.Skill, CardRarit
 
         await PowerCmd.Decrement(droplets);
         await PlayerCmd.GainEnergy((int)DynamicVars["Energy"].BaseValue, Owner);
+        await CardPileCmd.Draw(choiceContext, 1, Owner);
     }
 
     protected override void OnUpgrade()

@@ -80,5 +80,7 @@
   "TRIAL.pages.NEUVILLETTE_REJECT.options.INSIST_REJECT.title": "Insist on Rejecting",
   "TRIAL.pages.NEUVILLETTE_REJECT.options.INSIST_REJECT.description": "[red]You will no longer be yourself[/red]",
   "TRIAL.pages.NEUVILLETTE_REJECT.options.FOLLOW_HEART.title": "Follow Your Heart",
-  "TRIAL.pages.NEUVILLETTE_REJECT.options.FOLLOW_HEART.description": "Accept the invitation to become Supreme Judge."
+  "TRIAL.pages.NEUVILLETTE_REJECT.options.FOLLOW_HEART.description": "Accept the invitation to become Supreme Judge.",
+  "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NEUVILLETTE.title": "Aqua",
+  "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NEUVILLETTE.description": "Obtain [blue]{Cards}[/blue] Neuvillette {Cards:plural:card|cards}."
 }

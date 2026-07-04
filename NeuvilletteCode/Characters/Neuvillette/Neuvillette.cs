@@ -6,6 +6,7 @@ using STS2RitsuLib.Scaffolding.Characters;
 using STS2RitsuLib.Scaffolding.Characters.Visuals.Definition;
 using STS2RitsuLib.Scaffolding.Godot;
 using STS2RitsuLib.Scaffolding.Visuals.Definition;
+using STS2RitsuLib.Scaffolding.Content;
 using Neuvillette.Extensions;
 
 namespace Neuvillette.Characters.Neuvillette;
@@ -46,8 +47,15 @@ public class Neuvillette : ModCharacterTemplate<NeuvilletteCardPool, Neuvillette
             "multiplayer_hand_point.png".CharacterImgPath(CharacterId),
             "multiplayer_hand_rock.png".CharacterImgPath(CharacterId),
             "multiplayer_hand_paper.png".CharacterImgPath(CharacterId),
-            "multiplayer_hand_scissors.png".CharacterImgPath(CharacterId))
-            );
+            "multiplayer_hand_scissors.png".CharacterImgPath(CharacterId)),
+        VanillaRelicVisualOverrides:
+        [
+            new(CharacterOwnedVanillaRelicModelId.YummyCookie,
+                new RelicAssetProfile(
+                    "res://Neuvillette/images/relics/Neuvillette_YummyCookie.png",
+                    "res://Neuvillette/images/relics/Neuvillette_YummyCookie.png",
+                    "res://Neuvillette/images/relics/Neuvillette_YummyCookie.png"))
+        ]);
 
     public override CharacterWorldProceduralVisualSet? WorldProceduralVisuals =>
         CharacterWorldProceduralVisualSetBuilder.Create()

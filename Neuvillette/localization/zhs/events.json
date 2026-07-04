@@ -80,5 +80,7 @@
   "TRIAL.pages.NEUVILLETTE_REJECT.options.INSIST_REJECT.title": "执意拒绝",
   "TRIAL.pages.NEUVILLETTE_REJECT.options.INSIST_REJECT.description": "[red]你将不再是你自己[/red]",
   "TRIAL.pages.NEUVILLETTE_REJECT.options.FOLLOW_HEART.title": "遵从本心",
-  "TRIAL.pages.NEUVILLETTE_REJECT.options.FOLLOW_HEART.description": "受邀担任最高审判官"
+  "TRIAL.pages.NEUVILLETTE_REJECT.options.FOLLOW_HEART.description": "受邀担任最高审判官",
+  "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NEUVILLETTE.title": "水蓝色",
+  "COLORFUL_PHILOSOPHERS.pages.INITIAL.options.NEUVILLETTE.description": "获得[blue]{Cards}[/blue]张那维莱特的卡牌。"
 }

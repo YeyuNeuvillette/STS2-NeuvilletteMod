@@ -1,11 +1,12 @@
 using Godot;
+using STS2RitsuLib.Scaffolding.Characters;
 using STS2RitsuLib.Scaffolding.Content;
 using STS2RitsuLib.Utils;
 using Neuvillette.Extensions;
 
 namespace Neuvillette.Characters.Neuvillette;
 
-public class NeuvilletteCardPool : TypeListCardPoolModel
+public class NeuvilletteCardPool : TypeListCardPoolModel, IModColorfulPhilosophersCardPool
 {
     public override string Title => Neuvillette.CharacterId;
     public override string EnergyColorName => "neuvillette";

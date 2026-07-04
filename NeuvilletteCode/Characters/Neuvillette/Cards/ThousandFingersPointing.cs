@@ -22,7 +22,7 @@ public sealed class ThousandFingersPointing() : NeuvilletteCard(3, CardType.Atta
         ]);
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(13m, ValueProp.Move)
+        new DamageVar(9m, ValueProp.Move)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -61,6 +61,6 @@ public sealed class ThousandFingersPointing() : NeuvilletteCard(3, CardType.Atta
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(5m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }
