@@ -27,10 +27,10 @@ public sealed class OratriceTime : BaseRelic
             return;
 
         Flash();
-        await TriggerWave();
+        await TriggerWave(choiceContext);
     }
 
-    private async Task TriggerWave()
+    private async Task TriggerWave(PlayerChoiceContext choiceContext)
     {
         var creature = Owner?.Creature;
         if (creature == null)
@@ -38,7 +38,7 @@ public sealed class OratriceTime : BaseRelic
 
         var healing = 2m + creature.GetPowerAmount<LivingWaterPower>();
         await CreatureCmd.Heal(creature, healing);
-        await PowerCmd.Apply<SurgePower>(new ThrowingPlayerChoiceContext(), creature, healing, creature, null);
+        await PowerCmd.Apply<SurgePower>(choiceContext, creature, healing, creature, null);
     }
     
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)

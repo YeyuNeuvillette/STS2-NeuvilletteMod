@@ -12,9 +12,10 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class PublicOpinion() : NeuvilletteCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
-    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        NeuvilletteSettingsStore.IsMultiplayerCourtEnabled()
+            ? CardMultiplayerConstraint.None
+            : CardMultiplayerConstraint.SingleplayerOnly;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         base.AdditionalHoverTips.Concat([HoverTipFactory.FromPower<OratricePower>()]);

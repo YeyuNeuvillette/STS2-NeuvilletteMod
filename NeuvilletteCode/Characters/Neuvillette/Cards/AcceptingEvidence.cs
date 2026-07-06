@@ -11,6 +11,10 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class AcceptingEvidence() : SubmitCard(2, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        NeuvilletteSettingsStore.IsMultiplayerCourtEnabled()
+            ? CardMultiplayerConstraint.None
+            : CardMultiplayerConstraint.SingleplayerOnly;
     public override bool GainsBlock => true;
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(9m, ValueProp.Move)];
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]

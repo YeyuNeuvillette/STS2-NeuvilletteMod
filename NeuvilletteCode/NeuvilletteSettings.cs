@@ -8,6 +8,7 @@ namespace Neuvillette;
 public sealed class NeuvilletteSettings
 {
     public bool Act4Enabled { get; set; } = true;
+    public bool MultiplayerCourtEnabled { get; set; }
 }
 
 internal static class NeuvilletteSettingsStore
@@ -45,5 +46,10 @@ internal static class NeuvilletteSettingsStore
     public static bool IsAct4Enabled()
     {
         return _cache?.Value.Act4Enabled ?? true;
+    }
+
+    public static bool IsMultiplayerCourtEnabled()
+    {
+        return _cache?.Value.MultiplayerCourtEnabled ?? false;
     }
 }

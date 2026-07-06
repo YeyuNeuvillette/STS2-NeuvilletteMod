@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Neuvillette.Characters.Base;
@@ -83,7 +84,9 @@ public sealed class CeremonialSilverBell : BaseRelic
         if (!_hasReplay)
             return Task.CompletedTask;
 
-        card.BaseReplayCount += ReplayAmount;
+        if (card.Affliction is Ringing)
+            card.BaseReplayCount += ReplayAmount;
+
         return Task.CompletedTask;
     }
 
@@ -123,7 +126,8 @@ public sealed class CeremonialSilverBell : BaseRelic
         if (combatState == null) return;
         foreach (var card in combatState.AllCards)
         {
-            card.BaseReplayCount += ReplayAmount;
+            if (card.Affliction is Ringing)
+                card.BaseReplayCount += ReplayAmount;
         }
     }
 
@@ -133,7 +137,8 @@ public sealed class CeremonialSilverBell : BaseRelic
         if (combatState == null) return;
         foreach (var card in combatState.AllCards)
         {
-            card.BaseReplayCount -= ReplayAmount;
+            if (card.Affliction is Ringing)
+                card.BaseReplayCount -= ReplayAmount;
         }
     }
 }

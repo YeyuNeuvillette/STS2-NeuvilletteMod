@@ -45,7 +45,7 @@ public sealed class GuileCandle : BaseRelic
     {
         Log.Info($"[GuileCandle] AfterCardDrawn called: card={card?.Id.ToString() ?? "null"}, owner={card?.Owner?.NetId.ToString() ?? "null"}, relicOwner={Owner?.NetId.ToString() ?? "null"}, fromHandDraw={fromHandDraw}, currentCount={_drawnCards.Count}");
 
-        if (card.Owner != Owner)
+        if (card is null || card.Owner is not Player { } owner || owner != Owner)
         {
             Log.Info($"[GuileCandle] Skipping: card owner != relic owner");
             return;
@@ -77,7 +77,7 @@ public sealed class GuileCandle : BaseRelic
     private async Task TryAutoPlayFromDrawn(PlayerChoiceContext choiceContext)
     {
         var handCards = PileType.Hand.GetPile(Owner).Cards;
-        var selectableCards = _drawnCards.Where(c => c.CanPlay() && handCards.Contains(c)).ToList();
+        var selectableCards = _drawnCards.Where(c => IsPlayableForFree(c) && handCards.Contains(c)).ToList();
 
         Log.Info($"[GuileCandle] TryAutoPlayFromDrawn: _drawnCards=[{string.Join(", ", _drawnCards.Select(c => c.Id))}], selectableCards=[{string.Join(", ", selectableCards.Select(c => c.Id))}]");
 
@@ -99,7 +99,7 @@ public sealed class GuileCandle : BaseRelic
             this);
         Log.Info($"[GuileCandle] CardSelectCmd.FromHand returned: chosen count={chosen?.Count() ?? 0}");
 
-        var selected = chosen.FirstOrDefault()!;
+        var selected = chosen?.FirstOrDefault();
         if (selected == null)
         {
             Log.Info($"[GuileCandle] No card selected, returning early");
@@ -118,12 +118,18 @@ public sealed class GuileCandle : BaseRelic
         var target = GetTarget(selected, combatState);
         Log.Info($"[GuileCandle] Target: {(target != null ? target.GetType().Name : "null")}, Card TargetType: {selected.TargetType}");
 
-        await selected.SpendResources();
-        await CardCmd.AutoPlay(choiceContext, selected, target, AutoPlayType.Default, skipXCapture: true);
+        await CardCmd.AutoPlay(choiceContext, selected, target);
 
         Log.Info($"[GuileCandle] Card auto-played. Resetting _drawnCards.");
         _drawnCards = [];
         InvokeDisplayAmountChanged();
+    }
+
+    private static bool IsPlayableForFree(CardModel card)
+    {
+        if (card.CanPlay(out var reason, out _))
+            return true;
+        return (reason & ~(UnplayableReason.EnergyCostTooHigh | UnplayableReason.StarCostTooHigh)) == UnplayableReason.None;
     }
 
     private Creature? GetTarget(CardModel card, ICombatState combatState)

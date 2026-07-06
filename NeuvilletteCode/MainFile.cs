@@ -64,7 +64,20 @@ public partial class MainFile : Node
                             s => s.Act4Enabled,
                             (s, value) => s.Act4Enabled = value),
                         ModSettingsText.I18N(i18n, "neuvillette.settings.act4.enabled.description",
-                            "When enabled, proceed to Act 4 (All-Devouring Narwhal boss fight) after Act 3. When disabled, the run ends after Act 3 as in vanilla."))));
+                            "When enabled, proceed to Act 4 after Act 3. When disabled, the run ends after Act 3 as in vanilla.")))
+                .AddSection("multiplayer_court", section => section
+                    .WithTitle(ModSettingsText.I18N(i18n, "neuvillette.settings.section.multiplayer_court.title", "Multiplayer Submit"))
+                    .AddToggle(
+                        "multiplayer_court_enabled",
+                        ModSettingsText.I18N(i18n, "neuvillette.settings.multiplayer_court.enabled.label", "Enable Submit Cards in Multiplayer"),
+                        new ModSettingsValueBinding<NeuvilletteSettings, bool>(
+                            ModId,
+                            NeuvilletteSettingsStore.SettingsKey,
+                            SaveScope.Global,
+                            s => s.MultiplayerCourtEnabled,
+                            (s, value) => s.MultiplayerCourtEnabled = value),
+                        ModSettingsText.I18N(i18n, "neuvillette.settings.multiplayer_court.enabled.description",
+                            "When enabled, Submit-related cards can appear in multiplayer. When disabled (default), these cards are excluded from multiplayer."))));
     }
 
     /// <summary>

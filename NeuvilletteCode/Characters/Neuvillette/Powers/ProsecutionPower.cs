@@ -87,14 +87,14 @@ public sealed class ProsecutionPower : NeuvillettePower
             if (data.RemainingActivations > 0)
             {
                 GD.Print($"[ProsecutionPower] AfterPowerAmountChanged: restoring AgilityPower with {data.LastAgilityAmount} layers");
-                await PowerCmd.Apply<AgilityPower>(new ThrowingPlayerChoiceContext(), Owner, data.LastAgilityAmount, null, null);
+                await PowerCmd.Apply<AgilityPower>(choiceContext, Owner, data.LastAgilityAmount, null, null);
                 data.RemainingActivations--;
                 GD.Print($"[ProsecutionPower] AfterPowerAmountChanged: RemainingActivations now {data.RemainingActivations}");
                 
                 var selfProsecutionPower = Owner.GetPower<ProsecutionPower>();
                 if (selfProsecutionPower != null)
                 {
-                    await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), selfProsecutionPower, -1m, null, null);
+                    await PowerCmd.ModifyAmount(choiceContext, selfProsecutionPower, -1m, null, null);
                     GD.Print($"[ProsecutionPower] AfterPowerAmountChanged: removed 1 layer from ProsecutionPower");
                 }
             }

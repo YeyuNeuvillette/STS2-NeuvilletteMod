@@ -63,7 +63,7 @@
   "NEUVILLETTE_RELIC_INK_SPIRIT_GEL.description": "1ターン内に{DamageThreshold:diff()}以上のダメージを与えた後、{SlipperyPower:diff()}層の[gold]スリッピー[/gold]を得る。",
   "NEUVILLETTE_RELIC_INK_SPIRIT_GEL.flavor": "深海の墨霊が凝縮したゼリー、戦いの熱狂の中で身を流れる。",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.title": "儀式の銀鈴",
-  "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "[gold]耳鳴り[/gold]を持っている時、あなたのカードは[gold]リプレイ[/gold]{Replay:diff()}を持つ。{Interval:diff()}ターン目の開始時、[gold]耳鳴り[/gold]を得る。",
+  "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "[gold]耳鳴り[/gold]を持っている時、[gold]耳鳴り[/gold]を持つカードが[gold]リプレイ[/gold]{Replay:diff()}を得る。{Interval:diff()}ターン目の開始時、[gold]耳鳴り[/gold]を得る。",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "銀鈴が軽やかに鳴り、余韴が絶えず、眩暈の中で反響し続ける。",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "詭燭",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "{Cards:diff()}枚のカードをドローした後、その中から1枚を選んで自動プレイする。",

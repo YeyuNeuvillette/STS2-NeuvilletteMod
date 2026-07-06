@@ -63,7 +63,7 @@
   "NEUVILLETTE_RELIC_INK_SPIRIT_GEL.description": "After you deal at least {DamageThreshold:diff()} damage in a single turn, gain {SlipperyPower:diff()} [gold]Slippery[/gold].",
   "NEUVILLETTE_RELIC_INK_SPIRIT_GEL.flavor": "Gel condensed from deep-sea ink spirits, flowing over you in the heat of battle.",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.title": "Ceremonial Silver Bell",
-  "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "While you have [gold]Ringing[/gold], your cards have [gold]Replay[/gold] {Replay:diff()}. Every {Interval:diff()} turns, gain [gold]Ringing[/gold].",
+  "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "While you have [gold]Ringing[/gold], cards with [gold]Ringing[/gold] gain [gold]Replay[/gold] {Replay:diff()}. Every {Interval:diff()} turns, gain [gold]Ringing[/gold].",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "The silver bell chimes softly, its echo lingering, reverberating endlessly through the dizziness.",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "Guile Candle",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "After you draw {Cards:diff()} cards, choose 1 of them to auto-play.",

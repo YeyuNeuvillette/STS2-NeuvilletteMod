@@ -2,5 +2,8 @@
   "neuvillette.settings.page.title": "Neuvillette",
   "neuvillette.settings.section.act4.title": "第四幕",
   "neuvillette.settings.act4.enabled.label": "启用第四幕",
-  "neuvillette.settings.act4.enabled.description": "开启后，在第三幕结束后进入第四幕（吞天巨鲸 Boss 战）。关闭则按原版流程结束。"
+  "neuvillette.settings.act4.enabled.description": "开启后，在第三幕结束后进入第四幕。关闭则按原版流程结束。",
+  "neuvillette.settings.section.multiplayer_court.title": "多人模式呈堂",
+  "neuvillette.settings.multiplayer_court.enabled.label": "多人模式启用呈堂卡牌",
+  "neuvillette.settings.multiplayer_court.enabled.description": "开启后，呈堂相关卡牌可在多人模式中出现。关闭（默认）则在多人模式中排除这些卡牌。"
 }

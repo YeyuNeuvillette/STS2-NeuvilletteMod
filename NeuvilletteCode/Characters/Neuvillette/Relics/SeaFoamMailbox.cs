@@ -31,6 +31,10 @@ public sealed class SeaFoamMailbox : BaseRelic
         {
             return count;
         }
+        if (Owner.PlayerCombatState is not { TurnNumber: <= 1 })
+        {
+            return count;
+        }
         return count + 2m;
     }
 

@@ -63,7 +63,7 @@ public sealed class Plumule : BaseRelic
             var strengthPower = Owner.Creature.GetPower<StrengthPower>();
             if (strengthPower != null)
             {
-                await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), strengthPower, -_strengthGainedThisCombat, null, null);
+                await PowerCmd.ModifyAmount(choiceContext, strengthPower, -_strengthGainedThisCombat, null, null);
             }
             _strengthGainedThisCombat = 0m;
         }

@@ -69,7 +69,7 @@ public sealed class AgilityPower : NeuvillettePower
         if (!data.HasAppliedThisTurn)
             return;
 
-        await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), this, -Amount, null, null);
+        await PowerCmd.ModifyAmount(context, this, -Amount, null, null);
         data.HasAppliedThisTurn = false;
     }
 }

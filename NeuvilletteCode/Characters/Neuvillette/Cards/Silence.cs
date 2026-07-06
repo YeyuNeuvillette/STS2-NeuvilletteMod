@@ -11,6 +11,10 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class Silence() : SubmitCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        NeuvilletteSettingsStore.IsMultiplayerCourtEnabled()
+            ? CardMultiplayerConstraint.None
+            : CardMultiplayerConstraint.SingleplayerOnly;
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Submit];
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, ValueProp.Move)];

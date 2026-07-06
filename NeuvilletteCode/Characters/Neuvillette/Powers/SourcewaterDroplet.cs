@@ -22,12 +22,12 @@ public sealed class SourcewaterDroplet : NeuvillettePower
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         await base.AfterPowerAmountChanged(choiceContext, power, amount, applier, cardSource);
-        await LimitAsync();
+        await LimitAsync(choiceContext);
     }
 
-    private async Task LimitAsync()
+    private async Task LimitAsync(PlayerChoiceContext? choiceContext = null)
     {
         if (Amount > 6)
-            await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), this, 6m - Amount, Owner, null);
+            await PowerCmd.ModifyAmount(choiceContext ?? new ThrowingPlayerChoiceContext(), this, 6m - Amount, Owner, null);
     }
 }

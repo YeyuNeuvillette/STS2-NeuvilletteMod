@@ -2,10 +2,10 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Neuvillette.Characters.Base;
 using Neuvillette.Characters.Neuvillette.Powers;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Rooms;
 
 namespace Neuvillette.Characters.Neuvillette.Relics;
@@ -49,7 +49,7 @@ public sealed class StoppedPocketWatch : BaseRelic
         var totalSurge = 4m + livingWaterAmount;
 
         await CreatureCmd.Heal(creature, totalSurge);
-        await PowerCmd.Apply<SurgePower>(new ThrowingPlayerChoiceContext(), creature, totalSurge, creature, null);
+        await PowerCmd.Apply<SurgePower>(choiceContext, creature, totalSurge, creature, null);
     }
 
     public override Task AfterCombatEnd(CombatRoom room)

@@ -1,0 +1,9 @@
+{
+  "neuvillette.settings.page.title": "Neuvillette",
+  "neuvillette.settings.section.act4.title": "第4幕",
+  "neuvillette.settings.act4.enabled.label": "第4幕を有効にする",
+  "neuvillette.settings.act4.enabled.description": "有効にすると、第3幕の後に第4幕へ進む。無効にすると、第3幕終了時にランを終了する。",
+  "neuvillette.settings.section.multiplayer_court.title": "マルチプレイ提出",
+  "neuvillette.settings.multiplayer_court.enabled.label": "マルチプレイで提出カードを有効にする",
+  "neuvillette.settings.multiplayer_court.enabled.description": "有効にすると、提出関連のカードがマルチプレイに出現する。無効（デフォルト）の場合、これらのカードはマルチプレイで除外される。"
+}

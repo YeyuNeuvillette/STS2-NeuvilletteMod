@@ -11,6 +11,10 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class CourtSession() : NeuvilletteCard(0, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        NeuvilletteSettingsStore.IsMultiplayerCourtEnabled()
+            ? CardMultiplayerConstraint.None
+            : CardMultiplayerConstraint.SingleplayerOnly;
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new PowerVar<CourtSessionPower>(1m)

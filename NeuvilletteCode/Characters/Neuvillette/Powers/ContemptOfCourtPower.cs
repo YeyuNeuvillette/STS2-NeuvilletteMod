@@ -14,12 +14,13 @@ public sealed class ContemptOfCourtPower : NeuvillettePower
 {
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
+    public override PowerInstanceType InstanceType => PowerInstanceType.InstancedPerApplier;
 
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         await base.AfterPowerAmountChanged(choiceContext, power, amount, applier, cardSource);
 
-        if (power is not SourcewaterDroplet || amount <= 0m)
+        if (power is not SourcewaterDroplet || Applier != null && power.Owner != Applier || amount <= 0m)
             return;
 
         Flash();

@@ -63,7 +63,7 @@
   "NEUVILLETTE_RELIC_INK_SPIRIT_GEL.description": "在你于一回合内造成至少{DamageThreshold:diff()}点伤害后，获得{SlipperyPower:diff()}层[gold]滑溜[/gold]。",
   "NEUVILLETTE_RELIC_INK_SPIRIT_GEL.flavor": "深海墨灵凝结的胶质，在战斗的狂热中流淌于身。",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.title": "仪式银铃",
-  "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "具有[gold]昏眩[/gold]时，你的卡牌具有[gold]重放[/gold]{Replay:diff()}。每{Interval:diff()}个回合开始时，获得[gold]昏眩[/gold]。",
+  "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "具有[gold]昏眩[/gold]时，具有[gold]昏眩[/gold]的卡牌获得[gold]重放[/gold]{Replay:diff()}。每{Interval:diff()}个回合开始时，获得[gold]昏眩[/gold]。",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "银铃轻响，余音不绝，在眩晕中回荡往复。",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "诡烛",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "在你抽{Cards:diff()}张牌后，从中选择1张自动打出。",

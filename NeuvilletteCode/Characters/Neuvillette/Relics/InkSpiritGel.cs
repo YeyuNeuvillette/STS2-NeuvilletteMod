@@ -59,7 +59,7 @@ public sealed class InkSpiritGel : BaseRelic
         {
             _triggeredThisTurn = true;
             Flash();
-            await PowerCmd.Apply<SlipperyPower>(new ThrowingPlayerChoiceContext(), Owner.Creature, 1m, Owner.Creature, null);
+            await PowerCmd.Apply<SlipperyPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, null);
         }
     }
 

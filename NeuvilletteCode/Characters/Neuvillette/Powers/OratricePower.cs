@@ -25,7 +25,7 @@ public sealed class OratricePower : NeuvillettePower
 
         while (Amount >= 100m)
         {
-            await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), this, -100m, null, null);
+            await PowerCmd.ModifyAmount(choiceContext, this, -100m, null, null);
 
             var player = Owner?.Player;
             if (player == null || CombatState == null)

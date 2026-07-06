@@ -41,9 +41,8 @@ public sealed class WarmCurrent() : NeuvilletteCard(1, CardType.Attack, CardRari
 
         foreach (var sticker in stickerCards)
         {
-            var copy = Owner?.RunState?.CloneCard(sticker);
-            if (copy != null)
-                await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, Owner);
+            var copy = sticker.CreateClone();
+            await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, Owner);
         }
     }
 

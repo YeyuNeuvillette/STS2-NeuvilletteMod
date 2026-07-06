@@ -14,6 +14,10 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class ThousandFingersPointing() : NeuvilletteCard(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
 {
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        NeuvilletteSettingsStore.IsMultiplayerCourtEnabled()
+            ? CardMultiplayerConstraint.None
+            : CardMultiplayerConstraint.SingleplayerOnly;
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Submit];
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

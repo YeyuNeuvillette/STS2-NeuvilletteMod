@@ -126,7 +126,7 @@ public sealed class DefensePower : NeuvillettePower
                 var selfDefensePower = Owner.GetPower<DefensePower>();
                 if (selfDefensePower != null)
                 {
-                    await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), selfDefensePower, -1m, null, null);
+                    await PowerCmd.ModifyAmount(choiceContext, selfDefensePower, -1m, null, null);
                     GD.Print($"[DefensePower] AfterPowerAmountChanged: removed 1 layer from DefensePower");
                 }
                 
