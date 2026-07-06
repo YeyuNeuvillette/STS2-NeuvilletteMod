@@ -67,5 +67,6 @@
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "銀鈴が軽やかに鳴り、余韴が絶えず、眩暈の中で反響し続ける。",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "詭燭",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "{Cards:diff()}枚のカードをドローした後、その中から1枚を選んで自動プレイする。",
-  "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "燭火が揺らめく間、運命の糸は静かに操られる。"
+  "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "燭火が揺らめく間、運命の糸は静かに操られる。",
+  "SEA_GLASS.NEUVILLETTE_CHARACTER_NEUVILLETTE.title": "淵海の海玻璃"
 }

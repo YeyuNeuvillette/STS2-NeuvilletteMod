@@ -67,5 +67,6 @@
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "银铃轻响，余音不绝，在眩晕中回荡往复。",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "诡烛",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "在你抽{Cards:diff()}张牌后，从中选择1张自动打出。",
-  "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "烛火摇曳间，命运的丝线已被悄然拨动。"
+  "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "烛火摇曳间，命运的丝线已被悄然拨动。",
+  "SEA_GLASS.NEUVILLETTE_CHARACTER_NEUVILLETTE.title": "渊海玻璃"
 }

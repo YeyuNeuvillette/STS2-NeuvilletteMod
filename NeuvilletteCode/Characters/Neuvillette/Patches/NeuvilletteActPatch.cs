@@ -42,8 +42,8 @@ public static class NeuvilletteActPatch
                 for (int c = 0; c < 7; c++) grid[c, r] = null!;
 
             SetPoint(grid, 3, 1, MapPointType.RestSite);
-            SetPoint(grid, 3, 2, MapPointType.Shop);
-            SetPoint(grid, 3, 3, MapPointType.Treasure);
+            SetPoint(grid, 3, 2, MapPointType.Treasure);
+            SetPoint(grid, 3, 3, MapPointType.Shop);
             SetPoint(grid, 3, 4, MapPointType.RestSite);
 
             __instance.StartingMapPoint.PointType = MapPointType.Ancient;

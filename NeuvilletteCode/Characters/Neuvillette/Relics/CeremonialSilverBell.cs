@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Rooms;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Neuvillette.Characters.Base;
 using MegaCrit.Sts2.Core.Models;
@@ -22,8 +23,9 @@ public sealed class CeremonialSilverBell : BaseRelic
     private const int ReplayAmount = 4;
     private const int RingingInterval = 3;
 
-    private bool _hasReplay;
     private int _turnsUntilRinging;
+    private readonly Dictionary<CardModel, Action> _afflictionHandlers = [];
+    private readonly HashSet<CardModel> _cardsWithReplay = [];
 
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
@@ -45,9 +47,18 @@ public sealed class CeremonialSilverBell : BaseRelic
 
     public override Task BeforeCombatStart()
     {
-        _hasReplay = false;
         _turnsUntilRinging = RingingInterval;
+        _afflictionHandlers.Clear();
+        _cardsWithReplay.Clear();
         InvokeDisplayAmountChanged();
+
+        var combatState = Owner?.PlayerCombatState;
+        if (combatState != null)
+        {
+            foreach (var card in combatState.AllCards)
+                SubscribeCard(card);
+        }
+
         return Task.CompletedTask;
     }
 
@@ -72,8 +83,6 @@ public sealed class CeremonialSilverBell : BaseRelic
 
         if (_turnsUntilRinging == 1)
             Flash();
-
-        UpdateReplay(creature);
     }
 
     public override Task AfterCardEnteredCombat(CardModel card)
@@ -81,64 +90,49 @@ public sealed class CeremonialSilverBell : BaseRelic
         if (card.Owner != Owner)
             return Task.CompletedTask;
 
-        if (!_hasReplay)
-            return Task.CompletedTask;
+        SubscribeCard(card);
+        return Task.CompletedTask;
+    }
+
+    public override Task AfterCombatEnd(CombatRoom room)
+    {
+        UnsubscribeAllCards();
+        return Task.CompletedTask;
+    }
+
+    private void SubscribeCard(CardModel card)
+    {
+        if (_afflictionHandlers.ContainsKey(card))
+            return;
+
+        Action handler = () => OnCardAfflictionChanged(card);
+        _afflictionHandlers[card] = handler;
+        card.AfflictionChanged += handler;
 
         if (card.Affliction is Ringing)
+        {
             card.BaseReplayCount += ReplayAmount;
-
-        return Task.CompletedTask;
-    }
-
-    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
-    {
-        if (side != Owner.Creature.Side)
-            return Task.CompletedTask;
-
-        if (_hasReplay)
-        {
-            RemoveReplayFromAllCards();
-            _hasReplay = false;
-        }
-
-        return Task.CompletedTask;
-    }
-
-    private void UpdateReplay(Creature creature)
-    {
-        bool hasRinging = creature.HasPower<RingingPower>();
-
-        if (hasRinging && !_hasReplay)
-        {
-            AddReplayToAllCards();
-            _hasReplay = true;
-        }
-        else if (!hasRinging && _hasReplay)
-        {
-            RemoveReplayFromAllCards();
-            _hasReplay = false;
+            _cardsWithReplay.Add(card);
         }
     }
 
-    private void AddReplayToAllCards()
+    private void UnsubscribeAllCards()
     {
-        var combatState = Owner?.PlayerCombatState;
-        if (combatState == null) return;
-        foreach (var card in combatState.AllCards)
+        foreach (var (card, handler) in _afflictionHandlers)
         {
-            if (card.Affliction is Ringing)
-                card.BaseReplayCount += ReplayAmount;
-        }
-    }
-
-    private void RemoveReplayFromAllCards()
-    {
-        var combatState = Owner?.PlayerCombatState;
-        if (combatState == null) return;
-        foreach (var card in combatState.AllCards)
-        {
-            if (card.Affliction is Ringing)
+            card.AfflictionChanged -= handler;
+            if (_cardsWithReplay.Contains(card))
                 card.BaseReplayCount -= ReplayAmount;
         }
+        _afflictionHandlers.Clear();
+        _cardsWithReplay.Clear();
+    }
+
+    private void OnCardAfflictionChanged(CardModel card)
+    {
+        if (card.Affliction is Ringing && _cardsWithReplay.Add(card))
+            card.BaseReplayCount += ReplayAmount;
+        else if (card.Affliction is not Ringing && _cardsWithReplay.Remove(card))
+            card.BaseReplayCount -= ReplayAmount;
     }
 }

@@ -67,5 +67,6 @@
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "The silver bell chimes softly, its echo lingering, reverberating endlessly through the dizziness.",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "Guile Candle",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "After you draw {Cards:diff()} cards, choose 1 of them to auto-play.",
-  "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "The candle flickers, and the threads of fate are quietly pulled."
+  "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "The candle flickers, and the threads of fate are quietly pulled.",
+  "SEA_GLASS.NEUVILLETTE_CHARACTER_NEUVILLETTE.title": "Abyssal Sea Glass"
 }
