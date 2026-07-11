@@ -68,5 +68,13 @@
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "Guile Candle",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "After you draw {Cards:diff()} cards, choose 1 of them to auto-play.",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "The candle flickers, and the threads of fate are quietly pulled.",
+  "NEUVILLETTE_RELIC_TIME_SANDGLASS.title": "Time Sandglass",
+  "NEUVILLETTE_RELIC_TIME_SANDGLASS.description": "At the end of your non-extra turn, take an extra turn. After you play 6 cards, end your turn.",
+  "NEUVILLETTE_RELIC_TIME_SANDGLASS.flavor": "The sandglass flips, time flows backward, but the grains will eventually run out.",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.title": "Demon Knowledge",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.description": "You can right-click this relic to choose 1 of 2 random affordable cards to add to your hand. After 13 uses, this relic will no longer respond to you.",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.flavor": "The forbidden tome whispers; with but a touch, you may glimpse unknown possibilities.",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.dialogue": "[sine]It is done.[/sine]",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.dialogue_exhausted": "[jitter][red]Still not satisfied?[/red][/jitter]",
   "SEA_GLASS.NEUVILLETTE_CHARACTER_NEUVILLETTE.title": "Abyssal Sea Glass"
 }

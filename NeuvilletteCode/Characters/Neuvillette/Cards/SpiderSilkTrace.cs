@@ -9,6 +9,8 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class SpiderSilkTrace() : SubmitCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
+    [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
+    protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Submit];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

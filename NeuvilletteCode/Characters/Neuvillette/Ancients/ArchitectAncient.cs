@@ -31,6 +31,8 @@ public class ArchitectAncient : ModAncientEventTemplate
 
     public override IEnumerable<EventOption> AllPossibleOptions =>
     [
+        CreateModRelicOption<TimeSandglass>(),
+        CreateModRelicOption<DemonKnowledge>(),
         CreateModRelicOption<InjectReagent>(),
         CreateModRelicOption<GuileCandle>(),
         CreateModRelicOption<BottledSandCavern>(),
@@ -44,12 +46,14 @@ public class ArchitectAncient : ModAncientEventTemplate
     {
         var pool1 = new WeightedList<EventOption>
         {
+            { CreateModRelicOption<TimeSandglass>(), 1 },
             { CreateModRelicOption<InjectReagent>(), 1 },
             { CreateModRelicOption<GuileCandle>(), 1 },
         };
 
         var pool2 = new WeightedList<EventOption>
         {
+            { CreateModRelicOption<DemonKnowledge>(), 1 },
             { CreateModRelicOption<BottledSandCavern>(), 1 },
             { CreateModRelicOption<CrabShellShield>(), 1 },
         };

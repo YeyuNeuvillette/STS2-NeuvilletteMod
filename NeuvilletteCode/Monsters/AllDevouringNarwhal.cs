@@ -473,11 +473,15 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         await CreatureCmd.Stun(Creature, "ATTACK_WITH_APPETITE");
     }
 
-    public void RecordDevouredCard(CardModel card, decimal originalBaseDamage)
+    public void RecordDevouredCard(CardModel card, decimal reductionAmount)
     {
         if (!_devouredCards.ContainsKey(card))
         {
-            _devouredCards[card] = originalBaseDamage;
+            _devouredCards[card] = reductionAmount;
+        }
+        else
+        {
+            _devouredCards[card] += reductionAmount;
         }
     }
 

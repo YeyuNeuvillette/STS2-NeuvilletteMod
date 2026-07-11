@@ -68,5 +68,13 @@
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "詭燭",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "{Cards:diff()}枚のカードをドローした後、その中から1枚を選んで自動プレイする。",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "燭火が揺らめく間、運命の糸は静かに操られる。",
+  "NEUVILLETTE_RELIC_TIME_SANDGLASS.title": "時の砂時計",
+  "NEUVILLETTE_RELIC_TIME_SANDGLASS.description": "追加ターンでない自分のターン終了時、追加ターンを得る。6枚のカードをプレイした後、自分のターンを終了する。",
+  "NEUVILLETTE_RELIC_TIME_SANDGLASS.flavor": "砂時計が反転し、時は逆流するが、砂粒にはいつか尽きる時が来る。",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.title": "悪魔の知識",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.description": "この遺物を右クリックし、使用可能なランダムなカード2枚から1枚を選んで手札に加える。13回使用後、この遺物はもう応答しなくなります。",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.flavor": "禁忌の典籍が囁きかける、一度触れるだけで、未知の可能性を垣間見ることができる。",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.dialogue": "[sine]事、成れり。[/sine]",
+  "NEUVILLETTE_RELIC_DEMON_KNOWLEDGE.dialogue_exhausted": "[jitter][red]まだ足りぬというのか？[/red][/jitter]",
   "SEA_GLASS.NEUVILLETTE_CHARACTER_NEUVILLETTE.title": "淵海の海玻璃"
 }

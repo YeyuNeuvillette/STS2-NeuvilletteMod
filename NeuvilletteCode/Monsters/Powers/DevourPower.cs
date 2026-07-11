@@ -59,7 +59,7 @@ public sealed class DevourPower : NeuvillettePower
                 var narwhal = Owner.Monster as AllDevouringNarwhal;
                 if (narwhal != null)
                 {
-                    narwhal.RecordDevouredCard(cardSource, damageVar.BaseValue);
+                    narwhal.RecordDevouredCard(cardSource, bonusAmount);
                 }
                 damageVar.BaseValue -= bonusAmount;
             }
