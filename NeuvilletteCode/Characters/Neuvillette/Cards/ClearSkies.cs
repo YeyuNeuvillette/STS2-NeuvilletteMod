@@ -10,7 +10,7 @@ using Neuvillette.Characters.Neuvillette.Powers;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-public sealed class ClearSkies() : NeuvilletteCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public sealed class ClearSkies() : NeuvilletteCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Surge];

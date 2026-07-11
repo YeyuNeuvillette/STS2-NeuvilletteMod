@@ -20,7 +20,7 @@ public sealed class PartingGift() : NeuvilletteCard(2, CardType.Skill, CardRarit
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(11m, ValueProp.Move),
+        new BlockVar(12m, ValueProp.Move),
         new CardsVar("Cards", 1)
     ];
 
@@ -48,7 +48,6 @@ public sealed class PartingGift() : NeuvilletteCard(2, CardType.Skill, CardRarit
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(4m);
-        DynamicVars["Cards"].UpgradeValueBy(1m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

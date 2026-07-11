@@ -24,6 +24,6 @@ public sealed class WaterTight() : NeuvilletteCard(2, CardType.Power, CardRarity
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        AddKeyword(CardKeyword.Retain);
     }
 }

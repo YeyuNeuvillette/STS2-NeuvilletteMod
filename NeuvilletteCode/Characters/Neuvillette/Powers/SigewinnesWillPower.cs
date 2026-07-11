@@ -14,7 +14,7 @@ namespace Neuvillette.Characters.Neuvillette.Powers;
 [RegisterPower]
 public sealed class SigewinnesWillPower : NeuvillettePower
 {
-    private const int TriggerCount = 9;
+    private const int TriggerCount = 10;
     private int cardsPlayed;
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
     public override int DisplayAmount => TriggerCount - cardsPlayed;

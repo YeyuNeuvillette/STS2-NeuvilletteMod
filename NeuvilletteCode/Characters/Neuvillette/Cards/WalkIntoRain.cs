@@ -16,10 +16,10 @@ public sealed class WalkIntoRain() : SurgeCard(2, CardType.Skill, CardRarity.Com
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         base.CanonicalVars.Concat([
-            new BlockVar(8m, ValueProp.Move)
+            new BlockVar(7m, ValueProp.Move)
         ]);
 
-    protected override int BaseSurgeValue => 6;
+    protected override int BaseSurgeValue => 5;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

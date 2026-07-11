@@ -12,6 +12,8 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class Admonition() : SurgeCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
+    [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
+    protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Surge];
     protected override int BaseSurgeValue => 3;
     protected override int UpgradeSurgeValue => 2;
 

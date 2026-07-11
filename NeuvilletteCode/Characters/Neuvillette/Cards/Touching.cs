@@ -8,7 +8,7 @@ using Neuvillette.Characters.Neuvillette.Powers;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-public sealed class Touching() : NeuvilletteCard(0, CardType.Skill, CardRarity.Common, TargetType.Self)
+public sealed class Touching() : NeuvilletteCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

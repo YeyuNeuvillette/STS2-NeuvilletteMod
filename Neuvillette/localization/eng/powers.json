@@ -47,7 +47,7 @@
   "NEUVILLETTE_POWER_GOOD_MORNING_POWER.description": "At the start of your turn, gain [gold]Melusine Sticker[/gold].",
   "NEUVILLETTE_POWER_GOOD_MORNING_POWER.smartDescription": "At the start of your turn, gain [blue]{Amount}[/blue] [gold]Melusine Sticker[/gold].",
   "NEUVILLETTE_POWER_SIGEWINNES_WILL_POWER.title": "Sigewinne's Will",
-  "NEUVILLETTE_POWER_SIGEWINNES_WILL_POWER.description": "Every 9 [gold]Melusine Sticker[/gold] you play, gain 1 Sigewinne Sticker.",
+  "NEUVILLETTE_POWER_SIGEWINNES_WILL_POWER.description": "Every 10 [gold]Melusine Sticker[/gold] you play, gain 1 Sigewinne Sticker.",
   "NEUVILLETTE_POWER_COURT_SESSION_POWER.title": "Court Session",
   "NEUVILLETTE_POWER_COURT_SESSION_POWER.description": "Cards you play will be [gold]Submitted[/gold].",
   "NEUVILLETTE_POWER_COURT_SESSION_POWER.smartDescription": "The next [blue]{Amount}[/blue] card(s) you play will be [gold]Submitted[/gold].",

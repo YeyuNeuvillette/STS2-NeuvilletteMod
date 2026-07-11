@@ -47,7 +47,7 @@
   "NEUVILLETTE_POWER_GOOD_MORNING_POWER.description": "在你的回合开始时，获得[gold]美露莘贴纸[/gold]。",
   "NEUVILLETTE_POWER_GOOD_MORNING_POWER.smartDescription": "在你的回合开始时，获得[blue]{Amount}[/blue]张[gold]美露莘贴纸[/gold]。",
   "NEUVILLETTE_POWER_SIGEWINNES_WILL_POWER.title": "希格雯的心意",
-  "NEUVILLETTE_POWER_SIGEWINNES_WILL_POWER.description": "你每使用9张[gold]美露莘贴纸[/gold]，获得1张希格雯贴纸。",
+  "NEUVILLETTE_POWER_SIGEWINNES_WILL_POWER.description": "你每使用10张[gold]美露莘贴纸[/gold]，获得1张希格雯贴纸。",
   "NEUVILLETTE_POWER_COURT_SESSION_POWER.title": "开庭",
   "NEUVILLETTE_POWER_COURT_SESSION_POWER.description": "你打出的牌将被[gold]呈堂[/gold]。",
   "NEUVILLETTE_POWER_COURT_SESSION_POWER.smartDescription": "你打出的下[blue]{Amount}[/blue]张牌将被[gold]呈堂[/gold]。",

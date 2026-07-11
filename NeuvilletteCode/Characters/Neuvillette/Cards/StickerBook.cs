@@ -11,10 +11,8 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-public sealed class StickerBook() : NeuvilletteCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public sealed class StickerBook() : NeuvilletteCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        IsUpgraded ? [] : [CardKeyword.Exhaust];
 
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.MelusineSticker];
@@ -22,7 +20,7 @@ public sealed class StickerBook() : NeuvilletteCard(0, CardType.Skill, CardRarit
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new CardsVar(1),
-        new DynamicVar("DrawAmount", 1m)
+        new DynamicVar("DrawAmount", 2m)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -35,7 +33,7 @@ public sealed class StickerBook() : NeuvilletteCard(0, CardType.Skill, CardRarit
                 .Where(card => MelusineCardPool.GetAvailableCardsForCombat((CombatState)combatState).Any(available => available.GetType() == card.GetType()))
                 .ToList();
 
-            var stickerCount = IsUpgraded ? 2 : 1;
+            var stickerCount = 1;
             var stickers = CardFactory.GetForCombat(Owner, availableStickerCards, stickerCount, Owner.RunState.Rng.CombatCardGeneration);
             foreach (var sticker in stickers)
             {
@@ -49,7 +47,6 @@ public sealed class StickerBook() : NeuvilletteCard(0, CardType.Skill, CardRarit
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Cards.UpgradeValueBy(1m);
         DynamicVars["DrawAmount"].UpgradeValueBy(1m);
     }
 }

@@ -47,7 +47,7 @@
   "NEUVILLETTE_POWER_GOOD_MORNING_POWER.description": "ターン開始時、[gold]メリュジーヌシール[/gold]を得る。",
   "NEUVILLETTE_POWER_GOOD_MORNING_POWER.smartDescription": "ターン開始時、[gold]メリュジーヌシール[/gold]を[blue]{Amount}[/blue]枚得る。",
   "NEUVILLETTE_POWER_SIGEWINNES_WILL_POWER.title": "シグウィンの心意",
-  "NEUVILLETTE_POWER_SIGEWINNES_WILL_POWER.description": "[gold]メリュジーヌシール[/gold]を9枚プレイするごとに、シグウィンシールを1枚得る。",
+  "NEUVILLETTE_POWER_SIGEWINNES_WILL_POWER.description": "[gold]メリュジーヌシール[/gold]を10枚プレイするごとに、シグウィンシールを1枚得る。",
   "NEUVILLETTE_POWER_COURT_SESSION_POWER.title": "開廷",
   "NEUVILLETTE_POWER_COURT_SESSION_POWER.description": "プレイするカードが[gold]提出[/gold]される。",
   "NEUVILLETTE_POWER_COURT_SESSION_POWER.smartDescription": "次にプレイする[blue]{Amount}[/blue]枚のカードが[gold]提出[/gold]される。",

@@ -30,6 +30,6 @@ public sealed class AssistArrest() : NeuvilletteCard(3, CardType.Power, CardRari
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        AddKeyword(CardKeyword.Retain);
     }
 }
