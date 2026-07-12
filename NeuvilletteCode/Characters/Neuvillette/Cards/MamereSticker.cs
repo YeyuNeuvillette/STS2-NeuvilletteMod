@@ -15,11 +15,11 @@ public sealed class MamereSticker() : MelusineStickerCard(TargetType.Self)
     public override int MaxUpgradeLevel => 0;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var cards = CardFactory.GetDistinctForCombat(
+        var cards = CardFactory.GetForCombat(
             Owner,
             ModelDb.CardPool<ColorlessCardPool>().GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint),
             1,
-            Owner.RunState.Rng.CombatCardGeneration).ToList();
+            Owner.RunState.Rng.CombatCardGeneration);
 
         foreach (var card in cards)
             await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner);

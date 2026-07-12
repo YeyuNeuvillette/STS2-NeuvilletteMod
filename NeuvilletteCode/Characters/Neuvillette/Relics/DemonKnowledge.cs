@@ -57,10 +57,6 @@ public sealed class DemonKnowledge : BaseRelic, IModRightClickableRelic
             return;
         }
 
-        Flash();
-        DemonKnowledge_TotalUses++;
-        InvokeDisplayAmountChanged();
-
         var cardPool = base.Owner.Character.CardPool.GetUnlockedCards(base.Owner.UnlockState, base.Owner.RunState.CardMultiplayerConstraint).ToList();
         List<CardModel> allCards = CardFactory.GetDistinctForCombat(base.Owner, cardPool, cardPool.Count, base.Owner.RunState.Rng.CombatCardGeneration).ToList();
         List<CardModel> affordable = allCards.Where(CanAfford).ToList();
@@ -75,7 +71,11 @@ public sealed class DemonKnowledge : BaseRelic, IModRightClickableRelic
             ? affordable
             : ShuffleTake(affordable, 2);
 
+        Flash();
         CardModel? selected = await CardSelectCmd.FromChooseACardScreen(context.PlayerChoiceContext!, choices, base.Owner, canSkip: true);
+
+        DemonKnowledge_TotalUses++;
+        InvokeDisplayAmountChanged();
 
         if (selected != null)
         {
