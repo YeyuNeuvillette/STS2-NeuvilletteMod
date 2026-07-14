@@ -39,9 +39,25 @@ public partial class MainFile : Node
         RegisterSettingsPage();
         NeuvilletteTelemetry.Register();
 
+        RitsuLibFramework.SubscribeLifecycle<RunStartedEvent>(OnRunStarted);
+        RitsuLibFramework.SubscribeLifecycle<RunLoadedEvent>(OnRunLoaded);
+
         QueueNeuvilletteFmodAfterDeferredInitialization();
 
         Logger.Info("Neuvillette mod initialized successfully");
+    }
+
+    private static void OnRunStarted(RunStartedEvent e)
+    {
+        NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
+    }
+
+    private static void OnRunLoaded(RunLoadedEvent e)
+    {
+        if (!e.IsMultiplayer)
+            NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
+        else if (!NeuvilletteSettingsStore.HasSyncedSettings(e.RunState))
+            NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
     }
 
     private static void RegisterSettingsPage()

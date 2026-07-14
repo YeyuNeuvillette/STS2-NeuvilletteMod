@@ -33,7 +33,7 @@ public sealed class StickerBook() : NeuvilletteCard(1, CardType.Skill, CardRarit
                 .Where(card => MelusineCardPool.GetAvailableCardsForCombat((CombatState)combatState).Any(available => available.GetType() == card.GetType()))
                 .ToList();
 
-            var stickerCount = 1;
+            var stickerCount = (int)DynamicVars.Cards.BaseValue;
             var stickers = CardFactory.GetForCombat(Owner, availableStickerCards, stickerCount, Owner.RunState.Rng.CombatCardGeneration);
             foreach (var sticker in stickers)
             {
@@ -47,6 +47,6 @@ public sealed class StickerBook() : NeuvilletteCard(1, CardType.Skill, CardRarit
 
     protected override void OnUpgrade()
     {
-        DynamicVars["DrawAmount"].UpgradeValueBy(1m);
+        DynamicVars.Cards.UpgradeValueBy(1m);
     }
 }

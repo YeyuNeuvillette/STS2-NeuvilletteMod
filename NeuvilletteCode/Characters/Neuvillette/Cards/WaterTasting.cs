@@ -23,6 +23,6 @@ public sealed class WaterTasting() : NeuvilletteCard(1, CardType.Power, CardRari
 
     protected override void OnUpgrade()
     {
-        DynamicVars.MaxHp.UpgradeValueBy(1m);
+        AddKeyword(CardKeyword.Retain);
     }
 }

@@ -23,7 +23,7 @@ public sealed class Tsunami() : NeuvilletteCard(3, CardType.Skill, CardRarity.Ra
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var surgePercentage = IsUpgraded ? 0.75m : 0.5m;
+        var surgePercentage = IsUpgraded ? 0.5m : 0.35m;
         var surgeValue = Owner.Creature.MaxHp * surgePercentage;
         var livingWaterAmount = Owner.Creature.GetPowerAmount<LivingWaterPower>();
         var totalSurge = surgeValue + livingWaterAmount;
