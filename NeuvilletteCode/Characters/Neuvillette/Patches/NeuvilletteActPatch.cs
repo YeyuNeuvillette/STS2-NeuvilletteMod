@@ -124,16 +124,6 @@ public static class NeuvilletteActPatch
 
         _shouldEnterAct4 = runState.Players.All(p => p.GetRelic<NarzissenkreuzSword>() != null);
 
-        if (_shouldEnterAct4)
-        {
-            var me = LocalContext.GetMe(runState);
-            var mySword = me?.GetRelic<NarzissenkreuzSword>();
-            if (mySword != null)
-            {
-                TaskHelper.RunSafely(RelicCmd.Remove(mySword));
-            }
-        }
-
         RunManager.Instance.ActChangeSynchronizer.SetLocalPlayerReady();
         return false;
     }

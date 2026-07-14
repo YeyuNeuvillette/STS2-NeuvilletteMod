@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using STS2RitsuLib.Interactions.RightClick;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -29,6 +31,9 @@ public sealed class ExoticFishSashimi : BaseRelic, IModRightClickableRelic
 
     public override int DisplayAmount => MaxTotalUses - ExoticFishSashimi_TotalUses;
 
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new List<DynamicVar> { new DynamicVar("Uses", MaxTotalUses) };
+
     [SavedProperty]
     public bool IsUsedUpProp
     {
@@ -51,6 +56,12 @@ public sealed class ExoticFishSashimi : BaseRelic, IModRightClickableRelic
         return true;
     }
 
+    public override Task BeforeCombatStart()
+    {
+        base.DynamicVars["Uses"].BaseValue = MaxTotalUses - ExoticFishSashimi_TotalUses;
+        return Task.CompletedTask;
+    }
+
     public async Task OnRightClick(ModRightClickExecutionContext context)
     {
         if (ExoticFishSashimi_TotalUses >= MaxTotalUses)
@@ -61,6 +72,7 @@ public sealed class ExoticFishSashimi : BaseRelic, IModRightClickableRelic
 
         Flash();
         ExoticFishSashimi_TotalUses++;
+        base.DynamicVars["Uses"].BaseValue = MaxTotalUses - ExoticFishSashimi_TotalUses;
         InvokeDisplayAmountChanged();
 
         await CreatureCmd.LoseMaxHp(context.PlayerChoiceContext!, ownerCreature, 6m, false);

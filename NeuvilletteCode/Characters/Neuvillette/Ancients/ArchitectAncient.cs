@@ -124,6 +124,9 @@ public class ArchitectAncient : ModAncientEventTemplate
         if (relicType == typeof(KindredFruitBasket)) return CreateModRelicOption<KindredFruitBasket>();
         if (relicType == typeof(InkSpiritGel)) return CreateModRelicOption<InkSpiritGel>();
         if (relicType == typeof(CeremonialSilverBell)) return CreateModRelicOption<CeremonialSilverBell>();
+        if (relicType == typeof(SleepingShell)) return CreateModRelicOption<SleepingShell>();
+        if (relicType == typeof(WaterfallBonsai)) return CreateModRelicOption<WaterfallBonsai>();
+        if (relicType == typeof(ExoticFishSashimi)) return CreateModRelicOption<ExoticFishSashimi>();
         return CreateModRelicOption<TimeSandglass>();
     }
 }

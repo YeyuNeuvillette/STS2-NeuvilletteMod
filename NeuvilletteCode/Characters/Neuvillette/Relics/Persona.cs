@@ -21,10 +21,11 @@ using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Neuvillette.Characters.Base;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 
 namespace Neuvillette.Characters.Neuvillette.Relics;
 
-[RegisterRelic(typeof(NeuvilletteRelicPool))]
+[RegisterRelic(typeof(SharedRelicPool))]
 public sealed class Persona : BaseRelic
 {
     private int _personaActIndex = -1;
@@ -111,6 +112,16 @@ public sealed class Persona : BaseRelic
     }
 
     private static readonly HashSet<uint> _buffedCreatures = new();
+
+    public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
+    {
+        var owner = Owner;
+        if (owner != null && participants.Contains(owner.Creature) && owner.PlayerCombatState is { TurnNumber: <= 1 })
+        {
+            Flash();
+            await PlayerCmd.GainEnergy(1m, owner);
+        }
+    }
 
     public override async Task BeforeCombatStart()
     {
