@@ -1,6 +1,10 @@
+using System.Linq;
 using HarmonyLib;
 using Godot;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Ascension;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Encounters;
@@ -17,6 +21,7 @@ using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using Neuvillette.Characters.Neuvillette.Ancients;
 using Neuvillette.Characters.Neuvillette.Act;
+using Neuvillette.Characters.Neuvillette.Relics;
 using Neuvillette.Monsters;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
@@ -99,6 +104,8 @@ public static class NeuvilletteActPatch
         }
     }
 
+    private static bool _shouldEnterAct4;
+
     [HarmonyPatch(typeof(NRewardsScreen), "ShowScreen")]
     [HarmonyPrefix]
     public static bool Prefix_ShowScreen(RewardsSet set, bool isTerminal, IRunState runState)
@@ -113,6 +120,18 @@ public static class NeuvilletteActPatch
         {
             TaskHelper.RunSafely(RunManager.Instance.ProceedFromTerminalRewardsScreen());
             return false;
+        }
+
+        _shouldEnterAct4 = runState.Players.All(p => p.GetRelic<NarzissenkreuzSword>() != null);
+
+        if (_shouldEnterAct4)
+        {
+            var me = LocalContext.GetMe(runState);
+            var mySword = me?.GetRelic<NarzissenkreuzSword>();
+            if (mySword != null)
+            {
+                TaskHelper.RunSafely(RelicCmd.Remove(mySword));
+            }
         }
 
         RunManager.Instance.ActChangeSynchronizer.SetLocalPlayerReady();
@@ -204,6 +223,21 @@ public static class NeuvilletteActPatch
             actIndex = 2;
         }
         return true;
+    }
+
+    [HarmonyPatch(typeof(RunManager), nameof(RunManager.EnterNextAct))]
+    [HarmonyPrefix]
+    public static void Prefix_EnterNextAct(RunManager __instance)
+    {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return;
+
+        var state = AccessTools.Property(typeof(RunManager), "State").GetValue(__instance) as RunState;
+        if (state == null || state.CurrentActIndex != 2) return;
+
+        if (_shouldEnterAct4) return;
+
+        var truncatedActs = state.Acts.Take(3).ToList();
+        AccessTools.Property(typeof(RunState), nameof(RunState.Acts)).SetValue(state, truncatedActs);
     }
 
     private static void SetPoint(MapPoint[,] grid, int col, int row, MapPointType type)

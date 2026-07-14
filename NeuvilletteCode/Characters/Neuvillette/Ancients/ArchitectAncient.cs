@@ -1,12 +1,13 @@
+using System;
 using System.Collections.Generic;
-using Godot;
 using MegaCrit.Sts2.Core.Events;
+using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.Models;
 using Neuvillette.Characters.Neuvillette.Act;
 using Neuvillette.Characters.Neuvillette.Relics;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
-using STS2RitsuLib.Utils;
-
+using Godot;
 
 namespace Neuvillette.Characters.Neuvillette.Ancients;
 
@@ -14,6 +15,41 @@ namespace Neuvillette.Characters.Neuvillette.Ancients;
 public class ArchitectAncient : ModAncientEventTemplate
 {
     private static readonly string IconBasePath = "res://Neuvillette/images/map/architect_ancient_icon";
+
+    private static readonly Dictionary<string, Type> BossToRelicType = new()
+    {
+        { "VANTOM_BOSS", typeof(InkSpiritGel) },
+        { "CEREMONIAL_BEAST_BOSS", typeof(CeremonialSilverBell) },
+        { "THE_KIN_BOSS", typeof(KindredFruitBasket) },
+        { "WATERFALL_GIANT_BOSS", typeof(WaterfallBonsai) },
+        { "SOUL_FYSH_BOSS", typeof(ExoticFishSashimi) },
+        { "LAGAVULIN_MATRIARCH_BOSS", typeof(SleepingShell) },
+        { "THE_INSATIABLE_BOSS", typeof(BottledSandCavern) },
+        { "KNOWLEDGE_DEMON_BOSS", typeof(DemonKnowledge) },
+        { "KAISER_CRAB_BOSS", typeof(CrabShellShield) },
+        { "QUEEN_BOSS", typeof(GuileCandle) },
+        { "TEST_SUBJECT_BOSS", typeof(InjectReagent) },
+        { "AEONGLASS_BOSS", typeof(TimeSandglass) },
+    };
+
+    private static readonly Type[][] ActRelicPools =
+    [
+        [typeof(KindredFruitBasket), typeof(CeremonialSilverBell), typeof(InkSpiritGel), typeof(SleepingShell), typeof(WaterfallBonsai), typeof(ExoticFishSashimi)],
+        [typeof(BottledSandCavern), typeof(DemonKnowledge), typeof(CrabShellShield)],
+        [typeof(GuileCandle), typeof(InjectReagent), typeof(TimeSandglass)],
+    ];
+
+    public static Type? GetRelicTypeForAct(int actIndex)
+    {
+        if (actIndex < 0 || actIndex >= ActRelicPools.Length)
+            return null;
+        return ActRelicPools[actIndex][0];
+    }
+
+    public static Type? GetRelicTypeForBoss(string bossEntry)
+    {
+        return BossToRelicType.GetValueOrDefault(bossEntry);
+    }
 
     public override EventAssetProfile AssetProfile => new(
         BackgroundScenePath: "res://Neuvillette/scenes/ancients/architect_ancient.tscn"
@@ -40,36 +76,54 @@ public class ArchitectAncient : ModAncientEventTemplate
         CreateModRelicOption<KindredFruitBasket>(),
         CreateModRelicOption<InkSpiritGel>(),
         CreateModRelicOption<CeremonialSilverBell>(),
+        CreateModRelicOption<SleepingShell>(),
+        CreateModRelicOption<WaterfallBonsai>(),
+        CreateModRelicOption<ExoticFishSashimi>(),
     ];
 
     protected override IReadOnlyList<EventOption> GenerateInitialOptions()
     {
-        var pool1 = new WeightedList<EventOption>
-        {
-            { CreateModRelicOption<TimeSandglass>(), 1 },
-            { CreateModRelicOption<InjectReagent>(), 1 },
-            { CreateModRelicOption<GuileCandle>(), 1 },
-        };
+        var acts = Owner?.RunState.Acts;
+        var options = new List<EventOption>();
 
-        var pool2 = new WeightedList<EventOption>
+        for (int i = Math.Min(2, (acts?.Count ?? 0) - 1); i >= 0; i--)
         {
-            { CreateModRelicOption<DemonKnowledge>(), 1 },
-            { CreateModRelicOption<BottledSandCavern>(), 1 },
-            { CreateModRelicOption<CrabShellShield>(), 1 },
-        };
+            var bossEntry = acts![i].BossEncounter?.Id.Entry;
+            if (bossEntry != null && BossToRelicType.TryGetValue(bossEntry, out var relicType))
+            {
+                options.Add(CreateRelicOptionByType(relicType));
+            }
+            else if (i < ActRelicPools.Length)
+            {
+                var pool = ActRelicPools[i];
+                var fallbackType = pool[Rng.NextInt(pool.Length)];
+                options.Add(CreateRelicOptionByType(fallbackType));
+            }
+            else
+            {
+                options.Add(CreateModRelicOption<TimeSandglass>());
+            }
+        }
 
-        var pool3 = new WeightedList<EventOption>
+        while (options.Count < 3)
         {
-            { CreateModRelicOption<KindredFruitBasket>(), 1 },
-            { CreateModRelicOption<InkSpiritGel>(), 1 },
-            { CreateModRelicOption<CeremonialSilverBell>(), 1 },
-        };
+            options.Add(CreateModRelicOption<TimeSandglass>());
+        }
 
-        return
-        [
-            pool1.GetRandom(Rng),
-            pool2.GetRandom(Rng),
-            pool3.GetRandom(Rng),
-        ];
+        return options;
+    }
+
+    private EventOption CreateRelicOptionByType(Type relicType)
+    {
+        if (relicType == typeof(TimeSandglass)) return CreateModRelicOption<TimeSandglass>();
+        if (relicType == typeof(DemonKnowledge)) return CreateModRelicOption<DemonKnowledge>();
+        if (relicType == typeof(InjectReagent)) return CreateModRelicOption<InjectReagent>();
+        if (relicType == typeof(GuileCandle)) return CreateModRelicOption<GuileCandle>();
+        if (relicType == typeof(BottledSandCavern)) return CreateModRelicOption<BottledSandCavern>();
+        if (relicType == typeof(CrabShellShield)) return CreateModRelicOption<CrabShellShield>();
+        if (relicType == typeof(KindredFruitBasket)) return CreateModRelicOption<KindredFruitBasket>();
+        if (relicType == typeof(InkSpiritGel)) return CreateModRelicOption<InkSpiritGel>();
+        if (relicType == typeof(CeremonialSilverBell)) return CreateModRelicOption<CeremonialSilverBell>();
+        return CreateModRelicOption<TimeSandglass>();
     }
 }
