@@ -81,6 +81,17 @@ public sealed class Persona : BaseRelic
             MarkedEliteCoordSet = false;
         }
 
+        var existingMark = map.GetAllMapPoints()
+            .FirstOrDefault(p => p.Quests.Any(q => q is Persona));
+        if (existingMark != null)
+        {
+            MarkedEliteCol = existingMark.coord.col;
+            MarkedEliteRow = existingMark.coord.row;
+            MarkedEliteCoordSet = true;
+            existingMark.AddQuest(this);
+            return map;
+        }
+
         var rng = new Rng(Owner!, Id);
         var candidates = map.GetAllMapPoints()
             .Where(p => p.PointType == MapPointType.Elite && !p.Quests.Any(q => q is Persona))

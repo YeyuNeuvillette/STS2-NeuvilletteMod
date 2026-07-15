@@ -54,6 +54,10 @@ internal static class NeuvilletteSettingsStore
 
     public static bool IsAct4Enabled()
     {
+        var runState = RunManager.Instance.DebugOnlyGetState();
+        if (runState != null && RunSavedSettings.TryGet(runState, out var synced))
+            return synced.Act4Enabled;
+
         return _cache?.Value.Act4Enabled ?? true;
     }
 

@@ -22,6 +22,34 @@ using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
+[HarmonyPatch(typeof(RoomFullOfCheese), "IsAllowed")]
+public static class RoomFullOfCheeseIsAllowedPatch
+{
+    [HarmonyPrefix]
+    public static bool Prefix(RoomFullOfCheese __instance, IRunState runState, ref bool __result)
+    {
+        if (runState.CurrentActIndex >= 2)
+        {
+            __result = false;
+            return false;
+        }
+
+        foreach (var player in runState.Players)
+        {
+            if (player.Character?.Id.Entry == "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+            {
+                if (player.Creature.CurrentHp <= 14 && player.Gold <= 100)
+                {
+                    __result = false;
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
+
 [HarmonyPatch(typeof(RoomFullOfCheese), "GenerateInitialOptions")]
 public static class RoomFullOfCheesePatch
 {
