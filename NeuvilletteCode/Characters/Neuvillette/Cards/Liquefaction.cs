@@ -37,7 +37,7 @@ public sealed class Liquefaction() : NeuvilletteCard(1, CardType.Attack, CardRar
 
         if (blockAmount > 0)
         {
-            await CreatureCmd.LoseBlock(Owner.Creature, blockAmount);
+            await CreatureCmd.LoseBlock(choiceContext, Owner.Creature, blockAmount, null);
         }
 
         if (totalSurge > 0)

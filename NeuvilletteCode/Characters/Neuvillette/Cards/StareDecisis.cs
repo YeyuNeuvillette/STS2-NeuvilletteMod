@@ -36,7 +36,7 @@ public sealed class StareDecisis() : NeuvilletteCard(2, CardType.Attack, CardRar
             !e.CardPlay.Card.IsDupe)?.CardPlay.Card;
 
         if (firstOtherAttackCard != null)
-            await CardCmd.AutoPlay(choiceContext, firstOtherAttackCard.CreateDupe(), cardPlay.Target);
+            await CardCmd.AutoPlay(choiceContext, firstOtherAttackCard.CreateDupe(Owner), cardPlay.Target);
     }
 
     protected override void OnUpgrade()

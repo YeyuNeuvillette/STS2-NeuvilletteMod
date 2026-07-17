@@ -24,7 +24,7 @@ public sealed class TalochardSticker() : MelusineStickerCard(TargetType.AnyEnemy
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        await CreatureCmd.LoseBlock(cardPlay.Target, cardPlay.Target.Block);
+        await CreatureCmd.LoseBlock(choiceContext, cardPlay.Target, cardPlay.Target.Block, Owner.Creature);
         if (cardPlay.Target.HasPower<ArtifactPower>())
             await PowerCmd.Remove<ArtifactPower>(cardPlay.Target);
 

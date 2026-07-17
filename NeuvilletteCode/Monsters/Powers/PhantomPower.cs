@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using Neuvillette.Characters.Neuvillette.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -19,11 +20,11 @@ public sealed class PhantomPower : NeuvillettePower
         return false;
     }
 
-    public override async Task AfterBlockBroken(Creature creature)
+    public override async Task AfterBlockBroken(PlayerChoiceContext choiceContext, Creature target, Creature? breaker)
     {
-        if (creature == Owner)
+        if (target == Owner)
         {
-            var narwhal = creature.Monster as AllDevouringNarwhal;
+            var narwhal = target.Monster as AllDevouringNarwhal;
             if (narwhal != null)
             {
                 await narwhal.ExitBelly();

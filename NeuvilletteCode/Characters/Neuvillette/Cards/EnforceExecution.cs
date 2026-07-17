@@ -22,7 +22,7 @@ public sealed class EnforceExecution() : NeuvilletteCard(1, CardType.Attack, Car
 
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-        await CreatureCmd.LoseBlock(cardPlay.Target, cardPlay.Target.Block);
+        await CreatureCmd.LoseBlock(choiceContext, cardPlay.Target, cardPlay.Target.Block, Owner.Creature);
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
