@@ -174,7 +174,7 @@
   "NEUVILLETTE_CARD_EXILE.title": "追放",
   "NEUVILLETTE_CARD_EXILE.description": "{IfUpgraded:show:選択して|ランダムに}[gold]手札[/gold]のカード1枚を[gold]山札[/gold]の一番下に置く。そのコストと同じ値の{energyPrefix:energyIcons(1)}を得る。",
   "NEUVILLETTE_CARD_COMPENSATION.title": "報償",
-  "NEUVILLETTE_CARD_COMPENSATION.description": "最大HPと現在HPの差が{IfUpgraded:show:4|6}ごとに、[gold]筋力[/gold]1を得る。{InCombat:\n（[gold]筋力[/gold]{StrengthAmount:diff()}を得る。）|}",
+  "NEUVILLETTE_CARD_COMPENSATION.description": "最大HPと現在HPの差が{IfUpgraded:show:5|6}ごとに、[gold]筋力[/gold]1を得る。{InCombat:\n（[gold]筋力[/gold]{StrengthAmount:diff()}を得る。）|}",
   "NEUVILLETTE_CARD_TRIVIAL_MATTERS.title": "些事",
   "NEUVILLETTE_CARD_TRIVIAL_MATTERS.description": "[gold]筋力[/gold]{StrengthPower:diff()}、[gold]活力[/gold]{VigorPower:diff()}、[gold]敏捷[/gold]{DexterityPower:diff()}、[gold]俊敏[/gold]{AgilityPower:diff()}を得る。",
   "NEUVILLETTE_CARD_LAMINAR_FLOW.title": "層流重波",

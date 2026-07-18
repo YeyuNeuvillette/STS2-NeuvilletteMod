@@ -14,6 +14,8 @@ namespace Neuvillette.Characters.Neuvillette.Patches;
 [HarmonyPatch]
 public static class FourQuadrantsLandPatch
 {
+    private const int StandardActCount = 3;
+
     private static MapCoord? _targetCoord;
     private static bool _hasSpawned;
 
@@ -24,17 +26,30 @@ public static class FourQuadrantsLandPatch
         var state = AccessTools.Property(typeof(RunManager), "State").GetValue(__instance) as RunState;
         if (state == null) return;
 
-        if (state.CurrentActIndex != 0)
+        var fqId = ModelDb.GetId<FourQuadrantsLand>();
+        _hasSpawned = state.VisitedEventIds.Contains(fqId);
+        if (_hasSpawned)
+        {
+            _targetCoord = null;
+            return;
+        }
+
+        int eligibleActCount = Math.Min(StandardActCount, state.Acts.Count);
+        if (eligibleActCount <= 0)
+            return;
+
+        var actRng = new Rng(state.Rng.Seed, "FourQuadrantsLandAct");
+        int targetActIndex = actRng.NextInt(eligibleActCount);
+        if (state.CurrentActIndex != targetActIndex)
         {
             _targetCoord = null;
             return;
         }
 
         _targetCoord = null;
-        _hasSpawned = false;
 
         var map = state.Map;
-        var rng = new Rng(state.Rng.Seed, "FourQuadrantsLand");
+        var rng = new Rng(state.Rng.Seed, $"FourQuadrantsLand:{targetActIndex}");
 
         var unknownPoints = map.GetAllMapPoints()
             .Where(p => p.PointType == MapPointType.Unknown && p.CanBeModified)

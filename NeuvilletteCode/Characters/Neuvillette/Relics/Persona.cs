@@ -28,6 +28,15 @@ namespace Neuvillette.Characters.Neuvillette.Relics;
 [RegisterRelic(typeof(SharedRelicPool))]
 public sealed class Persona : BaseRelic
 {
+    private enum EliteEnhancement
+    {
+        None,
+        Artifact,
+        Plating,
+    }
+
+    private const int StandardActCount = 3;
+
     private int _personaActIndex = -1;
 
     public override RelicRarity Rarity => RelicRarity.Ancient;
@@ -44,85 +53,99 @@ public sealed class Persona : BaseRelic
     }
 
     [SavedProperty]
-    private int MarkedEliteCol { get; set; } = -1;
-
-    [SavedProperty]
-    private int MarkedEliteRow { get; set; } = -1;
-
-    [SavedProperty]
-    private bool MarkedEliteCoordSet { get; set; }
+    private bool MarkedEliteCompleted { get; set; }
 
     public override Task AfterObtained()
     {
         PersonaActIndex = Owner!.RunState.CurrentActIndex;
+        MarkedEliteCompleted = false;
+        MarkEliteRoom(
+            Owner.RunState,
+            Owner.RunState.Map,
+            PersonaActIndex,
+            Owner.RunState.CurrentMapCoord?.row ?? -1,
+            Owner.RunState.CurrentMapPoint);
         return Task.CompletedTask;
     }
 
     public override ActMap ModifyGeneratedMapLate(IRunState runState, ActMap map, int actIndex)
     {
-        if (PersonaActIndex < 0) return map;
-
-        int targetActIndex = PersonaActIndex + 1;
-        if (actIndex != targetActIndex) return map;
-
-        if (MarkedEliteCoordSet)
-        {
-            var coord = new MapCoord(MarkedEliteCol, MarkedEliteRow);
-            if (map.HasPoint(coord))
-            {
-                var point = map.GetPoint(coord);
-                if (point != null && (point.PointType == MapPointType.Elite || point.PointType == MapPointType.Monster))
-                {
-                    point.AddQuest(this);
-                    return map;
-                }
-            }
-
-            MarkedEliteCoordSet = false;
-        }
+        if (MarkedEliteCompleted
+            || PersonaActIndex < 0
+            || actIndex < PersonaActIndex
+            || actIndex >= StandardActCount)
+            return map;
 
         var existingMark = map.GetAllMapPoints()
             .FirstOrDefault(p => p.Quests.Any(q => q is Persona));
         if (existingMark != null)
         {
-            MarkedEliteCol = existingMark.coord.col;
-            MarkedEliteRow = existingMark.coord.row;
-            MarkedEliteCoordSet = true;
             existingMark.AddQuest(this);
             return map;
         }
 
-        var rng = new Rng(Owner!, Id);
+        int minimumRow = actIndex == PersonaActIndex
+            ? runState.CurrentMapCoord?.row ?? -1
+            : -1;
+        MapPoint? routeOrigin = actIndex == PersonaActIndex
+            ? runState.CurrentMapPoint
+            : null;
+        MarkEliteRoom(runState, map, actIndex, minimumRow, routeOrigin);
+        return map;
+    }
+
+    private void MarkEliteRoom(
+        IRunState runState,
+        ActMap map,
+        int actIndex,
+        int minimumRow,
+        MapPoint? routeOrigin)
+    {
+        if (actIndex < 0 || actIndex >= StandardActCount)
+            return;
+
+        HashSet<MapPoint>? reachablePoints = routeOrigin == null
+            ? null
+            : GetReachablePoints(routeOrigin);
+        var rng = new Rng(runState.Rng.Seed, $"PersonaElite:{actIndex}");
         var candidates = map.GetAllMapPoints()
-            .Where(p => p.PointType == MapPointType.Elite && !p.Quests.Any(q => q is Persona))
+            .Where(p => p.coord.row > minimumRow
+                && (reachablePoints == null || reachablePoints.Contains(p))
+                && p.PointType == MapPointType.Elite
+                && !p.Quests.Any(q => q is Persona))
             .ToList();
         candidates.UnstableShuffle(rng);
 
         var chosen = candidates.FirstOrDefault();
-        if (chosen == null) return map;
+        if (chosen == null)
+            return;
 
-        MarkedEliteCol = chosen.coord.col;
-        MarkedEliteRow = chosen.coord.row;
-        MarkedEliteCoordSet = true;
         chosen.AddQuest(this);
-
-        return map;
     }
 
-    private MapCoord? GetMarkedEliteCoord()
+    private static HashSet<MapPoint> GetReachablePoints(MapPoint origin)
     {
-        if (!MarkedEliteCoordSet) return null;
-        return new MapCoord(MarkedEliteCol, MarkedEliteRow);
+        var reachable = new HashSet<MapPoint>();
+        var pending = new Stack<MapPoint>(origin.Children);
+        while (pending.TryPop(out var point))
+        {
+            if (!reachable.Add(point))
+                continue;
+
+            foreach (var child in point.Children)
+                pending.Push(child);
+        }
+
+        return reachable;
     }
 
     private bool IsAtMarkedElite()
     {
-        var coord = GetMarkedEliteCoord();
-        if (coord == null) return false;
-        return Owner?.RunState.CurrentMapPoint?.coord == coord;
+        return Owner?.RunState.CurrentMapPoint?.Quests.Any(q => q is Persona) == true;
     }
 
     private static readonly HashSet<uint> _buffedCreatures = new();
+    private EliteEnhancement _activeEliteEnhancement;
 
     public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
@@ -146,12 +169,10 @@ public sealed class Persona : BaseRelic
             .ToList();
         if (unbuffedEnemies.Count == 0) return;
 
+        EnsureEliteEnhancementSelected();
         Flash();
         foreach (var enemy in unbuffedEnemies)
-        {
-            await PowerCmd.Apply<StrengthPower>(
-                new ThrowingPlayerChoiceContext(), enemy, 2m, null, null);
-        }
+            await ApplyEliteEnhancement(enemy);
     }
 
     public override async Task AfterCreatureAddedToCombat(Creature creature)
@@ -160,15 +181,44 @@ public sealed class Persona : BaseRelic
         if (!IsAtMarkedElite()) return;
         if (!creature.CombatId.HasValue || !_buffedCreatures.Add(creature.CombatId.Value)) return;
 
+        EnsureEliteEnhancementSelected();
         Flash();
-        await PowerCmd.Apply<StrengthPower>(
-            new ThrowingPlayerChoiceContext(), creature, 2m, null, null);
+        await ApplyEliteEnhancement(creature);
     }
 
     public override Task AfterCombatEnd(CombatRoom room)
     {
         _buffedCreatures.Clear();
+        _activeEliteEnhancement = EliteEnhancement.None;
         return Task.CompletedTask;
+    }
+
+    private void EnsureEliteEnhancementSelected()
+    {
+        if (_activeEliteEnhancement != EliteEnhancement.None)
+            return;
+
+        var coord = Owner?.RunState.CurrentMapCoord;
+        string rngId = coord.HasValue
+            ? $"PersonaEliteEnhancement:{Owner!.RunState.CurrentActIndex}:{coord.Value.col}:{coord.Value.row}"
+            : $"PersonaEliteEnhancement:{Owner!.RunState.CurrentActIndex}";
+        var rng = new Rng(Owner!.RunState.Rng.Seed, rngId);
+        _activeEliteEnhancement = rng.NextInt(2) == 0
+            ? EliteEnhancement.Artifact
+            : EliteEnhancement.Plating;
+    }
+
+    private Task ApplyEliteEnhancement(Creature creature)
+    {
+        var context = new ThrowingPlayerChoiceContext();
+        return _activeEliteEnhancement switch
+        {
+            EliteEnhancement.Artifact => PowerCmd.Apply<ArtifactPower>(
+                context, creature, 2m, null, null),
+            EliteEnhancement.Plating => PowerCmd.Apply<PlatingPower>(
+                context, creature, 7m, null, null),
+            _ => Task.CompletedTask,
+        };
     }
 
     public override Task AfterCombatVictory(CombatRoom room)
@@ -176,6 +226,7 @@ public sealed class Persona : BaseRelic
         if (!IsAtMarkedElite()) return Task.CompletedTask;
         if (room.RoomType != RoomType.Elite) return Task.CompletedTask;
 
+        MarkedEliteCompleted = true;
         var soulRelic = ModelDb.Relic<Soul>().ToMutable();
         room.AddExtraReward(Owner!, new RelicReward(soulRelic, Owner!));
 

@@ -174,7 +174,7 @@
   "NEUVILLETTE_CARD_EXILE.title": "Exile",
   "NEUVILLETTE_CARD_EXILE.description": "{IfUpgraded:show:Select|Randomly} put 1 card from your [gold]Hand[/gold] at the bottom of your [gold]Draw Pile[/gold]. Gain {energyPrefix:energyIcons(1)} equal to its cost.",
   "NEUVILLETTE_CARD_COMPENSATION.title": "Compensation",
-  "NEUVILLETTE_CARD_COMPENSATION.description": "Gain 1 [gold]Strength[/gold] for every {IfUpgraded:show:4|6} HP you are missing from your Max HP.{InCombat:\n(Gain {StrengthAmount:diff()}.)|}",
+  "NEUVILLETTE_CARD_COMPENSATION.description": "Gain 1 [gold]Strength[/gold] for every {IfUpgraded:show:5|6} HP you are missing from your Max HP.{InCombat:\n(Gain {StrengthAmount:diff()}.)|}",
   "NEUVILLETTE_CARD_TRIVIAL_MATTERS.title": "Trivial Matters",
   "NEUVILLETTE_CARD_TRIVIAL_MATTERS.description": "Gain {StrengthPower:diff()} [gold]Strength[/gold]. Gain {VigorPower:diff()} [gold]Vigor[/gold]. Gain {DexterityPower:diff()} [gold]Dexterity[/gold]. Gain {AgilityPower:diff()} [gold]Agility[/gold].",
   "NEUVILLETTE_CARD_LAMINAR_FLOW.title": "Laminar Flow",

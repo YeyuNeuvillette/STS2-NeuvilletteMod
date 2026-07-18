@@ -18,13 +18,13 @@ public sealed class Compensation() : NeuvilletteCard(2, CardType.Skill, CardRari
             HoverTipFactory.FromPower<StrengthPower>()
         ]);
 
-    private int HpThreshold => IsUpgraded ? 4 : 6;
+    private int HpThreshold => IsUpgraded ? 5 : 6;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             ModCardVars.Computed("StrengthAmount", 0m, card => 
                 card?.Owner?.Creature != null 
-                    ? Math.Floor((card.Owner.Creature.MaxHp - card.Owner.Creature.CurrentHp) / (card.IsUpgraded ? 4m : 6m)) 
+                    ? Math.Floor((card.Owner.Creature.MaxHp - card.Owner.Creature.CurrentHp) / (card.IsUpgraded ? 5m : 6m)) 
                     : 0m)
         ];
 

@@ -174,7 +174,7 @@
   "NEUVILLETTE_CARD_EXILE.title": "流放",
   "NEUVILLETTE_CARD_EXILE.description": "{IfUpgraded:show:选择|随机将}1张[gold]手牌[/gold]置于[gold]抽牌堆[/gold]底，获得与其耗能相等的{energyPrefix:energyIcons(1)}。",
   "NEUVILLETTE_CARD_COMPENSATION.title": "报偿",
-  "NEUVILLETTE_CARD_COMPENSATION.description": "当前生命每与最大生命相差{IfUpgraded:show:4|6}点，就获得1点[gold]力量[/gold]。{InCombat:\n（获得{StrengthAmount:diff()}点。）|}",
+  "NEUVILLETTE_CARD_COMPENSATION.description": "当前生命每与最大生命相差{IfUpgraded:show:5|6}点，就获得1点[gold]力量[/gold]。{InCombat:\n（获得{StrengthAmount:diff()}点。）|}",
   "NEUVILLETTE_CARD_TRIVIAL_MATTERS.title": "琐事",
   "NEUVILLETTE_CARD_TRIVIAL_MATTERS.description": "获得{StrengthPower:diff()}点[gold]力量[/gold]。获得{VigorPower:diff()}点[gold]活力[/gold]。获得{AgilityPower:diff()}点[gold]敏捷[/gold]。获得{DexterityPower:diff()}点[gold]灵敏[/gold]。",
   "NEUVILLETTE_CARD_LAMINAR_FLOW.title": "层流叠浪",
