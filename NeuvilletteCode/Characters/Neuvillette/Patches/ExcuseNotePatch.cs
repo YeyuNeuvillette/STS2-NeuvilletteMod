@@ -8,7 +8,7 @@ using Neuvillette.Characters.Neuvillette.Relics;
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(UnknownMapPointOdds), "Roll")]
-public static class ExcuseNotePatch
+internal static class ExcuseNotePatch
 {
     [HarmonyPostfix]
     public static void Postfix(UnknownMapPointOdds __instance, IEnumerable<RoomType> blacklist, IRunState runState, ref RoomType __result)

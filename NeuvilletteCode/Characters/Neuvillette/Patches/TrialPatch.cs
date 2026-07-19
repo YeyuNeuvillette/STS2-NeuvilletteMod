@@ -1,22 +1,19 @@
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Events;
+using Neuvillette.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(Trial), "GenerateInitialOptions")]
-public static class TrialPatch
+internal static class TrialPatch
 {
-    private static readonly Logger Logger = new("Neuvillette", LogType.Generic);
-
     [HarmonyPostfix]
     public static void Postfix(Trial __instance, ref IReadOnlyList<EventOption> __result)
     {
@@ -25,7 +22,7 @@ public static class TrialPatch
             return;
         }
 
-        if (__instance.Owner.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
         {
             return;
         }

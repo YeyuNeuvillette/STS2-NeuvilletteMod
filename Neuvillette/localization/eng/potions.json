@@ -6,6 +6,6 @@
   "NEUVILLETTE_POTION_BOTTLED_TICKET.description": "Apply 8 [gold]Contempt of Court[/gold].",
   "NEUVILLETTE_POTION_BOTTLED_TICKET.selectionScreenPrompt": "Choose a target for Bottled Ticket.",
   "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.title": "Concentrated Support",
-  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.description": "Fill your hand with random [gold]Melusine Stickers[/gold].",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.description": "Fill your [gold]Hand[/gold] with random [gold]Melusine Stickers[/gold].",
   "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.selectionScreenPrompt": "Choose a target for Concentrated Support."
 }

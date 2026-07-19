@@ -81,5 +81,8 @@
   "NEUVILLETTE_POWER_INSATIABLE_HUNGER_POWER.description": "吞星之鲸即将吞噬你最后打出的1张具有[gold]渴求[/gold]的牌，在原地留下1张[gold]裂隙[/gold]。",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.title": "敌意",
   "NEUVILLETTE_POWER_HOSTILITY_POWER.description": "在吞星之鲸的生命值被降低至一定值以下后，将你吞入鲸腹。",
-  "NEUVILLETTE_POWER_HOSTILITY_POWER.smartDescription": "在吞星之鲸的生命值被降低至[blue]{Threshold}[/blue]点以下后，将你吞入鲸腹。"
+  "NEUVILLETTE_POWER_HOSTILITY_POWER.smartDescription": "在吞星之鲸的生命值被降低至[blue]{Threshold}[/blue]点以下后，将你吞入鲸腹。",
+  "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.title": "海纳百川",
+  "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.description": "你的生命值不会低于[blue]1[/blue]点。所有盟友受到的伤害改为由你承担。",
+  "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.smartDescription": "你的生命值不会低于[blue]1[/blue]点。所有盟友受到的伤害改为由你承担。"
 }

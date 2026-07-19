@@ -8,71 +8,34 @@ using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using Neuvillette.Characters.Neuvillette.Events;
+using Neuvillette.Api;
+using Neuvillette.Features.Map;
+using Neuvillette.Infrastructure;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch]
-public static class FourQuadrantsLandPatch
+internal static class FourQuadrantsLandPatch
 {
-    private const int StandardActCount = 3;
-
-    private static MapCoord? _targetCoord;
-    private static bool _hasSpawned;
-
     [HarmonyPatch(typeof(RunManager), nameof(RunManager.GenerateMap))]
     [HarmonyPostfix]
     public static void Postfix_GenerateMap(RunManager __instance)
     {
-        var state = AccessTools.Property(typeof(RunManager), "State").GetValue(__instance) as RunState;
-        if (state == null) return;
+        var state = GameCompatibility.GetRunState(__instance);
+        if (state != null)
+            EnsureMarked(state);
+    }
 
-        var fqId = ModelDb.GetId<FourQuadrantsLand>();
-        _hasSpawned = state.VisitedEventIds.Contains(fqId);
-        if (_hasSpawned)
-        {
-            _targetCoord = null;
-            return;
-        }
-
-        int eligibleActCount = Math.Min(StandardActCount, state.Acts.Count);
-        if (eligibleActCount <= 0)
-            return;
-
-        var actRng = new Rng(state.Rng.Seed, "FourQuadrantsLandAct");
-        int targetActIndex = actRng.NextInt(eligibleActCount);
-        if (state.CurrentActIndex != targetActIndex)
-        {
-            _targetCoord = null;
-            return;
-        }
-
-        _targetCoord = null;
-
-        var map = state.Map;
-        var rng = new Rng(state.Rng.Seed, $"FourQuadrantsLand:{targetActIndex}");
-
-        var unknownPoints = map.GetAllMapPoints()
-            .Where(p => p.PointType == MapPointType.Unknown && p.CanBeModified)
-            .ToList();
-
-        if (unknownPoints.Count == 0) return;
-
-        unknownPoints.UnstableShuffle(rng);
-        var targetPoint = unknownPoints[0];
-        _targetCoord = targetPoint.coord;
-
-        var fqEvent = ModelDb.GetByIdOrNull<EventModel>(ModelDb.GetId<FourQuadrantsLand>());
-        if (fqEvent != null)
-        {
-            targetPoint.AddQuest(fqEvent);
-        }
+    public static void EnsureMarked(RunState state)
+    {
+        FourQuadrantsMarkerService.EnsureMarked(state);
     }
 
     [HarmonyPatch(typeof(ActModel), nameof(ActModel.GenerateRooms))]
     [HarmonyPostfix]
     public static void Postfix_GenerateRooms(ActModel __instance)
     {
-        var rooms = AccessTools.Field(typeof(ActModel), "_rooms").GetValue(__instance) as RoomSet;
+        var rooms = GameCompatibility.GetRooms(__instance);
         if (rooms == null) return;
 
         var fqId = ModelDb.GetId<FourQuadrantsLand>();
@@ -83,13 +46,10 @@ public static class FourQuadrantsLandPatch
     [HarmonyPrefix]
     public static bool Prefix_RollRoomTypeFor(RunManager __instance, MapPointType pointType, IEnumerable<RoomType> blacklist, ref RoomType __result)
     {
-        if (pointType != MapPointType.Unknown || !_targetCoord.HasValue || _hasSpawned) return true;
+        if (pointType != MapPointType.Unknown) return true;
 
-        var state = AccessTools.Property(typeof(RunManager), "State").GetValue(__instance) as RunState;
-        if (state == null) return true;
-
-        var currentCoord = state.CurrentMapCoord;
-        if (!currentCoord.HasValue || currentCoord.Value != _targetCoord.Value) return true;
+        var state = GameCompatibility.GetRunState(__instance);
+        if (!FourQuadrantsMarkerService.IsCurrentTarget(state)) return true;
 
         __result = RoomType.Event;
         return false;
@@ -99,20 +59,24 @@ public static class FourQuadrantsLandPatch
     [HarmonyPrefix]
     public static bool Prefix_CreateRoom(RunManager __instance, RoomType roomType, MapPointType mapPointType, ref AbstractRoom __result)
     {
-        if (roomType != RoomType.Event || !_targetCoord.HasValue || _hasSpawned) return true;
+        if (roomType != RoomType.Event) return true;
 
-        var state = AccessTools.Property(typeof(RunManager), "State").GetValue(__instance) as RunState;
-        if (state == null) return true;
-
-        var currentCoord = state.CurrentMapCoord;
-        if (!currentCoord.HasValue || currentCoord.Value != _targetCoord.Value) return true;
+        var state = GameCompatibility.GetRunState(__instance);
+        if (!FourQuadrantsMarkerService.IsCurrentTarget(state)) return true;
 
         var fqEvent = ModelDb.GetByIdOrNull<EventModel>(ModelDb.GetId<FourQuadrantsLand>());
         if (fqEvent == null) return true;
 
         __result = new EventRoom(fqEvent);
-        _hasSpawned = true;
-        state.AddVisitedEvent(fqEvent);
+        state!.AddVisitedEvent(fqEvent);
+        NeuvilletteApi.PublishMarkerEntered(new(
+            NeuvilletteMapMarkerKind.FourQuadrantsLand,
+            state,
+            state.CurrentActIndex));
+        NeuvilletteApi.PublishMarkerCompleted(new(
+            NeuvilletteMapMarkerKind.FourQuadrantsLand,
+            state,
+            state.CurrentActIndex));
         return false;
     }
 }

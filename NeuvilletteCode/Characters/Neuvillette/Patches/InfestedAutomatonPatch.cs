@@ -6,23 +6,20 @@ using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using Neuvillette.Characters.Neuvillette.Cards;
+using Neuvillette.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
-using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(InfestedAutomaton), "GenerateInitialOptions")]
-public static class InfestedAutomatonPatch
+internal static class InfestedAutomatonPatch
 {
-    private static readonly Logger Logger = new("Neuvillette", LogType.Generic);
-
     [HarmonyPostfix]
     public static void Postfix(InfestedAutomaton __instance, ref IReadOnlyList<EventOption> __result)
     {
@@ -31,7 +28,7 @@ public static class InfestedAutomatonPatch
             return;
         }
 
-        if (__instance.Owner.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
         {
             return;
         }

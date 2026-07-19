@@ -9,9 +9,9 @@
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.pronounSubject": "he",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.cardsModifierTitle": "Neuvillette Cards",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.cardsModifierDescription": "Neuvillette cards can now appear in rewards and shops.",
-  "NEUVILLETTE_CHARACTER_NEUVILLETTE.unlockText": "Win a run as [pink]{Prerequisite}[/pink] to unlock this character.",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.unlockText": "Play a run as [pink]{Prerequisite}[/pink] to unlock this character.",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.aromaPrinciple": "[sine][blue]...[/blue][/sine]",
-  "NEUVILLETTE_CHARACTER_NEUVILLETTE.goldMonologue": "[sine]I must admit that, under certain human laws, this is more efficient than due process.[/sine]",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.goldMonologue": "[sine]I must admit, under certain human systems, this is more efficient than the law.[/sine]",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.eventDeathPrevention": "When the tide rises again, I shall return...",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.banter.alive.endTurnPing": "Please deliberate carefully.",
   "NEUVILLETTE_CHARACTER_NEUVILLETTE.banter.dead.endTurnPing": "..."

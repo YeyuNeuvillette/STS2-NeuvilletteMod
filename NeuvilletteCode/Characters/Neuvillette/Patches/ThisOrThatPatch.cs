@@ -3,21 +3,18 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Events;
+using Neuvillette.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(ThisOrThat), "CalculateVars")]
-public static class ThisOrThatCalculateVarsPatch
+internal static class ThisOrThatCalculateVarsPatch
 {
-    private static readonly Logger Logger = new("Neuvillette", LogType.Generic);
-
     [HarmonyPostfix]
     public static void Postfix(ThisOrThat __instance)
     {
@@ -26,7 +23,7 @@ public static class ThisOrThatCalculateVarsPatch
             return;
         }
 
-        if (__instance.Owner.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
         {
             return;
         }
@@ -51,10 +48,8 @@ public static class ThisOrThatCalculateVarsPatch
 }
 
 [HarmonyPatch(typeof(ThisOrThat), "GenerateInitialOptions")]
-public static class ThisOrThatPatch
+internal static class ThisOrThatPatch
 {
-    private static readonly Logger Logger = new("Neuvillette", LogType.Generic);
-
     [HarmonyPostfix]
     public static void Postfix(ThisOrThat __instance, ref IReadOnlyList<EventOption> __result)
     {
@@ -63,7 +58,7 @@ public static class ThisOrThatPatch
             return;
         }
 
-        if (__instance.Owner.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
         {
             return;
         }

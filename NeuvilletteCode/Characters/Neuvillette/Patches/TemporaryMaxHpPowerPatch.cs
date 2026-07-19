@@ -1,35 +1,31 @@
-using System.Linq;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
-using Neuvillette.Characters.Neuvillette.Powers;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(Hook), nameof(Hook.AfterCombatEnd))]
-public static class TemporaryMaxHpPowerPatch
+internal static class TemporaryMaxHpPowerPatch
 {
-    [HarmonyPriority(Priority.First)]
-    public static async void Prefix(IRunState runState, CombatState? combatState, CombatRoom room)
+    [HarmonyPostfix]
+    public static void Postfix(ICombatState? combatState, ref Task __result)
     {
-        if (combatState == null)
+        if (combatState is not CombatState state)
             return;
 
-        foreach (var player in combatState.Players)
+        __result = CleanupAfterCombat(__result, state);
+    }
+
+    private static async Task CleanupAfterCombat(Task originalTask, CombatState combatState)
+    {
+        try
         {
-            Creature owner = player.Creature;
-
-            var leviathanFormPower = owner.Powers.OfType<LeviathanFormPower>().FirstOrDefault();
-            if (leviathanFormPower != null)
-                await leviathanFormPower.AfterCombatEnd(room);
-
-            var temporaryMaxHpPower = owner.Powers.OfType<TemporaryMaxHpPower>().FirstOrDefault();
-            if (temporaryMaxHpPower != null)
-                await temporaryMaxHpPower.AfterCombatEnd(room);
-
+            await originalTask;
+        }
+        finally
+        {
             MelusineCardPool.CleanupCombat(combatState);
         }
     }

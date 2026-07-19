@@ -7,7 +7,7 @@ using Neuvillette.Characters.Neuvillette.Cards;
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(ArchaicTooth), "get_TranscendenceUpgrades")]
-public static class ArchaicToothPatch
+internal static class ArchaicToothPatch
 {
     [HarmonyPostfix]
     public static void Postfix(ref Dictionary<ModelId, CardModel> __result)

@@ -14,11 +14,12 @@ using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.ValueProps;
 using Neuvillette.Characters.Neuvillette.Relics;
+using Neuvillette.Infrastructure;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(StoneOfAllTime), "GenerateInitialOptions")]
-public class StoneOfAllTimePatch
+internal class StoneOfAllTimePatch
 {
     [HarmonyPostfix]
     public static void Postfix(StoneOfAllTime __instance, ref IReadOnlyList<EventOption> __result)
@@ -26,7 +27,7 @@ public class StoneOfAllTimePatch
         if (__instance.Owner == null)
             return;
 
-        if (__instance.Owner.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
             return;
 
         var mutable = __result as List<EventOption> ?? __result.ToList();

@@ -4,6 +4,7 @@
 .vs/
 bin/
 obj/
+artifacts*/
 *.pck
 local.props
 Neuvillette/images/

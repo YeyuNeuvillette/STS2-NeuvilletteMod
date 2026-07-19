@@ -3,20 +3,17 @@ using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Events;
+using Neuvillette.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
-using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(AromaOfChaos), "GenerateInitialOptions")]
-public static class AromaOfChaosPatch
+internal static class AromaOfChaosPatch
 {
-    private static readonly Logger Logger = new("Neuvillette", LogType.Generic);
-
     [HarmonyPostfix]
     public static void Postfix(AromaOfChaos __instance, ref IReadOnlyList<EventOption> __result)
     {
@@ -25,7 +22,7 @@ public static class AromaOfChaosPatch
             return;
         }
 
-        if (__instance.Owner.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
         {
             return;
         }

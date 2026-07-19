@@ -4,20 +4,17 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Extensions;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Events;
+using Neuvillette.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
-using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(SunkenTreasury), "GenerateInitialOptions")]
-public static class SunkenTreasuryPatch
+internal static class SunkenTreasuryPatch
 {
-    private static readonly Logger Logger = new("Neuvillette", LogType.Generic);
-
     [HarmonyPostfix]
     public static void Postfix(SunkenTreasury __instance, ref IReadOnlyList<EventOption> __result)
     {
@@ -26,7 +23,7 @@ public static class SunkenTreasuryPatch
             return;
         }
 
-        if (__instance.Owner.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
         {
             return;
         }

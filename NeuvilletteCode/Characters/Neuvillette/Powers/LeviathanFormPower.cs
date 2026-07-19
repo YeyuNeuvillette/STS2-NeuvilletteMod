@@ -8,14 +8,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
+using Neuvillette.Characters.Neuvillette.Features;
 
 namespace Neuvillette.Characters.Neuvillette.Powers;
 
 [RegisterPower]
 public sealed class LeviathanFormPower : NeuvillettePower
 {
-    private const decimal InfiniteHpValue = 999999999m;
-
     private int storedMaxHp;
     private decimal storedCurrentHp;
     private bool isInfiniteHpActive;
@@ -28,7 +27,7 @@ public sealed class LeviathanFormPower : NeuvillettePower
 
     private static bool IsInfiniteHp(Creature creature)
     {
-        return creature.MaxHp >= InfiniteHpValue;
+        return LeviathanHealthService.IsInfinite(creature);
     }
 
     public override async Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
@@ -127,7 +126,7 @@ public sealed class LeviathanFormPower : NeuvillettePower
         Log.Info($"[LeviathanFormPower] ActivateInfiniteHp: storedMaxHp={storedMaxHp}, storedCurrentHp={storedCurrentHp}");
         
         Owner.HpDisplay = HpDisplay.InfiniteWithoutNumbers;
-        await CreatureCmd.SetMaxAndCurrentHp(Owner, InfiniteHpValue);
+        await CreatureCmd.SetMaxAndCurrentHp(Owner, LeviathanHealthService.InfiniteHpValue);
         
         Log.Info($"[LeviathanFormPower] ActivateInfiniteHp: After SetMaxAndCurrentHp, Owner.CurrentHp={Owner.CurrentHp}, Owner.MaxHp={Owner.MaxHp}");
     }
@@ -145,7 +144,7 @@ public sealed class LeviathanFormPower : NeuvillettePower
         Flash();
         Owner.HpDisplay = HpDisplay.Normal;
 
-        if (storedMaxHp > 0 && storedMaxHp < InfiniteHpValue)
+        if (storedMaxHp > 0 && storedMaxHp < LeviathanHealthService.InfiniteHpValue)
         {
             await CreatureCmd.SetMaxHp(Owner, storedMaxHp);
             await CreatureCmd.SetCurrentHp(Owner, Math.Min(storedCurrentHp, storedMaxHp));

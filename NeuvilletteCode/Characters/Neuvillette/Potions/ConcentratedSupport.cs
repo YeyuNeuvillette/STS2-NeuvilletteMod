@@ -24,7 +24,7 @@ public sealed class ConcentratedSupport : BasePotion
 {
     public override PotionRarity Rarity => PotionRarity.Rare;
     public override PotionUsage Usage => PotionUsage.CombatOnly;
-    public override TargetType TargetType => TargetType.Self;
+    public override TargetType TargetType => TargetType.AnyPlayer;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -42,20 +42,21 @@ public sealed class ConcentratedSupport : BasePotion
     {
         PotionModel.AssertValidForTargetedPotion(target);
         NCombatRoom.Instance?.PlaySplashVfx(target, new Color("4fc3f7"));
-        
-        var combatState = Owner.Creature.CombatState;
-        if (combatState == null)
+
+        var targetPlayer = target.Player;
+        var combatState = target.CombatState;
+        if (targetPlayer == null || combatState == null)
             return;
 
         var availableStickerCards = ModelDb.CardPool<MelusineCardPool>()
-            .GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint)
+            .GetUnlockedCards(targetPlayer.UnlockState, targetPlayer.RunState.CardMultiplayerConstraint)
             .Where(card => MelusineCardPool.GetAvailableCardsForCombat((CombatState)combatState).Any(available => available.GetType() == card.GetType()))
             .ToList();
 
         if (availableStickerCards.Count == 0)
             return;
 
-        var currentHandSize = PileType.Hand.GetPile(Owner).Cards.Count;
+        var currentHandSize = PileType.Hand.GetPile(targetPlayer).Cards.Count;
         var maxHandSize = 10;
         var neededStickers = maxHandSize - currentHandSize;
 
@@ -63,11 +64,11 @@ public sealed class ConcentratedSupport : BasePotion
             return;
 
         var stickerCount = Math.Min(neededStickers, availableStickerCards.Count);
-        var stickers = CardFactory.GetForCombat(Owner, availableStickerCards, stickerCount, Owner.RunState.Rng.CombatCardGeneration).ToList();
+        var stickers = CardFactory.GetForCombat(targetPlayer, availableStickerCards, stickerCount, targetPlayer.RunState.Rng.CombatCardGeneration).ToList();
 
         foreach (var sticker in stickers)
         {
-            await CardPileCmd.AddGeneratedCardToCombat(sticker, PileType.Hand, Owner);
+            await CardPileCmd.AddGeneratedCardToCombat(sticker, PileType.Hand, targetPlayer);
         }
     }
 }

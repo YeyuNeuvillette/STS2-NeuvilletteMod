@@ -3,6 +3,9 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
+using MegaCrit.Sts2.Core.Runs;
+using Neuvillette.Characters.Neuvillette.Patches;
+using Neuvillette.Infrastructure;
 using Neuvillette.Telemetry;
 using STS2RitsuLib;
 using STS2RitsuLib.Audio;
@@ -31,6 +34,7 @@ public partial class MainFile : Node
         var assembly = Assembly.GetExecutingAssembly();
         RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
         ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
+        GameCompatibility.Validate();
 
         Harmony harmony = new(ModId);
         harmony.PatchAll();
@@ -49,15 +53,18 @@ public partial class MainFile : Node
 
     private static void OnRunStarted(RunStartedEvent e)
     {
-        NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
+        if (GameCompatibility.IsRunAuthority())
+            NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
     }
 
     private static void OnRunLoaded(RunLoadedEvent e)
     {
-        if (!e.IsMultiplayer)
+        if (GameCompatibility.IsRunAuthority()
+            && !NeuvilletteSettingsStore.HasSyncedSettings(e.RunState))
             NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
-        else if (!NeuvilletteSettingsStore.HasSyncedSettings(e.RunState))
-            NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
+
+        if (GameCompatibility.IsRunAuthority() && e.RunState is RunState runState)
+            FourQuadrantsLandPatch.EnsureMarked(runState);
     }
 
     private static void RegisterSettingsPage()

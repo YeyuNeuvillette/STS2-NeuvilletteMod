@@ -8,11 +8,12 @@ using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Models.Relics;
 using Neuvillette.Characters.Neuvillette.Relics;
+using Neuvillette.Infrastructure;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(Neow), "get_AllPossibleOptions")]
-public static class NeowAllPossibleOptionsPatch
+internal static class NeowAllPossibleOptionsPatch
 {
     [HarmonyPostfix]
     public static void Postfix(Neow __instance, ref IEnumerable<EventOption> __result)
@@ -30,15 +31,16 @@ public static class NeowAllPossibleOptionsPatch
 }
 
 [HarmonyPatch(typeof(Neow), "GenerateInitialOptions")]
-public static class NeowGenerateInitialOptionsPatch
+internal static class NeowGenerateInitialOptionsPatch
 {
     [HarmonyPrefix]
     public static bool Prefix(Neow __instance, ref IReadOnlyList<EventOption> __result)
     {
-        if (__instance.Owner?.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        var owner = __instance.Owner;
+        if (!GameCompatibility.IsNeuvillette(owner) || owner == null)
             return true;
 
-        if (__instance.Owner.RunState.Modifiers.Count > 0)
+        if (owner.RunState.Modifiers.Count > 0)
             return true;
 
         var cursePool = __instance.CurseOptions.ToList();
@@ -46,7 +48,7 @@ public static class NeowGenerateInitialOptionsPatch
             cursePool.Add(__instance.RelicOption<BraveTeaCup>("INITIAL", "NEOW.pages.DONE.POSITIVE.description"));
 
         cursePool.RemoveAll(o => o.Relic is LeafyPoultice);
-        cursePool.RemoveAll(r => r.Relic != null && !r.Relic.IsAllowedAtNeow(__instance.Owner));
+        cursePool.RemoveAll(r => r.Relic != null && !r.Relic.IsAllowedAtNeow(owner));
 
         if (cursePool.Count == 0)
         {
@@ -87,7 +89,7 @@ public static class NeowGenerateInitialOptionsPatch
         else
             positiveOptions.Add(__instance.PomanderOption);
 
-        positiveOptions.RemoveAll(r => r.Relic != null && !r.Relic.IsAllowedAtNeow(__instance.Owner));
+        positiveOptions.RemoveAll(r => r.Relic != null && !r.Relic.IsAllowedAtNeow(owner));
 
         var finalOptions = new List<EventOption>();
         finalOptions.AddRange(positiveOptions.UnstableShuffle(__instance.Rng).Take(2));

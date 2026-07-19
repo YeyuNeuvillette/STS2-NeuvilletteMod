@@ -23,7 +23,7 @@ public sealed class WaterBottle : BasePotion
 {
     public override PotionRarity Rarity => PotionRarity.Common;
     public override PotionUsage Usage => PotionUsage.CombatOnly;
-    public override TargetType TargetType => TargetType.Self;
+    public override TargetType TargetType => TargetType.AnyPlayer;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

@@ -22,6 +22,8 @@ using MegaCrit.Sts2.Core.Saves.Runs;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Neuvillette.Characters.Base;
 using MegaCrit.Sts2.Core.Models.RelicPools;
+using Neuvillette.Api;
+using Neuvillette.Features.Map;
 
 namespace Neuvillette.Characters.Neuvillette.Relics;
 
@@ -31,6 +33,7 @@ public sealed class Persona : BaseRelic
     private enum EliteEnhancement
     {
         None,
+        Strength,
         Artifact,
         Plating,
     }
@@ -53,7 +56,7 @@ public sealed class Persona : BaseRelic
     }
 
     [SavedProperty]
-    private bool MarkedEliteCompleted { get; set; }
+    public bool MarkedEliteCompleted { get; private set; }
 
     public override Task AfterObtained()
     {
@@ -106,13 +109,14 @@ public sealed class Persona : BaseRelic
 
         HashSet<MapPoint>? reachablePoints = routeOrigin == null
             ? null
-            : GetReachablePoints(routeOrigin);
+            : MapRouteService.GetReachablePoints(routeOrigin);
         var rng = new Rng(runState.Rng.Seed, $"PersonaElite:{actIndex}");
         var candidates = map.GetAllMapPoints()
             .Where(p => p.coord.row > minimumRow
                 && (reachablePoints == null || reachablePoints.Contains(p))
                 && p.PointType == MapPointType.Elite
                 && !p.Quests.Any(q => q is Persona))
+            .OrderBy(MapRouteService.PointKey)
             .ToList();
         candidates.UnstableShuffle(rng);
 
@@ -121,22 +125,13 @@ public sealed class Persona : BaseRelic
             return;
 
         chosen.AddQuest(this);
-    }
-
-    private static HashSet<MapPoint> GetReachablePoints(MapPoint origin)
-    {
-        var reachable = new HashSet<MapPoint>();
-        var pending = new Stack<MapPoint>(origin.Children);
-        while (pending.TryPop(out var point))
+        if (runState is RunState state)
         {
-            if (!reachable.Add(point))
-                continue;
-
-            foreach (var child in point.Children)
-                pending.Push(child);
+            NeuvilletteApi.PublishMarkerCreated(new(
+                NeuvilletteMapMarkerKind.PersonaElite,
+                state,
+                actIndex));
         }
-
-        return reachable;
     }
 
     private bool IsAtMarkedElite()
@@ -144,8 +139,9 @@ public sealed class Persona : BaseRelic
         return Owner?.RunState.CurrentMapPoint?.Quests.Any(q => q is Persona) == true;
     }
 
-    private static readonly HashSet<uint> _buffedCreatures = new();
+    private readonly HashSet<uint> _buffedCreatures = [];
     private EliteEnhancement _activeEliteEnhancement;
+    private bool _markerEnteredPublished;
 
     public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
@@ -160,6 +156,15 @@ public sealed class Persona : BaseRelic
     public override async Task BeforeCombatStart()
     {
         if (!IsAtMarkedElite()) return;
+
+        if (!_markerEnteredPublished)
+        {
+            _markerEnteredPublished = true;
+            NeuvilletteApi.PublishMarkerEntered(new(
+                NeuvilletteMapMarkerKind.PersonaElite,
+                Owner!.RunState,
+                Owner.RunState.CurrentActIndex));
+        }
 
         var combatState = Owner!.Creature.CombatState;
         if (combatState == null) return;
@@ -190,6 +195,7 @@ public sealed class Persona : BaseRelic
     {
         _buffedCreatures.Clear();
         _activeEliteEnhancement = EliteEnhancement.None;
+        _markerEnteredPublished = false;
         return Task.CompletedTask;
     }
 
@@ -203,9 +209,12 @@ public sealed class Persona : BaseRelic
             ? $"PersonaEliteEnhancement:{Owner!.RunState.CurrentActIndex}:{coord.Value.col}:{coord.Value.row}"
             : $"PersonaEliteEnhancement:{Owner!.RunState.CurrentActIndex}";
         var rng = new Rng(Owner!.RunState.Rng.Seed, rngId);
-        _activeEliteEnhancement = rng.NextInt(2) == 0
-            ? EliteEnhancement.Artifact
-            : EliteEnhancement.Plating;
+        _activeEliteEnhancement = rng.NextInt(3) switch
+        {
+            0 => EliteEnhancement.Strength,
+            1 => EliteEnhancement.Artifact,
+            _ => EliteEnhancement.Plating,
+        };
     }
 
     private Task ApplyEliteEnhancement(Creature creature)
@@ -213,6 +222,8 @@ public sealed class Persona : BaseRelic
         var context = new ThrowingPlayerChoiceContext();
         return _activeEliteEnhancement switch
         {
+            EliteEnhancement.Strength => PowerCmd.Apply<StrengthPower>(
+                context, creature, 2m, null, null),
             EliteEnhancement.Artifact => PowerCmd.Apply<ArtifactPower>(
                 context, creature, 2m, null, null),
             EliteEnhancement.Plating => PowerCmd.Apply<PlatingPower>(
@@ -227,6 +238,10 @@ public sealed class Persona : BaseRelic
         if (room.RoomType != RoomType.Elite) return Task.CompletedTask;
 
         MarkedEliteCompleted = true;
+        NeuvilletteApi.PublishMarkerCompleted(new(
+            NeuvilletteMapMarkerKind.PersonaElite,
+            Owner!.RunState,
+            Owner.RunState.CurrentActIndex));
         var soulRelic = ModelDb.Relic<Soul>().ToMutable();
         room.AddExtraReward(Owner!, new RelicReward(soulRelic, Owner!));
 

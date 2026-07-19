@@ -4,21 +4,18 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Events;
 using Neuvillette.Characters.Neuvillette.Cards;
+using Neuvillette.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
-using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(SpiralingWhirlpool), "GenerateInitialOptions")]
-public static class SpiralingWhirlpoolPatch
+internal static class SpiralingWhirlpoolPatch
 {
-    private static readonly Logger Logger = new("Neuvillette", LogType.Generic);
-
     [HarmonyPostfix]
     public static void Postfix(SpiralingWhirlpool __instance, ref IReadOnlyList<EventOption> __result)
     {
@@ -27,7 +24,7 @@ public static class SpiralingWhirlpoolPatch
             return;
         }
 
-        if (__instance.Owner.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
         {
             return;
         }

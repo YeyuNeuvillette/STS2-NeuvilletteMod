@@ -8,22 +8,21 @@ using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Runs;
+using Neuvillette.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
 [HarmonyPatch(typeof(RoomFullOfCheese), "IsAllowed")]
-public static class RoomFullOfCheeseIsAllowedPatch
+internal static class RoomFullOfCheeseIsAllowedPatch
 {
     [HarmonyPrefix]
     public static bool Prefix(RoomFullOfCheese __instance, IRunState runState, ref bool __result)
@@ -36,7 +35,7 @@ public static class RoomFullOfCheeseIsAllowedPatch
 
         foreach (var player in runState.Players)
         {
-            if (player.Character?.Id.Entry == "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+            if (GameCompatibility.IsNeuvillette(player))
             {
                 if (player.Creature.CurrentHp <= 14 && player.Gold <= 100)
                 {
@@ -51,10 +50,8 @@ public static class RoomFullOfCheeseIsAllowedPatch
 }
 
 [HarmonyPatch(typeof(RoomFullOfCheese), "GenerateInitialOptions")]
-public static class RoomFullOfCheesePatch
+internal static class RoomFullOfCheesePatch
 {
-    private static readonly Logger Logger = new("Neuvillette", LogType.Generic);
-
     [HarmonyPostfix]
     public static void Postfix(RoomFullOfCheese __instance, ref IReadOnlyList<EventOption> __result)
     {
@@ -63,7 +60,7 @@ public static class RoomFullOfCheesePatch
             return;
         }
 
-        if (__instance.Owner.Character?.Id.Entry != "NEUVILLETTE_CHARACTER_NEUVILLETTE")
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
         {
             return;
         }
