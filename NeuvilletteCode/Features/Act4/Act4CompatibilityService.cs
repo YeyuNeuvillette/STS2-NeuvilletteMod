@@ -1,5 +1,6 @@
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Entities.Players;
+using Neuvillette.Characters.Neuvillette.Act;
 using Neuvillette.Characters.Neuvillette.Relics;
 using Neuvillette.Infrastructure;
 
@@ -21,7 +22,7 @@ internal static class Act4CompatibilityService
         return GameCompatibility.IsNeuvilletteAct(state);
     }
 
-    internal static bool TryTruncateActsForNonSwordHolders(RunState state)
+    internal static bool TryRemoveNeuvilletteActForNonSwordHolders(RunState state)
     {
         if (state.CurrentActIndex != 2)
             return false;
@@ -29,8 +30,16 @@ internal static class Act4CompatibilityService
         if (state.Players.All(player => player.GetRelic<NarzissenkreuzSword>() != null))
             return false;
 
-        var truncatedActs = state.Acts.Take(3).ToList();
-        GameCompatibility.SetActs(state, truncatedActs);
+        var remainingActs = state.Acts
+            .Where(act => act is not NeuvilletteAct)
+            .ToList();
+
+        if (remainingActs.Count == state.Acts.Count)
+            return false;
+
+        GameCompatibility.SetActs(state, remainingActs);
+        MainFile.Logger.Info(
+            $"[Act4Compatibility] Neuvillette Act requirements were not met; preserved other acts: {string.Join(", ", remainingActs.Select(act => act.Id))}");
         return true;
     }
 }

@@ -18,6 +18,9 @@ internal static class NeowAllPossibleOptionsPatch
     [HarmonyPostfix]
     public static void Postfix(Neow __instance, ref IEnumerable<EventOption> __result)
     {
+        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
+            return;
+
         var list = __result.ToList();
         if (list.Any(o => o.Relic is BraveTeaCup))
         {
@@ -37,7 +40,7 @@ internal static class NeowGenerateInitialOptionsPatch
     public static bool Prefix(Neow __instance, ref IReadOnlyList<EventOption> __result)
     {
         var owner = __instance.Owner;
-        if (!GameCompatibility.IsNeuvillette(owner) || owner == null)
+        if (owner == null || !GameCompatibility.IsNeuvillette(owner))
             return true;
 
         if (owner.RunState.Modifiers.Count > 0)
@@ -47,7 +50,7 @@ internal static class NeowGenerateInitialOptionsPatch
         if (!cursePool.Any(o => o.Relic is BraveTeaCup))
             cursePool.Add(__instance.RelicOption<BraveTeaCup>("INITIAL", "NEOW.pages.DONE.POSITIVE.description"));
 
-        cursePool.RemoveAll(o => o.Relic is LeafyPoultice);
+        cursePool.RemoveAll(o => o.Relic is LeafyPoultice or PrecariousShears or PreciseScissors);
         cursePool.RemoveAll(r => r.Relic != null && !r.Relic.IsAllowedAtNeow(owner));
 
         if (cursePool.Count == 0)
@@ -74,7 +77,9 @@ internal static class NeowGenerateInitialOptionsPatch
             positiveOptions.RemoveAll(o => o.Relic is NewLeaf);
         if (thirdOption.Relic is PrecariousShears)
             positiveOptions.RemoveAll(o => o.Relic is PreciseScissors);
-        if (thirdOption.Relic is LargeCapsule)
+        if (thirdOption.Relic is NeowsSacrifice)
+            positiveOptions.RemoveAll(o => o.Relic is PhialHolster or LostCoffer);
+        if (thirdOption.Relic is not LargeCapsule)
         {
             if (__instance.Rng.NextBool())
                 positiveOptions.Add(__instance.LavaRockOption);
@@ -82,7 +87,10 @@ internal static class NeowGenerateInitialOptionsPatch
                 positiveOptions.Add(__instance.SmallCapsuleOption);
         }
 
-        positiveOptions.Add(__instance.StoneHumidifierOption);
+        if (__instance.Rng.NextBool())
+            positiveOptions.Add(__instance.NutritiousOysterOption);
+        else
+            positiveOptions.Add(__instance.StoneHumidifierOption);
 
         if (__instance.Rng.NextBool())
             positiveOptions.Add(__instance.NeowsTalismanOption);

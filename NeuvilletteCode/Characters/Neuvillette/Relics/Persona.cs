@@ -38,9 +38,10 @@ public sealed class Persona : BaseRelic
         Plating,
     }
 
-    private const int StandardActCount = 3;
-
     private int _personaActIndex = -1;
+    private int _markedEliteActIndex = -1;
+    private int _markedEliteColumn = -1;
+    private int _markedEliteRow = -1;
 
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
@@ -58,11 +59,77 @@ public sealed class Persona : BaseRelic
     [SavedProperty]
     public bool MarkedEliteCompleted { get; private set; }
 
+    [SavedProperty]
+    public int MarkedEliteActIndex
+    {
+        get => _markedEliteActIndex;
+        private set
+        {
+            AssertMutable();
+            _markedEliteActIndex = value;
+        }
+    }
+
+    [SavedProperty]
+    public int MarkedEliteColumn
+    {
+        get => _markedEliteColumn;
+        private set
+        {
+            AssertMutable();
+            _markedEliteColumn = value;
+        }
+    }
+
+    [SavedProperty]
+    public int MarkedEliteRow
+    {
+        get => _markedEliteRow;
+        private set
+        {
+            AssertMutable();
+            _markedEliteRow = value;
+        }
+    }
+
+    internal bool TryGetMarkedEliteCoord(int actIndex, out MapCoord coord)
+    {
+        if (MarkedEliteActIndex == actIndex
+            && MarkedEliteColumn >= 0
+            && MarkedEliteRow >= 0)
+        {
+            coord = new MapCoord(MarkedEliteColumn, MarkedEliteRow);
+            return true;
+        }
+
+        coord = default;
+        return false;
+    }
+
+    internal void SetMarkedEliteCoord(int actIndex, MapCoord coord)
+    {
+        MarkedEliteActIndex = actIndex;
+        MarkedEliteColumn = coord.col;
+        MarkedEliteRow = coord.row;
+    }
+
+    internal void ClearMarkedEliteCoord()
+    {
+        MarkedEliteActIndex = -1;
+        MarkedEliteColumn = -1;
+        MarkedEliteRow = -1;
+    }
+
     public override Task AfterObtained()
     {
         PersonaActIndex = Owner!.RunState.CurrentActIndex;
         MarkedEliteCompleted = false;
-        MarkEliteRoom(
+        if (PersonaEliteMarkerService.IsCompleted(Owner.RunState))
+        {
+            MarkedEliteCompleted = true;
+            return Task.CompletedTask;
+        }
+        TryCreateMarker(
             Owner.RunState,
             Owner.RunState.Map,
             PersonaActIndex,
@@ -73,58 +140,46 @@ public sealed class Persona : BaseRelic
 
     public override ActMap ModifyGeneratedMapLate(IRunState runState, ActMap map, int actIndex)
     {
-        if (MarkedEliteCompleted
-            || PersonaActIndex < 0
-            || actIndex < PersonaActIndex
-            || actIndex >= StandardActCount)
-            return map;
-
-        var existingMark = map.GetAllMapPoints()
-            .FirstOrDefault(p => p.Quests.Any(q => q is Persona));
-        if (existingMark != null)
+        if (!NeuvilletteSettingsStore.IsAct4Enabled())
         {
-            existingMark.AddQuest(this);
+            PersonaEliteMarkerService.RemoveAll(runState, map);
             return map;
         }
+        if (PersonaEliteMarkerService.IsCompleted(runState))
+        {
+            MarkedEliteCompleted = true;
+            return map;
+        }
+        if (PersonaActIndex < 0
+            || actIndex < PersonaActIndex
+            || actIndex >= PersonaEliteMarkerService.StandardActCount)
+            return map;
+
+        if (PersonaEliteMarkerService.Normalize(runState, map) != null)
+            return map;
 
         int minimumRow = actIndex == PersonaActIndex
             ? runState.CurrentMapCoord?.row ?? -1
             : -1;
         MapPoint? routeOrigin = actIndex == PersonaActIndex
-            ? runState.CurrentMapPoint
-            : null;
-        MarkEliteRoom(runState, map, actIndex, minimumRow, routeOrigin);
+            && runState.CurrentActIndex == actIndex
+            && runState.CurrentMapCoord is { } currentCoord
+                ? map.GetPoint(currentCoord)
+                : null;
+        TryCreateMarker(runState, map, actIndex, minimumRow, routeOrigin);
         return map;
     }
 
-    private void MarkEliteRoom(
+    private void TryCreateMarker(
         IRunState runState,
         ActMap map,
         int actIndex,
         int minimumRow,
         MapPoint? routeOrigin)
     {
-        if (actIndex < 0 || actIndex >= StandardActCount)
+        if (!PersonaEliteMarkerService.EnsureMarked(
+                this, runState, map, actIndex, minimumRow, routeOrigin))
             return;
-
-        HashSet<MapPoint>? reachablePoints = routeOrigin == null
-            ? null
-            : MapRouteService.GetReachablePoints(routeOrigin);
-        var rng = new Rng(runState.Rng.Seed, $"PersonaElite:{actIndex}");
-        var candidates = map.GetAllMapPoints()
-            .Where(p => p.coord.row > minimumRow
-                && (reachablePoints == null || reachablePoints.Contains(p))
-                && p.PointType == MapPointType.Elite
-                && !p.Quests.Any(q => q is Persona))
-            .OrderBy(MapRouteService.PointKey)
-            .ToList();
-        candidates.UnstableShuffle(rng);
-
-        var chosen = candidates.FirstOrDefault();
-        if (chosen == null)
-            return;
-
-        chosen.AddQuest(this);
         if (runState is RunState state)
         {
             NeuvilletteApi.PublishMarkerCreated(new(
@@ -136,7 +191,14 @@ public sealed class Persona : BaseRelic
 
     private bool IsAtMarkedElite()
     {
-        return Owner?.RunState.CurrentMapPoint?.Quests.Any(q => q is Persona) == true;
+        return PersonaEliteMarkerService.GetCurrentMarker(Owner?.RunState) != null;
+    }
+
+    private bool OwnsCurrentMarker()
+    {
+        return ReferenceEquals(
+            PersonaEliteMarkerService.GetCurrentMarker(Owner?.RunState),
+            this);
     }
 
     private readonly HashSet<uint> _buffedCreatures = [];
@@ -155,7 +217,7 @@ public sealed class Persona : BaseRelic
 
     public override async Task BeforeCombatStart()
     {
-        if (!IsAtMarkedElite()) return;
+        if (!OwnsCurrentMarker()) return;
 
         if (!_markerEnteredPublished)
         {
@@ -183,7 +245,7 @@ public sealed class Persona : BaseRelic
     public override async Task AfterCreatureAddedToCombat(Creature creature)
     {
         if (creature.Side != CombatSide.Enemy) return;
-        if (!IsAtMarkedElite()) return;
+        if (!OwnsCurrentMarker()) return;
         if (!creature.CombatId.HasValue || !_buffedCreatures.Add(creature.CombatId.Value)) return;
 
         EnsureEliteEnhancementSelected();
@@ -237,11 +299,20 @@ public sealed class Persona : BaseRelic
         if (!IsAtMarkedElite()) return Task.CompletedTask;
         if (room.RoomType != RoomType.Elite) return Task.CompletedTask;
 
-        MarkedEliteCompleted = true;
-        NeuvilletteApi.PublishMarkerCompleted(new(
-            NeuvilletteMapMarkerKind.PersonaElite,
-            Owner!.RunState,
-            Owner.RunState.CurrentActIndex));
+        bool ownsMarker = OwnsCurrentMarker();
+        foreach (Player player in Owner!.RunState.Players)
+        {
+            Persona? persona = player.GetRelic<Persona>();
+            if (persona != null)
+                persona.MarkedEliteCompleted = true;
+        }
+        if (ownsMarker)
+        {
+            NeuvilletteApi.PublishMarkerCompleted(new(
+                NeuvilletteMapMarkerKind.PersonaElite,
+                Owner.RunState,
+                Owner.RunState.CurrentActIndex));
+        }
         var soulRelic = ModelDb.Relic<Soul>().ToMutable();
         room.AddExtraReward(Owner!, new RelicReward(soulRelic, Owner!));
 

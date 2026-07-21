@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Runs;
+using Neuvillette.Infrastructure;
 using STS2RitsuLib;
 using STS2RitsuLib.Data;
 using STS2RitsuLib.RunData;
@@ -78,6 +79,23 @@ internal static class NeuvilletteSettingsStore
             MultiplayerCourtEnabled = _cache?.Value.MultiplayerCourtEnabled ?? false,
         };
         RunSavedSettings.Set(runState, data);
+    }
+
+    public static RunState? TrySetActiveRunAct4Enabled(bool enabled)
+    {
+        var runState = RunManager.Instance.DebugOnlyGetState();
+        if (runState == null || !GameCompatibility.IsRunAuthority())
+            return null;
+
+        bool multiplayerCourtEnabled = RunSavedSettings.TryGet(runState, out var synced)
+            ? synced.MultiplayerCourtEnabled
+            : _cache?.Value.MultiplayerCourtEnabled ?? false;
+        RunSavedSettings.Set(runState, new NeuvilletteSettings
+        {
+            Act4Enabled = enabled,
+            MultiplayerCourtEnabled = multiplayerCourtEnabled,
+        });
+        return runState;
     }
 
     public static bool HasSyncedSettings(RunState runState)

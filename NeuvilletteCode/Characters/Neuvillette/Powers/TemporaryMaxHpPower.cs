@@ -18,6 +18,7 @@ public sealed class TemporaryMaxHpPower : NeuvillettePower
     {
         if (!isSettled)
         {
+            await LeviathanFormPower.RestoreBeforeCombatSettlement(Owner);
             await CreatureCmd.LoseMaxHp(new ThrowingPlayerChoiceContext(), Owner, Amount, false);
             isSettled = true;
             Amount = 0;

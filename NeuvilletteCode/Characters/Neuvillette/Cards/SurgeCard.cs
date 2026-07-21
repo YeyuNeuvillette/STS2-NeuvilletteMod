@@ -30,6 +30,7 @@ public abstract class SurgeCard(
         var totalSurge = value + livingWaterAmount;
 
         await CreatureCmd.Heal(Owner.Creature, totalSurge);
+        LeviathanFormPower.RecordHealingWhileInfinite(Owner.Creature, totalSurge);
         await PowerCmd.Apply<SurgePower>(context, Owner.Creature, totalSurge, Owner.Creature, this);
     }
 

@@ -59,8 +59,7 @@ public partial class MainFile : Node
 
     private static void OnRunLoaded(RunLoadedEvent e)
     {
-        if (GameCompatibility.IsRunAuthority()
-            && !NeuvilletteSettingsStore.HasSyncedSettings(e.RunState))
+        if (GameCompatibility.IsRunAuthority())
             NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
 
         if (GameCompatibility.IsRunAuthority() && e.RunState is RunState runState)
@@ -85,7 +84,7 @@ public partial class MainFile : Node
                             NeuvilletteSettingsStore.SettingsKey,
                             SaveScope.Global,
                             s => s.Act4Enabled,
-                            (s, value) => s.Act4Enabled = value),
+                            SetAct4Enabled),
                         ModSettingsText.I18N(i18n, "neuvillette.settings.act4.enabled.description",
                             "When enabled, proceed to Act 4 after Act 3. When disabled, the run ends after Act 3 as in vanilla.")))
                 .AddSection("multiplayer_court", section => section
@@ -101,6 +100,14 @@ public partial class MainFile : Node
                             (s, value) => s.MultiplayerCourtEnabled = value),
                         ModSettingsText.I18N(i18n, "neuvillette.settings.multiplayer_court.enabled.description",
                             "When enabled, Submit-related cards can appear in multiplayer. When disabled (default), these cards are excluded from multiplayer."))));
+    }
+
+    private static void SetAct4Enabled(NeuvilletteSettings settings, bool enabled)
+    {
+        settings.Act4Enabled = enabled;
+        RunState? runState = NeuvilletteSettingsStore.TrySetActiveRunAct4Enabled(enabled);
+        if (runState != null)
+            FourQuadrantsLandPatch.EnsureMarked(runState);
     }
 
     /// <summary>

@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Neuvillette.Characters.Base;
+using Neuvillette.Characters.Neuvillette.Powers;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Rooms;
 
@@ -15,7 +16,7 @@ namespace Neuvillette.Characters.Neuvillette.Relics;
 [RegisterRelic(typeof(NeuvilletteRelicPool))]
 public sealed class Plumule : BaseRelic
 {
-    private decimal _strengthGainedThisCombat;
+    private bool _triggeredThisTurn;
 
     public override RelicRarity Rarity => RelicRarity.Rare;
 
@@ -36,42 +37,31 @@ public sealed class Plumule : BaseRelic
         if (Owner?.Creature?.CombatState?.CurrentSide != CombatSide.Player)
             return;
 
-        if (_strengthGainedThisCombat > 0)
+        if (_triggeredThisTurn)
             return;
 
         var hpLost = -delta;
-        _strengthGainedThisCombat = hpLost;
+        _triggeredThisTurn = true;
         Flash();
-        await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), Owner.Creature, hpLost, Owner.Creature, null);
+        await PowerCmd.Apply<PlumulePower>(
+            new ThrowingPlayerChoiceContext(),
+            Owner.Creature,
+            hpLost,
+            Owner.Creature,
+            null);
     }
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    public override Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
-        if (player != Owner)
-            return;
+        if (player == Owner)
+            _triggeredThisTurn = false;
 
-        _strengthGainedThisCombat = 0m;
-    }
-
-    public override async Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
-    {
-        if (side != Owner?.Creature?.Side)
-            return;
-
-        if (_strengthGainedThisCombat > 0)
-        {
-            var strengthPower = Owner.Creature.GetPower<StrengthPower>();
-            if (strengthPower != null)
-            {
-                await PowerCmd.ModifyAmount(choiceContext, strengthPower, -_strengthGainedThisCombat, null, null);
-            }
-            _strengthGainedThisCombat = 0m;
-        }
+        return Task.CompletedTask;
     }
 
     public override Task AfterCombatEnd(CombatRoom room)
     {
-        _strengthGainedThisCombat = 0m;
+        _triggeredThisTurn = false;
         return Task.CompletedTask;
     }
 }

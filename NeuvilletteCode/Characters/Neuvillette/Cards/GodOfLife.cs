@@ -35,6 +35,7 @@ public sealed class GodOfLife() : SurgeCard(1, CardType.Skill, CardRarity.Ancien
 
         var maxHpGain = DynamicVars.MaxHp.IntValue;
         await CreatureCmd.GainMaxHp(Owner.Creature, maxHpGain);
+        LeviathanFormPower.RecordMaxHpGainWhileInfinite(Owner.Creature, maxHpGain);
         await PowerCmd.Apply<TemporaryMaxHpPower>(choiceContext, Owner.Creature, maxHpGain, Owner.Creature, this);
     }
 

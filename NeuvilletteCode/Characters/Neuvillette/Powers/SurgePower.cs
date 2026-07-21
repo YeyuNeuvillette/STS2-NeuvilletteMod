@@ -13,6 +13,8 @@ public sealed class SurgePower : NeuvillettePower
 
     public override async Task AfterCombatEnd(CombatRoom room)
     {
+        await LeviathanFormPower.RestoreBeforeCombatSettlement(Owner);
+
         var currentHp = Owner.CurrentHp;
         var maxHp = Owner.MaxHp;
         var debt = Amount;

@@ -28,6 +28,12 @@ internal static class FourQuadrantsLandPatch
 
     public static void EnsureMarked(RunState state)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled())
+        {
+            FourQuadrantsMarkerService.RemoveAll(state);
+            PersonaEliteMarkerService.RemoveAll(state, state.Map);
+            return;
+        }
         FourQuadrantsMarkerService.EnsureMarked(state);
     }
 

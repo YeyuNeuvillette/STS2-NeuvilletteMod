@@ -30,6 +30,46 @@ public sealed class LeviathanFormPower : NeuvillettePower
         return LeviathanHealthService.IsInfinite(creature);
     }
 
+    internal static async Task RestoreBeforeCombatSettlement(Creature owner)
+    {
+        var activePowers = owner.Powers
+            .OfType<LeviathanFormPower>()
+            .Where(power => power.isInfiniteHpActive)
+            .ToArray();
+
+        foreach (var power in activePowers)
+            await power.DeactivateInfiniteHpInternal();
+    }
+
+    internal static void RecordHealingWhileInfinite(Creature owner, decimal amount)
+    {
+        if (amount <= 0m)
+            return;
+
+        var activePower = owner.Powers
+            .OfType<LeviathanFormPower>()
+            .FirstOrDefault(power => power.isInfiniteHpActive);
+
+        if (activePower is not null)
+            activePower.storedCurrentHp = Math.Min(activePower.storedCurrentHp + amount, activePower.storedMaxHp);
+    }
+
+    internal static void RecordMaxHpGainWhileInfinite(Creature owner, int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        var activePower = owner.Powers
+            .OfType<LeviathanFormPower>()
+            .FirstOrDefault(power => power.isInfiniteHpActive);
+
+        if (activePower is null)
+            return;
+
+        activePower.storedMaxHp += amount;
+        activePower.storedCurrentHp = Math.Min(activePower.storedCurrentHp + amount, activePower.storedMaxHp);
+    }
+
     public override async Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
     {
         Log.Info($"[LeviathanFormPower] BeforeApplied START: target.CurrentHp={target.CurrentHp}, target.MaxHp={target.MaxHp}");

@@ -96,6 +96,6 @@ internal static class NeuvilletteActPatch
         if (!NeuvilletteSettingsStore.IsAct4Enabled()) return;
         var state = GameCompatibility.GetRunState(__instance);
         if (state != null)
-            Act4CompatibilityService.TryTruncateActsForNonSwordHolders(state);
+            Act4CompatibilityService.TryRemoveNeuvilletteActForNonSwordHolders(state);
     }
 }

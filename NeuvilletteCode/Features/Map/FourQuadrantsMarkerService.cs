@@ -15,6 +15,8 @@ internal static class FourQuadrantsMarkerService
 
     internal static bool EnsureMarked(RunState state)
     {
+        if (!NeuvilletteSettingsStore.IsAct4Enabled())
+            return false;
         if (state.CurrentActIndex < 0 || state.CurrentActIndex >= StandardActCount)
             return false;
 
@@ -55,11 +57,29 @@ internal static class FourQuadrantsMarkerService
 
     internal static bool IsCurrentTarget(RunState? state)
     {
-        if (state?.CurrentMapPoint == null)
+        if (!NeuvilletteSettingsStore.IsAct4Enabled() || state?.CurrentMapPoint == null)
             return false;
 
         var eventId = ModelDb.GetId<FourQuadrantsLand>();
         return !state.VisitedEventIds.Contains(eventId)
             && state.CurrentMapPoint.Quests.Any(quest => quest.Id == eventId);
+    }
+
+    internal static int RemoveAll(RunState state)
+    {
+        var eventId = ModelDb.GetId<FourQuadrantsLand>();
+        int removed = 0;
+        foreach (MapPoint point in state.Map.GetAllMapPoints())
+        {
+            foreach (var marker in point.Quests.Where(quest => quest.Id == eventId).ToArray())
+            {
+                point.RemoveQuest(marker);
+                removed++;
+            }
+        }
+
+        if (removed > 0)
+            MainFile.Logger.Info($"[Map] Removed {removed} Four Quadrants marker(s) because Act 4 is disabled.");
+        return removed;
     }
 }
