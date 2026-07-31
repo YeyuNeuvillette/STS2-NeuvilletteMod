@@ -5,11 +5,10 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 public abstract class MelusineStickerCard(TargetType targetType)
     : NeuvilletteCard(0, CardType.Skill, CardRarity.Token, targetType, shouldShowInCardLibrary: false)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-    [
+    public override IEnumerable<CardKeyword> CanonicalKeywords => base.CanonicalKeywords.Concat([
         CardKeyword.Exhaust,
         CardKeyword.Retain
-    ];
+    ]);
 
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds =>

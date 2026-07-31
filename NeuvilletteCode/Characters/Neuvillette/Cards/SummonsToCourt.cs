@@ -14,7 +14,7 @@ public sealed class SummonsToCourt() : SubmitCard(1, CardType.Skill, CardRarity.
         NeuvilletteSettingsStore.IsMultiplayerCourtEnabled()
             ? CardMultiplayerConstraint.None
             : CardMultiplayerConstraint.SingleplayerOnly;
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => base.CanonicalKeywords.Concat([CardKeyword.Exhaust]);
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Submit];
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];

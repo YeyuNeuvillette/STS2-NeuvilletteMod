@@ -19,6 +19,7 @@
     <ModPckPath>$(ModOutputDir)$(MSBuildProjectName).pck</ModPckPath>
     <RunPckExport Condition="'$(RunPckExport)' == '' and '$(DesignTimeBuild)' != 'true'">true</RunPckExport>
     <RunPckExport Condition="'$(RunPckExport)' == ''">false</RunPckExport>
+    <RitsuLibDeployDir Condition="'$(RitsuLibDeployDir)' == ''">$(Sts2Dir)\mods\STS2-RitsuLib\</RitsuLibDeployDir>
   </PropertyGroup>
 
   <Target Name="EnsureLocalProps" BeforeTargets="PrepareForBuild" Condition="!Exists('.\local.props')">
@@ -40,7 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="STS2.RitsuLib" Version="0.4.62" PrivateAssets="all"/>
+    <PackageReference Include="STS2.RitsuLib" Version="0.5.0" PrivateAssets="all"/>
     <AdditionalFiles Include="localization/**/*.json"/>
   </ItemGroup>
 

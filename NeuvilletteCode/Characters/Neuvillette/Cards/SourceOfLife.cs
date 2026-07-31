@@ -11,7 +11,7 @@ public sealed class SourceOfLife() : SurgeCard(0, CardType.Skill, CardRarity.Com
 {
     protected override int BaseSurgeValue => 3;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => base.CanonicalKeywords.Concat([CardKeyword.Exhaust]);
 
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds =>

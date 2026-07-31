@@ -14,7 +14,7 @@ public sealed class IroncladEvidence() : SubmitCard(0, CardType.Skill, CardRarit
 {
     protected override bool HasEnergyCostX => true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => base.CanonicalKeywords.Concat([CardKeyword.Exhaust]);
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.SourcewaterDroplet,NeuvilletteKeywords.Submit];
 
