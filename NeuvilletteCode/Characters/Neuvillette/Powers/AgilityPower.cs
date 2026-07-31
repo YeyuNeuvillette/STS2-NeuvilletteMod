@@ -28,14 +28,6 @@ public sealed class AgilityPower : NeuvillettePower
 
     public override Task BeforeCardPlayed(CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner != Owner.Player)
-            return Task.CompletedTask;
-
-        if (cardPlay.Card.Type != CardType.Skill || !cardPlay.Card.GainsBlock)
-            return Task.CompletedTask;
-
-        var data = GetInternalData<Data>();
-        data.HasAppliedThisTurn = true;
         return Task.CompletedTask;
     }
 
@@ -44,21 +36,23 @@ public sealed class AgilityPower : NeuvillettePower
         if (target != Owner)
             return 0m;
 
-        if (cardSource != null)
-        {
-            if (cardSource.Owner.Creature != Owner)
-                return 0m;
-
-            if (cardSource.Type != CardType.Skill || !cardSource.GainsBlock)
-                return 0m;
-        }
-        else if (Owner != target)
-        {
+        if (cardSource == null)
             return 0m;
-        }
+
+        if (cardSource.Owner.Creature != Owner)
+            return 0m;
+
+        if (cardSource.Type != CardType.Skill)
+            return 0m;
 
         if (!props.IsPoweredCardOrMonsterMoveBlock())
             return 0m;
+
+        if (cardPlay != null && cardPlay.Card == cardSource)
+        {
+            var data = GetInternalData<Data>();
+            data.HasAppliedThisTurn = true;
+        }
 
         return Amount;
     }

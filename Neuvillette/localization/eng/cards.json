@@ -210,5 +210,7 @@
   "NEUVILLETTE_CARD_SAND_VORTEX.title": "Sand Vortex",
   "NEUVILLETTE_CARD_SAND_VORTEX.description": "Increase [gold]Bottled Sand Pit[/gold]'s counter by {IfUpgraded:show:2|1}.\nThis card costs 1 more {energyPrefix:energyIcons(1)}.",
   "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.title": "All Rivers Run into the Sea",
-  "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.description": "This turn, your HP cannot be reduced below [blue]1[/blue], but damage dealt to all allies is taken by you instead."
+  "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.description": "This turn, your HP cannot be reduced below [blue]1[/blue], but damage dealt to all allies is taken by you instead.",
+  "NEUVILLETTE_CARD_BREED.title": "Breed",
+  "NEUVILLETTE_CARD_BREED.description": "Exhaust the top {Cards:diff()} card(s) of your draw pile. Gain {Energy:diff()} {energyPrefix:energyIcons(1)}. Permanently increase these effects by 1."
 }

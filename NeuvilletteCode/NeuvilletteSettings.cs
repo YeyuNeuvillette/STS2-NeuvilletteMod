@@ -12,6 +12,7 @@ public sealed class NeuvilletteSettings
 {
     public bool Act4Enabled { get; set; } = true;
     public bool MultiplayerCourtEnabled { get; set; }
+    public bool SponsorRelicEnabled { get; set; } = true;
 }
 
 internal static class NeuvilletteSettingsStore
@@ -71,12 +72,22 @@ internal static class NeuvilletteSettingsStore
         return _cache?.Value.MultiplayerCourtEnabled ?? false;
     }
 
+    public static bool IsSponsorRelicEnabled()
+    {
+        var runState = RunManager.Instance.DebugOnlyGetState();
+        if (runState != null && RunSavedSettings.TryGet(runState, out var synced))
+            return synced.SponsorRelicEnabled;
+
+        return _cache?.Value.SponsorRelicEnabled ?? true;
+    }
+
     public static void SyncLocalSettingsToRunState(RunState runState)
     {
         var data = new NeuvilletteSettings
         {
             Act4Enabled = _cache?.Value.Act4Enabled ?? true,
             MultiplayerCourtEnabled = _cache?.Value.MultiplayerCourtEnabled ?? false,
+            SponsorRelicEnabled = _cache?.Value.SponsorRelicEnabled ?? true,
         };
         RunSavedSettings.Set(runState, data);
     }
@@ -90,10 +101,14 @@ internal static class NeuvilletteSettingsStore
         bool multiplayerCourtEnabled = RunSavedSettings.TryGet(runState, out var synced)
             ? synced.MultiplayerCourtEnabled
             : _cache?.Value.MultiplayerCourtEnabled ?? false;
+        bool sponsorRelicEnabled = RunSavedSettings.TryGet(runState, out var synced2)
+            ? synced2.SponsorRelicEnabled
+            : _cache?.Value.SponsorRelicEnabled ?? true;
         RunSavedSettings.Set(runState, new NeuvilletteSettings
         {
             Act4Enabled = enabled,
             MultiplayerCourtEnabled = multiplayerCourtEnabled,
+            SponsorRelicEnabled = sponsorRelicEnabled,
         });
         return runState;
     }

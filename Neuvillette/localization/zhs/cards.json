@@ -210,5 +210,7 @@
   "NEUVILLETTE_CARD_SAND_VORTEX.title": "沙涡",
   "NEUVILLETTE_CARD_SAND_VORTEX.description": "使[gold]瓶装沙穴[/gold]的计数增加{IfUpgraded:show:2|1}。\n此牌的耗能增加1{energyPrefix:energyIcons(1)}。",
   "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.title": "海纳百川",
-  "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.description": "本回合中，你的生命值不会低于[blue]1[/blue]点，但所有盟友受到的伤害改为由你承担。"
+  "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.description": "本回合中，你的生命值不会低于[blue]1[/blue]点，但所有盟友受到的伤害改为由你承担。",
+  "NEUVILLETTE_CARD_BREED.title": "培育",
+  "NEUVILLETTE_CARD_BREED.description": "消耗你抽牌堆顶的{Cards:diff()}张牌。获得{Energy:diff()}点{energyPrefix:energyIcons(1)}。永久提升这些效果的1点数值。"
 }

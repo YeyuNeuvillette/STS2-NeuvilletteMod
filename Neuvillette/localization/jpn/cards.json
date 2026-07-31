@@ -210,5 +210,7 @@
   "NEUVILLETTE_CARD_SAND_VORTEX.title": "砂渦",
   "NEUVILLETTE_CARD_SAND_VORTEX.description": "[gold]瓶詰めの砂窟[/gold]のカウンターを{IfUpgraded:show:2|1}増加させる。\nこのカードのコストが1{energyPrefix:energyIcons(1)}増加する。",
   "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.title": "百川、海に帰す",
-  "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.description": "このターン、自分のHPは[blue]1[/blue]未満にならない。ただし、すべての味方が受けるダメージを代わりに自分が受ける。"
+  "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.description": "このターン、自分のHPは[blue]1[/blue]未満にならない。ただし、すべての味方が受けるダメージを代わりに自分が受ける。",
+  "NEUVILLETTE_CARD_BREED.title": "培育",
+  "NEUVILLETTE_CARD_BREED.description": "山札の上から{Cards:diff()}枚のカードを消耗する。{Energy:diff()}点{energyPrefix:energyIcons(1)}を得る。これらの効果を永久に1増加させる。"
 }

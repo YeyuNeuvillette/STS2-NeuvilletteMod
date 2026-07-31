@@ -106,5 +106,9 @@
   "NEUVILLETTE_REST_SITE_OPTION_MEDITATE.descriptionDisabled": "Requires \"Persona\" and no \"Memory\" fragment.",
   "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.title": "Exotic Fish Sashimi",
   "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.description": "Right-click this Relic to lose [blue]6[/blue] Max HP and gain [blue]1[/blue] [gold]Intangible[/gold]. ({Uses:diff()} {Uses:plural:use|uses} remaining.)",
-  "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.flavor": ""
+  "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.flavor": "",
+  "NEUVILLETTE_RELIC_CAT_CAKE.title": "Cat Cake",
+  "NEUVILLETTE_RELIC_CAT_CAKE.description": "Upon pickup, [gold]Transform[/gold] a card in your [gold]Deck[/gold] into [gold]Breed[/gold].",
+  "NEUVILLETTE_RELIC_CAT_CAKE.flavor": "Sponsor Relic: [gold]If This Is the Commoners' Fate[/gold]",
+  "NEUVILLETTE_RELIC_CAT_CAKE.selectionScreenPrompt": "Choose a card to transform into [gold]Breed[/gold]."
 }

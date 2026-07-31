@@ -5,5 +5,8 @@
   "neuvillette.settings.act4.enabled.description": "开启后，在第三幕结束后进入第四幕。关闭则按原版流程结束。",
   "neuvillette.settings.section.multiplayer_court.title": "多人模式呈堂",
   "neuvillette.settings.multiplayer_court.enabled.label": "多人模式启用呈堂卡牌",
-  "neuvillette.settings.multiplayer_court.enabled.description": "开启后，呈堂相关卡牌可在多人模式中出现。关闭（默认）则在多人模式中排除这些卡牌。"
+  "neuvillette.settings.multiplayer_court.enabled.description": "开启后，呈堂相关卡牌可在多人模式中出现。关闭（默认）则在多人模式中排除这些卡牌。",
+  "neuvillette.settings.section.sponsor_relic.title": "赞助者遗物",
+  "neuvillette.settings.sponsor_relic.enabled.label": "启用赞助者遗物",
+  "neuvillette.settings.sponsor_relic.enabled.description": "开启后，赞助者遗物（如猫猫糕）可在游戏中出现。关闭则排除这些遗物。"
 }

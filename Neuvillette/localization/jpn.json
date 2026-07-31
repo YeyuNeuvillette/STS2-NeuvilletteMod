@@ -5,5 +5,8 @@
   "neuvillette.settings.act4.enabled.description": "有効にすると、第3幕の後に第4幕へ進む。無効にすると、第3幕終了時にランを終了する。",
   "neuvillette.settings.section.multiplayer_court.title": "マルチプレイでの提出",
   "neuvillette.settings.multiplayer_court.enabled.label": "提出カードを有効化",
-  "neuvillette.settings.multiplayer_court.enabled.description": "有効にすると、提出カードがマルチプレイに出現する。デフォルトでは除外される。"
+  "neuvillette.settings.multiplayer_court.enabled.description": "有効にすると、提出カードがマルチプレイに出現する。デフォルトでは除外される。",
+  "neuvillette.settings.section.sponsor_relic.title": "スポンサーレリック",
+  "neuvillette.settings.sponsor_relic.enabled.label": "スポンサーレリックを有効化",
+  "neuvillette.settings.sponsor_relic.enabled.description": "有効にすると、スポンサーレリック（例：キャットケーキ）が出現する。無効にすると除外される。"
 }

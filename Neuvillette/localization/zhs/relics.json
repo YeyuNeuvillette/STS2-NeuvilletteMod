@@ -106,5 +106,9 @@
   "NEUVILLETTE_RELIC_WATERFALL_BONSAI.flavor": "",
   "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.title": "异鱼刺身",
   "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.description": "你可以右键此遗物，失去[blue]6[/blue]点最大生命以获得[blue]1[/blue]层[gold]无实体[/gold]。（还剩{Uses:diff()}次！）",
-  "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.flavor": ""
+  "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.flavor": "",
+  "NEUVILLETTE_RELIC_CAT_CAKE.title": "猫猫糕",
+  "NEUVILLETTE_RELIC_CAT_CAKE.description": "拾起时，将你牌组中的一张牌变化为[gold]培育[/gold]。",
+  "NEUVILLETTE_RELIC_CAT_CAKE.flavor": "赞助者遗物：[gold]若这是庶民的命[/gold]",
+  "NEUVILLETTE_RELIC_CAT_CAKE.selectionScreenPrompt": "选择一张牌变化为[gold]培育[/gold]。"
 }

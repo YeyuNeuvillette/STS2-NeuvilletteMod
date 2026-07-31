@@ -106,5 +106,9 @@
   "NEUVILLETTE_REST_SITE_OPTION_MEDITATE.descriptionDisabled": "「人格」を所持し、「記憶」の欠片を所持していない必要がある。",
   "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.title": "異魚の刺身",
   "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.description": "このレリックを右クリックし、最大HPを[blue]6[/blue]失って[gold]霊体[/gold][blue]1[/blue]を得る。（残り{Uses:diff()}回）",
-  "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.flavor": ""
+  "NEUVILLETTE_RELIC_EXOTIC_FISH_SASHIMI.flavor": "",
+  "NEUVILLETTE_RELIC_CAT_CAKE.title": "猫猫糕",
+  "NEUVILLETTE_RELIC_CAT_CAKE.description": "取得時、デッキのカード1枚を[gold]培育[/gold]に変化させる。",
+  "NEUVILLETTE_RELIC_CAT_CAKE.flavor": "スポンサーレリック：[gold]これが民の運命なら[/gold]",
+  "NEUVILLETTE_RELIC_CAT_CAKE.selectionScreenPrompt": "[gold]培育[/gold]に変化させるカードを1枚選ぶ。"
 }

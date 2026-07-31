@@ -99,7 +99,20 @@ public partial class MainFile : Node
                             s => s.MultiplayerCourtEnabled,
                             (s, value) => s.MultiplayerCourtEnabled = value),
                         ModSettingsText.I18N(i18n, "neuvillette.settings.multiplayer_court.enabled.description",
-                            "When enabled, Submit-related cards can appear in multiplayer. When disabled (default), these cards are excluded from multiplayer."))));
+                            "When enabled, Submit-related cards can appear in multiplayer. When disabled (default), these cards are excluded from multiplayer.")))
+                .AddSection("sponsor_relic", section => section
+                    .WithTitle(ModSettingsText.I18N(i18n, "neuvillette.settings.section.sponsor_relic.title", "Sponsor Relic"))
+                    .AddToggle(
+                        "sponsor_relic_enabled",
+                        ModSettingsText.I18N(i18n, "neuvillette.settings.sponsor_relic.enabled.label", "Enable Sponsor Relic"),
+                        new ModSettingsValueBinding<NeuvilletteSettings, bool>(
+                            ModId,
+                            NeuvilletteSettingsStore.SettingsKey,
+                            SaveScope.Global,
+                            s => s.SponsorRelicEnabled,
+                            (s, value) => s.SponsorRelicEnabled = value),
+                        ModSettingsText.I18N(i18n, "neuvillette.settings.sponsor_relic.enabled.description",
+                            "When enabled, Sponsor relics (e.g. Cat Cake) can appear in runs. When disabled, they are excluded."))));
     }
 
     private static void SetAct4Enabled(NeuvilletteSettings settings, bool enabled)
