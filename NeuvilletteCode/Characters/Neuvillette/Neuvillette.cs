@@ -1,5 +1,6 @@
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
+using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Characters;
@@ -14,9 +15,19 @@ namespace Neuvillette.Characters.Neuvillette;
 [RegisterCharacter]
 public class Neuvillette : ModCharacterTemplate<NeuvilletteCardPool, NeuvilletteRelicPool, NeuvillettePotionPool>
 {
-    public override bool RequiresEpochAndTimeline => false;
+    public override bool RequiresEpochAndTimeline => true;
+    // Ironclad-rooted mod characters are inserted by Neow's initial expansion.
+    // Use Silent instead so Chapter 1 remains a real character-unlock event.
+    protected override Type? UnlocksAfterRunAsType => typeof(Silent);
     public const string CharacterId = "Neuvillette";
     public static readonly Color Color = new("4096ee");
+    private static readonly CharacterTrailStyle TrailStyle = new(
+        OuterTrailModulate: new Color("4096ee"),
+        InnerTrailModulate: new Color("4fc3f7"),
+        BigSparksColor: new Color("b9f4ff"),
+        LittleSparksColor: new Color("4fc3f7"),
+        PrimarySpriteModulate: new Color("4096ee"),
+        SecondarySpriteModulate: new Color("b9f4ff"));
 
     public override Color NameColor => Color;
     public override Color MapDrawingColor => new("#053f95");
@@ -40,6 +51,7 @@ public class Neuvillette : ModCharacterTemplate<NeuvilletteCardPool, Neuvillette
             "neuvillette_char_select_locked.png".CharacterImgPath(CharacterId),
             null,
             "neuvillette_map.png".CharacterImgPath(CharacterId)),
+        Vfx: new CharacterVfxAssetSet(TrailStyle: TrailStyle),
         Audio: new CharacterAudioAssetSet(
             CharacterSelectSfx: "event:/Neuvillette/sfx/Select"
         ),
@@ -87,3 +99,4 @@ public class Neuvillette : ModCharacterTemplate<NeuvilletteCardPool, Neuvillette
             "neuvillette.tscn".CharacterScenePath(CharacterId));
     }
 }
+

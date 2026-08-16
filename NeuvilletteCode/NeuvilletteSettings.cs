@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Runs;
+using Neuvillette.Characters.Neuvillette.Patches;
 using Neuvillette.Infrastructure;
 using STS2RitsuLib;
 using STS2RitsuLib.Data;
@@ -10,7 +11,8 @@ namespace Neuvillette;
 
 public sealed class NeuvilletteSettings
 {
-    public bool Act4Enabled { get; set; } = true;
+    public bool Act4Enabled { get; set; }
+    public bool Act4Unlocked { get; set; }
     public bool MultiplayerCourtEnabled { get; set; }
     public bool SponsorRelicEnabled { get; set; } = true;
 }
@@ -58,9 +60,14 @@ internal static class NeuvilletteSettingsStore
     {
         var runState = RunManager.Instance.DebugOnlyGetState();
         if (runState != null && RunSavedSettings.TryGet(runState, out var synced))
-            return synced.Act4Enabled;
+            return synced.Act4Unlocked && synced.Act4Enabled;
 
-        return _cache?.Value.Act4Enabled ?? true;
+        return IsAct4Unlocked() && (_cache?.Value.Act4Enabled ?? false);
+    }
+
+    public static bool IsAct4Unlocked()
+    {
+        return _cache?.Value.Act4Unlocked ?? false;
     }
 
     public static bool IsMultiplayerCourtEnabled()
@@ -85,7 +92,8 @@ internal static class NeuvilletteSettingsStore
     {
         var data = new NeuvilletteSettings
         {
-            Act4Enabled = _cache?.Value.Act4Enabled ?? true,
+            Act4Enabled = IsAct4Enabled(),
+            Act4Unlocked = IsAct4Unlocked(),
             MultiplayerCourtEnabled = _cache?.Value.MultiplayerCourtEnabled ?? false,
             SponsorRelicEnabled = _cache?.Value.SponsorRelicEnabled ?? true,
         };
@@ -107,10 +115,32 @@ internal static class NeuvilletteSettingsStore
         RunSavedSettings.Set(runState, new NeuvilletteSettings
         {
             Act4Enabled = enabled,
+            Act4Unlocked = IsAct4Unlocked(),
             MultiplayerCourtEnabled = multiplayerCourtEnabled,
             SponsorRelicEnabled = sponsorRelicEnabled,
         });
         return runState;
+    }
+
+    /// <summary>
+    /// Called by the final character epoch. The first reveal intentionally opts the
+    /// player in; subsequent changes remain under the settings toggle's control.
+    /// </summary>
+    public static void UnlockAct4()
+    {
+        if (_cache == null)
+            return;
+
+        _cache.Modify(settings =>
+        {
+            settings.Act4Unlocked = true;
+            settings.Act4Enabled = true;
+        });
+        _cache.Save();
+
+        RunState? runState = TrySetActiveRunAct4Enabled(true);
+        if (runState != null)
+            FourQuadrantsLandPatch.EnsureMarked(runState);
     }
 
     public static bool HasSyncedSettings(RunState runState)

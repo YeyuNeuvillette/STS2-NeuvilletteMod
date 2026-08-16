@@ -41,12 +41,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="STS2.RitsuLib" Version="0.5.0" PrivateAssets="all"/>
+    <PackageReference Include="STS2.RitsuLib" Version="0.5.12" PrivateAssets="all"/>
     <AdditionalFiles Include="localization/**/*.json"/>
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Neuvillette/**"/>
+    <Compile Remove="analysis/**"/>
     <EmbeddedResource Remove="Neuvillette/**"/>
   </ItemGroup>
 

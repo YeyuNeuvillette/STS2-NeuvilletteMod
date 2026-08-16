@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using Neuvillette.Characters.Neuvillette.Vfx;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace Neuvillette.Characters.Neuvillette.Powers;
@@ -43,7 +44,7 @@ public sealed class CourtSessionPower : NeuvillettePower
         var cost = cardPlay.Card.EnergyCost == null ? 0 : Math.Max(0, (int)cardPlay.Card.EnergyCost.GetResolved());
         var points = 10 + cost * 10;
 
-        await CardCmd.Exhaust(context, cardPlay.Card);
+        await SubmitStampCmd.Exhaust(context, cardPlay.Card);
         await PowerCmd.Apply<OratricePower>(context, Owner, points, Owner, null);
 
         var proceduralJustice = Owner.GetPower<ProceduralJusticePower>();

@@ -36,7 +36,7 @@
   "NEUVILLETTE_CARD_CANE_STRIKE.title": "Cane Strike",
   "NEUVILLETTE_CARD_CANE_STRIKE.description": "Lose 1 HP.\nDeal {Damage:diff()} damage.",
   "NEUVILLETTE_CARD_PUNISHMENT.title": "Punishment",
-  "NEUVILLETTE_CARD_PUNISHMENT.description": "Deal damage equal to your [gold]Surge[/gold].",
+  "NEUVILLETTE_CARD_PUNISHMENT.description": "Deal damage equal to your [gold]Ebb[/gold].",
   "NEUVILLETTE_CARD_RETRIAL.title": "Retrial",
   "NEUVILLETTE_CARD_RETRIAL.description": "Gain 1 [gold]Vulnerable[/gold].\nDeal {Damage:diff()} damage.\nConsume 2 [gold]Sourcewater Droplets[/gold] to apply {IfUpgraded:show:2|1} [gold]Vulnerable[/gold] instead.",
   "NEUVILLETTE_CARD_WATER_TASTING.title": "Water Tasting",
@@ -58,7 +58,7 @@
   "NEUVILLETTE_CARD_ANNOUNCE_NO_CRIME.title": "Declare Innocence",
   "NEUVILLETTE_CARD_ANNOUNCE_NO_CRIME.description": "Set every creature's HP to [blue]50%[/blue] of its Max HP.",
   "NEUVILLETTE_CARD_SOURCE_OF_LIFE.title": "Source of Life",
-  "NEUVILLETTE_CARD_SOURCE_OF_LIFE.description": "{IfUpgraded:show:[gold]Surge[/gold] {Surge:diff()}.\n|}Consume all [gold]Sourcewater Droplets[/gold]. Gain that much {energyPrefix:energyIcons(1)}.",
+  "NEUVILLETTE_CARD_SOURCE_OF_LIFE.description": "{IfUpgraded:show:[gold]Surge[/gold] {Surge:diff()}.\n|}[gold]Consume[/gold] all [gold]Sourcewater Droplets[/gold]. Gain that much {energyPrefix:energyIcons(1)}.",
   "NEUVILLETTE_CARD_STILLED_WELL.title": "Stilled Well",
   "NEUVILLETTE_CARD_STILLED_WELL.description": "Gain {Block:diff()} [gold]Block[/gold].\nConsume 1 [gold]Sourcewater Droplet[/gold] to gain {energyPrefix:energyIcons(1)} and draw 1 card.",
   "NEUVILLETTE_CARD_DOWNPOUR.title": "Downpour",
@@ -192,7 +192,7 @@
   "NEUVILLETTE_CARD_BREATH.title": "Breath",
   "NEUVILLETTE_CARD_BREATH.description": "After you [gold]Surge[/gold], deal that much damage to ALL enemies.",
   "NEUVILLETTE_CARD_LIQUEFACTION.title": "Liquefaction",
-  "NEUVILLETTE_CARD_LIQUEFACTION.description": "Deal {Damage:diff()} damage. Remove all your [gold]Block[/gold] and [gold]Surge[/gold] for the same amount.",
+  "NEUVILLETTE_CARD_LIQUEFACTION.description": "Deal {Damage:diff()} damage. Remove all your [gold]Block[/gold], then [gold]Surge[/gold] for the amount removed.",
   "NEUVILLETTE_CARD_COURT_ARGUMENT.title": "Courtroom Debate",
   "NEUVILLETTE_CARD_COURT_ARGUMENT.description": "Your [gold]Vigor[/gold] and [gold]Agility[/gold] trigger {IfUpgraded:show:2 additional times|1 additional time}.",
   "NEUVILLETTE_CARD_CHERISH.title": "Cherish",
@@ -210,7 +210,7 @@
   "NEUVILLETTE_CARD_SAND_VORTEX.title": "Sand Vortex",
   "NEUVILLETTE_CARD_SAND_VORTEX.description": "Increase [gold]Bottled Sand Pit[/gold]'s counter by {IfUpgraded:show:2|1}.\nThis card costs 1 more {energyPrefix:energyIcons(1)}.",
   "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.title": "All Rivers Run into the Sea",
-  "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.description": "This turn, your HP cannot be reduced below [blue]1[/blue], but damage dealt to all allies is taken by you instead.",
-  "NEUVILLETTE_CARD_BREED.title": "Breed",
-  "NEUVILLETTE_CARD_BREED.description": "Exhaust the top {Cards:diff()} card(s) of your draw pile. Gain {Energy:diff()} {energyPrefix:energyIcons(1)}. Permanently increase these effects by 1."
+  "NEUVILLETTE_CARD_ALL_RIVERS_RUN_INTO_SEA.description": "This turn, your HP cannot be reduced below [blue]1[/blue]. Damage that would be dealt to any ally is dealt to you instead.",
+  "NEUVILLETTE_CARD_BREED.title": "Cultivate",
+  "NEUVILLETTE_CARD_BREED.description": "[gold]Exhaust[/gold] the top {Cards:diff()} {Cards:plural:card|cards} of your [gold]Draw Pile[/gold]. Gain {Energy:diff()} {energyPrefix:energyIcons(1)}. Permanently increase both values by 1."
 }

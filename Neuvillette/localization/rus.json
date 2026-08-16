@@ -1,0 +1,12 @@
+{
+  "neuvillette.settings.page.title": "Нёвиллет",
+  "neuvillette.settings.section.act4.title": "Акт 4",
+  "neuvillette.settings.act4.enabled.label": "Включить акт 4",
+  "neuvillette.settings.act4.enabled.description": "После завершения акта 3 начинается акт 4. Если отключено, забег завершается по правилам основной игры.",
+  "neuvillette.settings.section.multiplayer_court.title": "Предъявление в сетевой игре",
+  "neuvillette.settings.multiplayer_court.enabled.label": "Разрешить карты с предъявлением в сетевой игре",
+  "neuvillette.settings.multiplayer_court.enabled.description": "Если включено, карты, связанные с предъявлением, могут появляться в сетевой игре. Если отключено (по умолчанию), они исключаются из нее.",
+  "neuvillette.settings.section.sponsor_relic.title": "Реликвии спонсоров",
+  "neuvillette.settings.sponsor_relic.enabled.label": "Разрешить реликвии спонсоров",
+  "neuvillette.settings.sponsor_relic.enabled.description": "Если включено, в игре могут появляться реликвии спонсоров, например «Кошачий торт». Если отключено, они исключаются."
+}

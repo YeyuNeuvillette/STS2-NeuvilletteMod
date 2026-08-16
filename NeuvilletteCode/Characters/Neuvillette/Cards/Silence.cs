@@ -6,6 +6,10 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
+using Neuvillette.Scripts;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
@@ -28,7 +32,13 @@ public sealed class Silence() : SubmitCard(1, CardType.Attack, CardRarity.Uncomm
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_attack_slash", "event:/Neuvillette/sfx/WaterSplashHit")
+            .BeforeDamage(() =>
+            {
+                var vfx = NeuvilletteAttackVfx.Create(cardPlay.Target);
+                NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(vfx);
+                return Task.CompletedTask;
+            })
             .Execute(choiceContext);
 
         var drawPileCards = PileType.Draw.GetPile(Owner).Cards.OrderBy(c => c.Rarity).ThenBy(c => c.Id).ToList();

@@ -37,7 +37,7 @@ public sealed class Heavy : ModEnchantmentTemplate
 			return 0m;
 		}
 		
-		var baseDamage = base.Card.CanonicalInstance.DynamicVars.Damage.BaseValue;
+		var baseDamage = GetBaseDamageForEnchant(originalDamage);
 		var upgradeBonus = originalDamage - baseDamage;
 		if (upgradeBonus < 0)
 		{
@@ -45,5 +45,26 @@ public sealed class Heavy : ModEnchantmentTemplate
 		}
 		
 		return 16m + upgradeBonus - originalDamage;
+	}
+
+	private decimal GetBaseDamageForEnchant(decimal originalDamage)
+	{
+		var dynamicVars = base.Card.CanonicalInstance.DynamicVars;
+		if (dynamicVars.TryGetValue("Damage", out var damageVar))
+		{
+			return damageVar.BaseValue;
+		}
+
+		if (dynamicVars.TryGetValue("CalculationBase", out var calculationBaseVar))
+		{
+			return calculationBaseVar.BaseValue;
+		}
+
+		if (dynamicVars.TryGetValue("CalculatedDamage", out var calculatedDamageVar))
+		{
+			return calculatedDamageVar.BaseValue;
+		}
+
+		return originalDamage;
 	}
 }

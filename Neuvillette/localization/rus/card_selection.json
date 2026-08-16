@@ -1,0 +1,9 @@
+{
+  "TO_ADD_TO_HAND": "Выберите {Amount:plural(ru):[blue]{}[/blue] карту, которую|[blue]{}[/blue] карты, которые|[blue]{}[/blue] карт, которые} хотите добавить в [gold]руку[/gold].",
+  "TO_SUBMIT": "Выберите {Amount:plural(ru):[blue]{}[/blue] карту, которую|[blue]{}[/blue] карты, которые|[blue]{}[/blue] карт, которые} хотите [gold]предъявить[/gold].",
+  "NEUVILLETTE-IN_DEPTH_INQUIRY.selectionScreenPrompt": "Выберите карту в руке, которой хотите дать [gold]повтор[/gold].",
+  "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "Выберите карту, которую хотите превратить в [gold]Наклейку мелюзины[/gold].",
+  "NEUVILLETTE-EXILE.selectionScreenPrompt": "Выберите карту, которую хотите положить на дно [gold]стопки добора[/gold].",
+  "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "Выберите любое количество карт, которые хотите превратить в [gold]Наклейки мелюзин[/gold].",
+  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "Выберите карту, которую хотите разыграть автоматически."
+}

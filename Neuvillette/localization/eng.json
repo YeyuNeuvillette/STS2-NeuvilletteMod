@@ -6,7 +6,8 @@
   "neuvillette.settings.section.multiplayer_court.title": "Submit in Multiplayer",
   "neuvillette.settings.multiplayer_court.enabled.label": "Enable Submit Cards",
   "neuvillette.settings.multiplayer_court.enabled.description": "When enabled, Submit cards can appear in multiplayer. They are excluded by default.",
-  "neuvillette.settings.section.sponsor_relic.title": "Sponsor Relic",
-  "neuvillette.settings.sponsor_relic.enabled.label": "Enable Sponsor Relic",
-  "neuvillette.settings.sponsor_relic.enabled.description": "When enabled, Sponsor relics (e.g. Cat Cake) can appear in runs. When disabled, they are excluded."
+  "neuvillette.settings.section.sponsor_relic.title": "Sponsor Relics",
+  "neuvillette.settings.sponsor_relic.enabled.label": "Enable Sponsor Relics",
+  "neuvillette.settings.sponsor_relic.enabled.description": "When enabled, sponsor relics (e.g. Cat Cake) can appear in runs. When disabled, they are excluded.",
+  "neuvillette.easter_egg.birthday_greeting": "Happy Birthday, Yeyu!"
 }

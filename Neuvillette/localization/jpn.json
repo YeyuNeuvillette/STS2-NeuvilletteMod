@@ -1,5 +1,5 @@
 {
-  "neuvillette.settings.page.title": "Neuvillette",
+  "neuvillette.settings.page.title": "ヌヴィレット",
   "neuvillette.settings.section.act4.title": "第4幕",
   "neuvillette.settings.act4.enabled.label": "第4幕を有効化",
   "neuvillette.settings.act4.enabled.description": "有効にすると、第3幕の後に第4幕へ進む。無効にすると、第3幕終了時にランを終了する。",
@@ -8,5 +8,6 @@
   "neuvillette.settings.multiplayer_court.enabled.description": "有効にすると、提出カードがマルチプレイに出現する。デフォルトでは除外される。",
   "neuvillette.settings.section.sponsor_relic.title": "スポンサーレリック",
   "neuvillette.settings.sponsor_relic.enabled.label": "スポンサーレリックを有効化",
-  "neuvillette.settings.sponsor_relic.enabled.description": "有効にすると、スポンサーレリック（例：キャットケーキ）が出現する。無効にすると除外される。"
+  "neuvillette.settings.sponsor_relic.enabled.description": "有効にすると、スポンサーレリック（例：キャットケーキ）が出現する。無効にすると除外される。",
+  "neuvillette.easter_egg.birthday_greeting": "葉羽さん、お誕生日おめでとう！"
 }

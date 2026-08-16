@@ -75,6 +75,7 @@ public partial class MainFile : Node
                 .WithTitle(ModSettingsText.I18N(i18n, "neuvillette.settings.page.title", "Neuvillette"))
                 .WithModDisplayName(ModSettingsText.I18N(i18n, "neuvillette.settings.page.title", "Neuvillette"))
                 .AddSection("act4", section => section
+                    .WithVisibleWhen(NeuvilletteSettingsStore.IsAct4Unlocked)
                     .WithTitle(ModSettingsText.I18N(i18n, "neuvillette.settings.section.act4.title", "Act 4"))
                     .AddToggle(
                         "act4_enabled",

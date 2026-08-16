@@ -1,0 +1,18 @@
+{
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.title": "Нёвиллет",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.titleObject": "Нёвиллета",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.description": "Беспристрастный Верховный судья Фонтейна.\nСудит грехи Шпиля с помощью Капель источника.",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.selectMessage": "Время вынести справедливый приговор.",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.pronounObject": "его",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.possessiveAdjective": "его",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.pronounPossessive": "его",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.pronounSubject": "он",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.cardsModifierTitle": "Карты Нёвиллета",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.cardsModifierDescription": "Карты Нёвиллета теперь появляются среди наград и в магазинах.",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.unlockText": "Завершите забег за [pink]{Prerequisite}[/pink], чтобы открыть этого персонажа.",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.aromaPrinciple": "[sine][blue]…[/blue][/sine]",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.goldMonologue": "[sine]Вынужден признать: в некоторых человеческих порядках оно действеннее закона.[/sine]",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.eventDeathPrevention": "Я непременно вернусь с новым приливом…",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.banter.alive.endTurnPing": "Прошу все тщательно обдумать.",
+  "NEUVILLETTE_CHARACTER_NEUVILLETTE.banter.dead.endTurnPing": "…"
+}

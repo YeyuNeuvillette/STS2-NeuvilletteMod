@@ -4,7 +4,7 @@
   "SLIPPERY_BRIDGE.pages.CALL_DOWNPOUR.description": "杖で橋を[sine]軽く叩き[/sine]、僭越な空模様に勅令を下した。\n降り注ぐ雨粒は空中で[blue]ぴたりと止まり[/blue]、やがて重力に逆らって天へと還る。暴風は静まり、暗雲は退いた。\n一滴も濡れていない衣の裾を整え、乾いた橋を悠然と渡った。",
   "THIS_OR_THAT.pages.INITIAL.options.SCOLD_AWAY.title": "一喝",
   "THIS_OR_THAT.pages.INITIAL.options.SCOLD_AWAY.description": "[blue]{ScoldGold}[/blue][gold]ゴールド[/gold]を得る。",
-  "THIS_OR_THAT.pages.SCOLD_AWAY.description": "荒唐無稽な選択には応じず、審判官の威厳をもって[gold]一喝した[/gold]。\n静かでありながら有無を言わせぬ宣告が、地下の囁きを打ち砕く。腕は犯しがたい法に触れたかのように、慌てて穴の奥へ引っ込んだ。\n幻影は[jitter][red]恐怖に駆られて散り[/red][/jitter]、後にはあなたを煩わせた「罰金」として、わずかな[gold]ゴールド[/gold]だけが残った。",
+  "THIS_OR_THAT.pages.SCOLD_AWAY.description": "荒唐無稽な選択には応じず、審判官の威厳をもって[gold]一喝した[/gold]。\n静かでありながら有無を言わせぬ宣告が、地下の囁きを打ち砕く。腕は犯しがたい法に触れたかのように、慌てて穴の奥へ引っ込んだ。\n幻影は[jitter][red]恐怖に駆られて散り[/red][/jitter]、後にはあなたを煩わせた[gold]「罰金」[/gold]として、わずかな[gold]ゴールド[/gold]だけが残った。",
   "BRAIN_LEECH.pages.INITIAL.options.VAST_KNOWLEDGE.title": "海のごとき知識",
   "BRAIN_LEECH.pages.INITIAL.options.VAST_KNOWLEDGE.description": "10枚のカードから1枚を選び、[gold]デッキ[/gold]に加える。",
   "BRAIN_LEECH.pages.VAST_KNOWLEDGE.selectionScreenPrompt": "カードを1枚選ぶ。",

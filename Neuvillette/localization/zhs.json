@@ -8,5 +8,6 @@
   "neuvillette.settings.multiplayer_court.enabled.description": "开启后，呈堂相关卡牌可在多人模式中出现。关闭（默认）则在多人模式中排除这些卡牌。",
   "neuvillette.settings.section.sponsor_relic.title": "赞助者遗物",
   "neuvillette.settings.sponsor_relic.enabled.label": "启用赞助者遗物",
-  "neuvillette.settings.sponsor_relic.enabled.description": "开启后，赞助者遗物（如猫猫糕）可在游戏中出现。关闭则排除这些遗物。"
+  "neuvillette.settings.sponsor_relic.enabled.description": "开启后，赞助者遗物（如猫猫糕）可在游戏中出现。关闭则排除这些遗物。",
+  "neuvillette.easter_egg.birthday_greeting": "生日快乐，叶羽！"
 }

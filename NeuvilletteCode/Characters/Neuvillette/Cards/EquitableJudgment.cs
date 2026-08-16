@@ -19,6 +19,7 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 using MegaCrit.Sts2.Core.ValueProps;
 using Neuvillette.Characters.Neuvillette.Powers;
+using Neuvillette.Scripts;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace Neuvillette.Characters.Neuvillette.Cards;
@@ -127,19 +128,24 @@ public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, Ca
                 {
                     if (enemies.Count > 0)
                     {
-                        var beamVfx = NHyperbeamVfx.Create(creature, enemies[^1]);
-                        if (beamVfx != null)
+                        var combatRoom = NCombatRoom.Instance;
+                        var sourceNode = combatRoom?.GetCreatureNode(creature);
+                        var finalTargetNode = combatRoom?.GetCreatureNode(enemies[^1]);
+                        if (sourceNode != null && finalTargetNode != null)
                         {
+                            var beamVfx = NoSfxHyperbeamVfx.Create(creature, enemies[^1]);
                             NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(beamVfx);
                             await Cmd.Wait(0.5f);
                         }
-                        foreach (var enemy in enemies)
+                        for (var i = 0; i < enemies.Count; i++)
                         {
-                            var impactVfx = NHyperbeamImpactVfx.Create(creature, enemy);
-                            if (impactVfx != null)
+                            var enemyNode = combatRoom?.GetCreatureNode(enemies[i]);
+                            if (sourceNode == null || enemyNode == null)
                             {
-                                NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(impactVfx);
+                                continue;
                             }
+                            var impactVfx = NoSfxHyperbeamImpactVfx.Create(creature, enemies[i]);
+                            NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(impactVfx);
                         }
                     }
                 })

@@ -1,0 +1,17 @@
+{
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.name": "Всепожирающий нарвал",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.ATTACK_WITH_APPETITE.title": "Ненасытный аппетит",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.ATTACK_WITH_APPETITE.banter": "[jitter]Голод…[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.DEVOUR_CRAVING.title": "Поглощение жажды",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.DEVOUR_CRAVING.banter": "[jitter]Я знаю все твои желания.[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.DOUBLE_ATTACK.title": "Взмах хвоста",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.DOUBLE_ATTACK.banter": "[jitter]Не спрятаться.[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.EMPOWER_ATTACK.title": "Глоток Первозданного моря",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.EMPOWER_ATTACK.banter": "[jitter]Сила… прибывает.[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.ENTER_BELLY.title": "Всепоглощение",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.ENTER_BELLY.banter": "[jitter]Войди…[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_DEFEND.title": "Свернуться",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_DEFEND.banter": "[jitter]Здесь безопасно…[/jitter]",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_ATTACK.title": "Извержение",
+  "NEUVILLETTE_MONSTER_ALL_DEVOURING_NARWHAL.moves.BELLY_ATTACK.banter": "[jitter]Не убежать.[/jitter]"
+}

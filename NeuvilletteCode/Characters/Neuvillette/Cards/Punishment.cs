@@ -5,6 +5,10 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using Neuvillette.Characters.Neuvillette.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
 
+using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
+using Neuvillette.Scripts;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
@@ -25,7 +29,13 @@ public sealed class Punishment() : NeuvilletteCard(2, CardType.Attack, CardRarit
         await DamageCmd.Attack(surgeAmount)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_attack_slash", "event:/Neuvillette/sfx/WaterSplashHit")
+            .BeforeDamage(() =>
+            {
+                var vfx = NeuvilletteAttackVfx.Create(cardPlay.Target);
+                NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(vfx);
+                return Task.CompletedTask;
+            })
             .Execute(choiceContext);
     }
 

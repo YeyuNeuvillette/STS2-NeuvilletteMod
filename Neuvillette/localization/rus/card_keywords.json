@@ -1,0 +1,12 @@
+{
+  "NEUVILLETTE_KEYWORD_SOURCEWATERDROPLET.title": "Капля источника",
+  "NEUVILLETTE_KEYWORD_SOURCEWATERDROPLET.description": "Можно иметь не более 6. Некоторые карты расходуют [gold]Капли источника[/gold], чтобы применить дополнительные эффекты.",
+  "NEUVILLETTE_KEYWORD_SURGE.title": "Прилив",
+  "NEUVILLETTE_KEYWORD_SURGE.description": "Восстанавливает ОЗ. В конце боя отнимает столько же ОЗ, но не может опустить их ниже [blue]50%[/blue] от максимума.",
+  "NEUVILLETTE_KEYWORD_SUBMIT.title": "Предъявление",
+  "NEUVILLETTE_KEYWORD_SUBMIT.description": "[gold]Сжигает[/gold] карту и дает [gold]очки Оратрис[/gold] в зависимости от ее стоимости: 10 за карту стоимостью 0 и еще 10 за каждую единицу стоимости. При 100 [gold]очках Оратрис[/gold] счет обнуляется, а вы получаете карту [gold]«Окончательный приговор»[/gold].",
+  "NEUVILLETTE_KEYWORD_AGILITY.title": "Проворство",
+  "NEUVILLETTE_KEYWORD_AGILITY.description": "Повышает [gold]защиту[/gold], которую даст ваш следующий Навык с защитой.",
+  "NEUVILLETTE_KEYWORD_MELUSINESTICKER.title": "Наклейка мелюзины",
+  "NEUVILLETTE_KEYWORD_MELUSINESTICKER.description": "Разновидность Навыков стоимостью 0 с эффектами [gold]оставления[/gold] и [gold]сжигания[/gold]."
+}

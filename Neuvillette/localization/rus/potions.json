@@ -1,0 +1,11 @@
+{
+  "NEUVILLETTE_POTION_WATER_BOTTLE.title": "Бутылка воды",
+  "NEUVILLETTE_POTION_WATER_BOTTLE.description": "Дает [gold]Прилив[/gold] 10.",
+  "NEUVILLETTE_POTION_WATER_BOTTLE.selectionScreenPrompt": "Выберите цель для «Бутылки воды».",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.title": "Повестка в бутылке",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.description": "Накладывает 8 [gold]Неуважения к суду[/gold].",
+  "NEUVILLETTE_POTION_BOTTLED_TICKET.selectionScreenPrompt": "Выберите цель для «Повестки в бутылке».",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.title": "Концентрат поддержки",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.description": "Заполняет вашу [gold]руку[/gold] случайными [gold]Наклейками мелюзин[/gold].",
+  "NEUVILLETTE_POTION_CONCENTRATED_SUPPORT.selectionScreenPrompt": "Выберите цель для «Концентрата поддержки»."
+}

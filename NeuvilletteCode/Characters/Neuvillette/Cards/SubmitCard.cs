@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using Neuvillette.Characters.Neuvillette.Powers;
+using Neuvillette.Characters.Neuvillette.Vfx;
 
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
@@ -34,7 +35,7 @@ public abstract class SubmitCard(
         var cost = cardToSubmit.EnergyCost == null ? 0 : Math.Max(0, (int)cardToSubmit.EnergyCost.GetResolved());
         var points = 10 + cost * 10;
 
-        await CardCmd.Exhaust(choiceContext, cardToSubmit);
+        await SubmitStampCmd.Exhaust(choiceContext, cardToSubmit, this);
         await PowerCmd.Apply<OratricePower>(choiceContext, Owner.Creature, points, Owner.Creature, this);
 
         var proceduralJustice = Owner.Creature.GetPower<ProceduralJusticePower>();
