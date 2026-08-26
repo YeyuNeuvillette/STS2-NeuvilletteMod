@@ -8,7 +8,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-[RegisterCharacterStarterCard(typeof(Neuvillette), 4)]
+[RegisterCharacterStarterCard(typeof(Neuvillette), 4, Order = 10)]
 public sealed class DefendNeuvillette() : NeuvilletteCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
 {
     public override bool GainsBlock => true;

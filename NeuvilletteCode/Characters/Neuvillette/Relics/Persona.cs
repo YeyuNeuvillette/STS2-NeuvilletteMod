@@ -201,9 +201,23 @@ public sealed class Persona : BaseRelic
             this);
     }
 
-    private readonly HashSet<uint> _buffedCreatures = [];
+    // AbstractModel.MutableClone() starts with a shallow MemberwiseClone(). Keep this
+    // collection instance-local, otherwise a Persona from a previous SL session can
+    // leave repeated CombatIds in the canonical/shared HashSet and make the rebuilt
+    // combat incorrectly look as if its enemies were already enhanced.
+    private HashSet<uint> _buffedCreatures = [];
+    private ICombatState? _trackedCombatState;
     private EliteEnhancement _activeEliteEnhancement;
     private bool _markerEnteredPublished;
+
+    protected override void DeepCloneFields()
+    {
+        base.DeepCloneFields();
+        _buffedCreatures = [];
+        _trackedCombatState = null;
+        _activeEliteEnhancement = EliteEnhancement.None;
+        _markerEnteredPublished = false;
+    }
 
     public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
@@ -217,6 +231,10 @@ public sealed class Persona : BaseRelic
 
     public override async Task BeforeCombatStart()
     {
+        var combatState = Owner?.Creature.CombatState;
+        if (combatState == null) return;
+
+        TrackCombat(combatState);
         if (!OwnsCurrentMarker()) return;
 
         if (!_markerEnteredPublished)
@@ -228,10 +246,9 @@ public sealed class Persona : BaseRelic
                 Owner.RunState.CurrentActIndex));
         }
 
-        var combatState = Owner!.Creature.CombatState;
-        if (combatState == null) return;
-
-        var unbuffedEnemies = combatState.HittableEnemies
+        var enemies = combatState.HittableEnemies.ToList();
+        int enemyCount = enemies.Count;
+        var unbuffedEnemies = enemies
             .Where(e => e.CombatId.HasValue && _buffedCreatures.Add(e.CombatId.Value))
             .ToList();
         if (unbuffedEnemies.Count == 0) return;
@@ -239,26 +256,41 @@ public sealed class Persona : BaseRelic
         EnsureEliteEnhancementSelected();
         Flash();
         foreach (var enemy in unbuffedEnemies)
-            await ApplyEliteEnhancement(enemy);
+            await ApplyEliteEnhancement(enemy, enemyCount);
     }
 
     public override async Task AfterCreatureAddedToCombat(Creature creature)
     {
         if (creature.Side != CombatSide.Enemy) return;
+        if (creature.CombatState is not { } combatState) return;
+
+        TrackCombat(combatState);
         if (!OwnsCurrentMarker()) return;
         if (!creature.CombatId.HasValue || !_buffedCreatures.Add(creature.CombatId.Value)) return;
 
         EnsureEliteEnhancementSelected();
         Flash();
-        await ApplyEliteEnhancement(creature);
+        await ApplyEliteEnhancement(creature, combatState.HittableEnemies.Count);
     }
 
     public override Task AfterCombatEnd(CombatRoom room)
     {
         _buffedCreatures.Clear();
+        _trackedCombatState = null;
         _activeEliteEnhancement = EliteEnhancement.None;
         _markerEnteredPublished = false;
         return Task.CompletedTask;
+    }
+
+    private void TrackCombat(ICombatState combatState)
+    {
+        if (ReferenceEquals(_trackedCombatState, combatState))
+            return;
+
+        _trackedCombatState = combatState;
+        _buffedCreatures.Clear();
+        _activeEliteEnhancement = EliteEnhancement.None;
+        _markerEnteredPublished = false;
     }
 
     private void EnsureEliteEnhancementSelected()
@@ -279,17 +311,22 @@ public sealed class Persona : BaseRelic
         };
     }
 
-    private Task ApplyEliteEnhancement(Creature creature)
+    internal static decimal ScaleEliteEnhancementAmount(decimal amount, int enemyCount)
+    {
+        return enemyCount > 1 ? decimal.Ceiling(amount / 2m) : amount;
+    }
+
+    private Task ApplyEliteEnhancement(Creature creature, int enemyCount)
     {
         var context = new ThrowingPlayerChoiceContext();
         return _activeEliteEnhancement switch
         {
             EliteEnhancement.Strength => PowerCmd.Apply<StrengthPower>(
-                context, creature, 2m, null, null),
+                context, creature, ScaleEliteEnhancementAmount(2m, enemyCount), null, null),
             EliteEnhancement.Artifact => PowerCmd.Apply<ArtifactPower>(
-                context, creature, 2m, null, null),
+                context, creature, ScaleEliteEnhancementAmount(2m, enemyCount), null, null),
             EliteEnhancement.Plating => PowerCmd.Apply<PlatingPower>(
-                context, creature, 7m, null, null),
+                context, creature, ScaleEliteEnhancementAmount(7m, enemyCount), null, null),
             _ => Task.CompletedTask,
         };
     }
@@ -306,6 +343,7 @@ public sealed class Persona : BaseRelic
             if (persona != null)
                 persona.MarkedEliteCompleted = true;
         }
+        PersonaEliteMarkerService.MarkCompleted(Owner.RunState);
         if (ownsMarker)
         {
             NeuvilletteApi.PublishMarkerCompleted(new(

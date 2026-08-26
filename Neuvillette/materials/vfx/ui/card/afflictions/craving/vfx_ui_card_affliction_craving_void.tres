@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://Neuvillette/shaders/vfx/ui/card/afflictions/craving/vfx_ui_card_affliction_craving_void.gdshader" id="1_void"]
+
+[resource]
+shader = ExtResource("1_void")
+shader_parameter/deep_color = Color(0.008, 0.003, 0.035, 1)
+shader_parameter/void_color = Color(0.105, 0.025, 0.28, 1)
+shader_parameter/energy_color = Color(0.365, 0.12, 0.78, 1)
+shader_parameter/spark_color = Color(0.39, 0.72, 1, 1)
+shader_parameter/intensity = 0.82
+shader_parameter/speed = 0.72

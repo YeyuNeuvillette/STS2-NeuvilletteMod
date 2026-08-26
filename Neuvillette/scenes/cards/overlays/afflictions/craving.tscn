@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://Neuvillette/scenes/vfx/ui/card/afflictions/craving/vfx_ui_card_affliction_craving.tscn" id="1_craving"]
+
+[node name="Craving" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="vfx_ui_card_affliction_craving" parent="." instance=ExtResource("1_craving")]
+layout_mode = 1

@@ -66,7 +66,7 @@
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "Карты со [gold]Звоном в ушах[/gold] получают [gold]повтор[/gold] {Replay:diff()}. В начале каждого {Interval:diff()}-го хода дает [gold]Звон в ушах[/gold].",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "Серебряный колокольчик звенит. Неумолчный отголосок вновь и вновь раздается в дурмане.",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "Коварная свеча",
-  "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "После того как вы в сумме добираете {Cards:diff()} карт, позволяет выбрать 1 из них и разыграть автоматически.",
+  "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "После того как вы в сумме добираете {Cards:diff()} карт, позволяет выбрать 1 из них и разыграть автоматически, а остальные сбросить.",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "Пламя дрожит, и нити судьбы незаметно приходят в движение.",
   "NEUVILLETTE_RELIC_TIME_SANDGLASS.title": "Песочные часы",
   "NEUVILLETTE_RELIC_TIME_SANDGLASS.description": "В конце вашего не дополнительного хода дает дополнительный ход. После каждых 6 разыгранных карт завершает ваш ход.",

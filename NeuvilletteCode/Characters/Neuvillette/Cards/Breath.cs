@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-public sealed class Breath() : NeuvilletteCard(0, CardType.Power, CardRarity.Rare, TargetType.Self)
+public sealed class Breath() : NeuvilletteCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Surge];

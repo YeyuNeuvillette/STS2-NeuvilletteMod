@@ -18,7 +18,10 @@ internal static class NeowAllPossibleOptionsPatch
     [HarmonyPostfix]
     public static void Postfix(Neow __instance, ref IEnumerable<EventOption> __result)
     {
-        if (!GameCompatibility.IsNeuvillette(__instance.Owner))
+        // The relic compendium queries Neow's canonical model, which has no owner.
+        // Include the teacup there so it can be grouped under Neow, while keeping
+        // owned Neow instances restricted to Neuvillette runs.
+        if (__instance.Owner != null && !GameCompatibility.IsNeuvillette(__instance.Owner))
             return;
 
         var list = __result.ToList();

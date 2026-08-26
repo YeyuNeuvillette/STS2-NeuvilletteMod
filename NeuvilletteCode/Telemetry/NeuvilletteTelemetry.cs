@@ -23,10 +23,12 @@ public static class NeuvilletteTelemetry
             [
                 TelemetryRequest.BasicUsage(
                     ModSettingsText.Literal("Send version, platform, language, and anonymous install ID to estimate compatibility issues.")),
-                TelemetryRequest.RunHistory(
+                TelemetryRequest.RunHistoryFiltered(
                     ModSettingsText.Literal("Send completed run history data to analyze balance."),
-                    captureFilter: evt => !evt.IsAbandoned
-                        && evt.Run.Players.Any(p => p.CharacterId?.Entry == "NEUVILLETTE_CHARACTER_NEUVILLETTE")),
+                    captureFilter: context => context.SourceData is STS2RitsuLib.RunEndedEvent evt
+                        && !evt.IsAbandoned
+                        && evt.Run.Players.Any(p => p.CharacterId?.Entry == "NEUVILLETTE_CHARACTER_NEUVILLETTE"),
+                    sharedContributionSubscriptions: []),
                 TelemetryRequest.Diagnostics(
                     ModSettingsText.Literal("Send exceptions and diagnostic context to locate crashes.")),
             ],

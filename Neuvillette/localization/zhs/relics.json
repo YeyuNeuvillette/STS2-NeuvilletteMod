@@ -66,7 +66,7 @@
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "具有[gold]昏眩[/gold]的卡牌获得[gold]重放[/gold]{Replay:diff()}。每{Interval:diff()}个回合开始时，获得[gold]昏眩[/gold]。",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "银铃轻响，余音不绝，在眩晕中回荡往复。",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "诡烛",
-  "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "在你总计抽{Cards:diff()}张牌后，从中选择1张自动打出。",
+  "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "在你总计抽{Cards:diff()}张牌后，从中选择1张自动打出，弃掉其余的牌。",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "烛火摇曳间，命运的丝线已被悄然拨动。",
   "NEUVILLETTE_RELIC_TIME_SANDGLASS.title": "时光沙漏",
   "NEUVILLETTE_RELIC_TIME_SANDGLASS.description": "在你的非额外回合结束时，获得一个额外回合。你每打出6张牌后，结束你的回合。",

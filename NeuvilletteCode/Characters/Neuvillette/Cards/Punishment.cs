@@ -1,6 +1,10 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Neuvillette.Characters.Neuvillette.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -14,19 +18,39 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class Punishment() : NeuvilletteCard(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new EbbDamageVar()
+    ];
+
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         base.AdditionalHoverTips.Concat([
             HoverTipFactory.FromPower<SurgePower>()
         ]);
+
+    private sealed class EbbDamageVar() : DamageVar(0m, ValueProp.Move)
+    {
+        public override void UpdateCardPreview(
+            CardModel card,
+            CardPreviewMode previewMode,
+            Creature? target,
+            bool runGlobalHooks)
+        {
+            BaseValue = card.Owner?.Creature.GetPowerAmount<SurgePower>() ?? 0m;
+            base.UpdateCardPreview(card, previewMode, target, runGlobalHooks);
+        }
+    }
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
         var surgeAmount = Owner.Creature.GetPower<SurgePower>()?.Amount ?? 0m;
+        DynamicVars.Damage.BaseValue = surgeAmount;
         if (surgeAmount <= 0)
             return;
 
-        await DamageCmd.Attack(surgeAmount)
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash", "event:/Neuvillette/sfx/WaterSplashHit")

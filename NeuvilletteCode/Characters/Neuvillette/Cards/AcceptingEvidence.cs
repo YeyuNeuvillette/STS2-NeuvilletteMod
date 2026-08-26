@@ -16,7 +16,7 @@ public sealed class AcceptingEvidence() : SubmitCard(2, CardType.Skill, CardRari
             ? CardMultiplayerConstraint.None
             : CardMultiplayerConstraint.SingleplayerOnly;
     public override bool GainsBlock => true;
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(9m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(10m, ValueProp.Move)];
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Submit];
 

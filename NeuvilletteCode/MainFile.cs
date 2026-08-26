@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Runs;
 using Neuvillette.Characters.Neuvillette.Patches;
+using Neuvillette.Features.Map;
 using Neuvillette.Infrastructure;
 using Neuvillette.Telemetry;
 using STS2RitsuLib;
@@ -40,6 +41,7 @@ public partial class MainFile : Node
         harmony.PatchAll();
 
         NeuvilletteSettingsStore.Register();
+        MapMarkerPersistenceService.RegisterSavedData();
         RegisterSettingsPage();
         NeuvilletteTelemetry.Register();
 
@@ -62,8 +64,10 @@ public partial class MainFile : Node
         if (GameCompatibility.IsRunAuthority())
             NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
 
-        if (GameCompatibility.IsRunAuthority() && e.RunState is RunState runState)
-            FourQuadrantsLandPatch.EnsureMarked(runState);
+        // Do not restore map markers here. RunLoaded is published before
+        // RunManager.GenerateMap has installed the SavedActMap, so validating a
+        // coordinate at this point observes an incomplete map and used to reroll
+        // both markers. GenerateMap's postfix restores them after State.Map is final.
     }
 
     private static void RegisterSettingsPage()

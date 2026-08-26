@@ -66,7 +66,7 @@
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "Cards with [gold]Ringing[/gold] gain [gold]Replay[/gold] {Replay:diff()}. Every {Interval:diff()} turns, gain [gold]Ringing[/gold].",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "The silver bell chimes. Its lingering note repeats through the haze.",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "Guile Candle",
-  "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "After drawing a total of {Cards:diff()} cards, choose 1 of them to play automatically.",
+  "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "After drawing a total of {Cards:diff()} cards, choose 1 of them to play automatically and discard the rest.",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "The candle flickers, and the threads of fate are quietly pulled.",
   "NEUVILLETTE_RELIC_TIME_SANDGLASS.title": "Hourglass",
   "NEUVILLETTE_RELIC_TIME_SANDGLASS.description": "At the end of your non-extra turn, take an extra turn. After you play 6 cards, end your turn.",

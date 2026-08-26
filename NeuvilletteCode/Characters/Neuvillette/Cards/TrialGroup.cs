@@ -25,9 +25,9 @@ public sealed class TrialGroup() : NeuvilletteCard(2, CardType.Skill, CardRarity
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         base.AdditionalHoverTips.Concat([
-            HoverTipFactory.FromCard<MinionStrike>(IsUpgraded),
-            HoverTipFactory.FromCard<MinionDiveBomb>(IsUpgraded),
-            HoverTipFactory.FromCard<MinionSacrifice>(IsUpgraded)
+            HoverTipFactory.FromCard<MinionStrike>(),
+            HoverTipFactory.FromCard<MinionDiveBomb>(),
+            HoverTipFactory.FromCard<MinionSacrifice>()
         ]);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -13,7 +13,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-[RegisterCharacterStarterCard(typeof(Neuvillette), 4)]
+[RegisterCharacterStarterCard(typeof(Neuvillette), 4, Order = 0)]
 public sealed class StrikeNeuvillette() : NeuvilletteCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];

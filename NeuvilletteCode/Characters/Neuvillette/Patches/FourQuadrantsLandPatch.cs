@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Map;
@@ -19,9 +20,15 @@ internal static class FourQuadrantsLandPatch
 {
     [HarmonyPatch(typeof(RunManager), nameof(RunManager.GenerateMap))]
     [HarmonyPostfix]
-    public static void Postfix_GenerateMap(RunManager __instance)
+    public static void Postfix_GenerateMap(RunManager __instance, ref Task __result)
     {
-        var state = GameCompatibility.GetRunState(__instance);
+        __result = RestoreMarkersAfterMapGeneration(__result, __instance);
+    }
+
+    private static async Task RestoreMarkersAfterMapGeneration(Task generation, RunManager manager)
+    {
+        await generation;
+        var state = GameCompatibility.GetRunState(manager);
         if (state != null)
             EnsureMarked(state);
     }
@@ -75,6 +82,7 @@ internal static class FourQuadrantsLandPatch
 
         __result = new EventRoom(fqEvent);
         state!.AddVisitedEvent(fqEvent);
+        FourQuadrantsMarkerService.MarkCompleted(state);
         NeuvilletteApi.PublishMarkerEntered(new(
             NeuvilletteMapMarkerKind.FourQuadrantsLand,
             state,

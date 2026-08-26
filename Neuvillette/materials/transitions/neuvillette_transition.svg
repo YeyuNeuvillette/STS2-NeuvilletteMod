@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1200" viewBox="0 0 2560 1200">
+  <defs>
+    <!-- The transition shader reveals white first and black last. -->
+    <radialGradient id="waterFill" gradientUnits="userSpaceOnUse" cx="1280" cy="600" r="1450">
+      <stop offset="0" stop-color="#d4d4d4"/>
+      <stop offset="0.12" stop-color="#c2c2c2"/>
+      <stop offset="0.28" stop-color="#9f9f9f"/>
+      <stop offset="0.48" stop-color="#747474"/>
+      <stop offset="0.7" stop-color="#444444"/>
+      <stop offset="0.88" stop-color="#1d1d1d"/>
+      <stop offset="1" stop-color="#000000"/>
+    </radialGradient>
+  </defs>
+
+  <!-- A soft flood underneath the ripple fronts guarantees a complete wipe. -->
+  <rect width="2560" height="1200" fill="url(#waterFill)"/>
+
+  <!-- Top-down ripple fronts: all axes use the same scale.  Small variations in
+       curvature and spacing keep the water organic without introducing perspective. -->
+  <path d="M1282 458 C1351 458 1407 503 1419 574 C1431 648 1389 713 1318 735 C1244 756 1174 721 1147 655 C1118 585 1148 508 1210 474 C1232 463 1257 458 1282 458Z"
+        fill="none" stroke="#eeeeee" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M1287 315 C1432 312 1545 414 1564 558 C1583 707 1492 834 1350 875 C1203 916 1050 851 996 713 C941 573 1002 421 1130 350 C1178 324 1232 314 1287 315Z"
+        fill="none" stroke="#d4d4d4" stroke-width="27" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M1290 146 C1514 142 1698 295 1730 515 C1764 742 1628 941 1413 1021 C1191 1099 949 1008 860 799 C769 589 851 345 1047 229 C1119 185 1203 151 1290 146Z"
+        fill="none" stroke="#b5b5b5" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M1297 -61 C1618 -72 1881 154 1930 469 C1980 789 1790 1080 1484 1194 C1163 1311 820 1181 685 883 C548 579 663 232 946 65 C1051 2 1173 -54 1297 -61Z"
+        fill="none" stroke="#929292" stroke-width="39" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M1304 -337 C1746 -348 2111 -42 2177 394 C2246 842 1987 1245 1561 1407 C1117 1570 643 1390 456 978 C263 553 425 81 818 -151 C964 -239 1132 -330 1304 -337Z"
+        fill="none" stroke="#6f6f6f" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M1314 -674 C1882 -693 2360 -296 2446 266 C2537 845 2202 1369 1651 1575 C1082 1784 472 1551 229 1021 C-19 474 188 -135 696 -433 C885 -546 1092 -666 1314 -674Z"
+        fill="none" stroke="#484848" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Broken secondary fronts make the circular waves feel hand-drawn and alive. -->
+  <path d="M1191 434 C1236 413 1288 408 1337 419" fill="none" stroke="#f8f8f8" stroke-width="10" stroke-linecap="round"/>
+  <path d="M1510 430 C1543 476 1556 526 1558 572" fill="none" stroke="#dfdfdf" stroke-width="13" stroke-linecap="round"/>
+  <path d="M874 535 C897 432 961 344 1048 282" fill="none" stroke="#c2c2c2" stroke-width="15" stroke-linecap="round"/>
+  <path d="M1669 839 C1598 933 1498 995 1393 1027" fill="none" stroke="#a4a4a4" stroke-width="17" stroke-linecap="round"/>
+  <path d="M621 259 C705 128 827 25 958 -39" fill="none" stroke="#818181" stroke-width="19" stroke-linecap="round"/>
+  <path d="M2057 1044 C1940 1190 1788 1294 1611 1365" fill="none" stroke="#5e5e5e" stroke-width="22" stroke-linecap="round"/>
+</svg>

@@ -5,5 +5,5 @@
   "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "选择一张牌变为[gold]美露莘贴纸[/gold]。",
   "NEUVILLETTE-EXILE.selectionScreenPrompt": "选择一张牌置于[gold]抽牌堆底[/gold]。",
   "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "选择任意卡牌变为[gold]美露莘贴纸[/gold]。",
-  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "选择一张牌自动打出。"
+  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "选择一张牌自动打出，弃掉其余的牌。"
 }

@@ -17,7 +17,7 @@ public sealed class Interrogation() : NeuvilletteCard(1, CardType.Attack, CardRa
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-        base.AdditionalHoverTips.Concat([HoverTipFactory.FromCard<Evidence>(IsUpgraded)]);
+        base.AdditionalHoverTips.Concat([HoverTipFactory.FromCard<Evidence>()]);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -30,7 +30,9 @@ public sealed class Interrogation() : NeuvilletteCard(1, CardType.Attack, CardRa
             .Execute(choiceContext);
 
         var evidenceCard = CombatState!.CreateCard<Evidence>(Owner);
-        await CardPileCmd.AddGeneratedCardToCombat(evidenceCard, PileType.Draw, Owner);
+        CardCmd.PreviewCardPileAdd(
+            await CardPileCmd.AddGeneratedCardToCombat(evidenceCard, PileType.Draw, Owner));
+        await Cmd.Wait(0.5f);
     }
 
     protected override void OnUpgrade()

@@ -1,20 +1,18 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using STS2RitsuLib.Interop.AutoRegistration;
-using Neuvillette.Characters.Neuvillette.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+using Neuvillette.Characters.Neuvillette.Powers;
+using STS2RitsuLib.Interop.AutoRegistration;
 
-using MegaCrit.Sts2.Core.Helpers;
-using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using Neuvillette.Scripts;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-public sealed class Liquefaction() : NeuvilletteCard(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+public sealed class Liquefaction() : NeuvilletteCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
+    public override bool GainsBlock => true;
+
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds =>
     [
@@ -23,28 +21,16 @@ public sealed class Liquefaction() : NeuvilletteCard(1, CardType.Attack, CardRar
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(8m, ValueProp.Move)
+        new BlockVar(8m, ValueProp.Move)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
         var blockAmount = Owner.Creature.Block;
         var livingWaterAmount = Owner.Creature.GetPowerAmount<LivingWaterPower>();
         var totalSurge = blockAmount + livingWaterAmount;
-
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this, cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash", "event:/Neuvillette/sfx/WaterSplashHit")
-            .BeforeDamage(() =>
-            {
-                var vfx = NeuvilletteAttackVfx.Create(cardPlay.Target);
-                NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(vfx);
-                return Task.CompletedTask;
-            })
-            .Execute(choiceContext);
 
         if (blockAmount > 0)
         {
@@ -60,6 +46,6 @@ public sealed class Liquefaction() : NeuvilletteCard(1, CardType.Attack, CardRar
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

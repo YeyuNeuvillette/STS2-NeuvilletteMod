@@ -1,5 +1,6 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -15,7 +16,7 @@ public sealed class LetTheMighty() : NeuvilletteCard(1, CardType.Attack, CardRar
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(9m, ValueProp.Move)
+        new MightyDamageVar(9m, ValueProp.Move)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -26,11 +27,7 @@ public sealed class LetTheMighty() : NeuvilletteCard(1, CardType.Attack, CardRar
         ArgumentNullException.ThrowIfNull(RunState);
         ArgumentNullException.ThrowIfNull(CombatState);
 
-        var currentRoom = Owner.RunState.CurrentRoom;
-        var isBoss = currentRoom?.RoomType == RoomType.Boss && cardPlay.Target.IsPrimaryEnemy;
-        var isElite = currentRoom?.RoomType == RoomType.Elite;
-
-        var multiplier = isBoss ? 4m : (isElite ? 2m : 1m);
+        var multiplier = GetTargetMultiplier(this, cardPlay.Target);
 
         var modifiedDamage = Hook.ModifyDamage(
             RunState,
@@ -50,6 +47,7 @@ public sealed class LetTheMighty() : NeuvilletteCard(1, CardType.Attack, CardRar
         await DamageCmd.Attack(finalDamage)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
+            .Unpowered()
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
     }
@@ -57,5 +55,31 @@ public sealed class LetTheMighty() : NeuvilletteCard(1, CardType.Attack, CardRar
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
+    }
+
+    private static decimal GetTargetMultiplier(CardModel card, Creature? target)
+    {
+        if (target?.IsPrimaryEnemy != true)
+            return 1m;
+
+        return card.Owner.RunState.CurrentRoom?.RoomType switch
+        {
+            RoomType.Boss => 4m,
+            RoomType.Elite => 2m,
+            _ => 1m,
+        };
+    }
+
+    private sealed class MightyDamageVar(decimal damage, ValueProp props) : DamageVar(damage, props)
+    {
+        public override void UpdateCardPreview(
+            CardModel card,
+            CardPreviewMode previewMode,
+            Creature? target,
+            bool runGlobalHooks)
+        {
+            base.UpdateCardPreview(card, previewMode, target, runGlobalHooks);
+            PreviewValue *= GetTargetMultiplier(card, target);
+        }
     }
 }

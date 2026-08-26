@@ -5,5 +5,5 @@
   "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "[gold]メリュジーヌシール[/gold]に[gold]変化[/gold]させるカードを1枚選ぶ。",
   "NEUVILLETTE-EXILE.selectionScreenPrompt": "[gold]山札[/gold]の一番下に置くカードを1枚選ぶ。",
   "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "[gold]メリュジーヌシール[/gold]に[gold]変化[/gold]させるカードを選ぶ。",
-  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "自動プレイするカードを1枚選ぶ。"
+  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "自動プレイするカードを1枚選び、残りを捨てる。"
 }

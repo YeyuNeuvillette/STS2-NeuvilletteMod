@@ -25,7 +25,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-[RegisterCharacterStarterCard(typeof(Neuvillette))]
+[RegisterCharacterStarterCard(typeof(Neuvillette), Order = 20)]
 public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, CardRarity.Basic, TargetType.AllEnemies)
 {
     private const string CalculatedHpLossKey = "CalculatedHpLoss";

@@ -8,13 +8,12 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Logging;
-using STS2RitsuLib.Interop.AutoRegistration;
-using Neuvillette.Characters.Base;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Entities.Players;
+using Neuvillette.Characters.Base;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace Neuvillette.Characters.Neuvillette.Relics;
 
@@ -43,93 +42,92 @@ public sealed class GuileCandle : BaseRelic
 
     public override async Task AfterCardDrawn(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
     {
-        Log.Info($"[GuileCandle] AfterCardDrawn called: card={card?.Id.ToString() ?? "null"}, owner={card?.Owner?.NetId.ToString() ?? "null"}, relicOwner={Owner?.NetId.ToString() ?? "null"}, fromHandDraw={fromHandDraw}, currentCount={_drawnCards.Count}");
-
         if (card is null || card.Owner is not Player { } owner || owner != Owner)
-        {
-            Log.Info($"[GuileCandle] Skipping: card owner != relic owner");
             return;
-        }
 
         _drawnCards.Add(card);
         InvokeDisplayAmountChanged();
-        Log.Info($"[GuileCandle] Card added. _drawnCards count={_drawnCards.Count}, cards=[{string.Join(", ", _drawnCards.Select(c => c.Id))}]");
 
-        if (_drawnCards.Count >= DrawThreshold)
-        {
-            Log.Info($"[GuileCandle] Threshold reached ({_drawnCards.Count} >= {DrawThreshold}), calling TryAutoPlayFromDrawn");
-            await TryAutoPlayFromDrawn(choiceContext);
-            Log.Info($"[GuileCandle] TryAutoPlayFromDrawn completed. _drawnCards count after={_drawnCards.Count}");
-        }
-    }
-
-    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
-    {
-        if (side != Owner.Creature.Side)
-            return Task.CompletedTask;
-
-        Log.Info($"[GuileCandle] AfterSideTurnEnd: resetting _drawnCards (was count={_drawnCards.Count})");
-        _drawnCards = [];
-        InvokeDisplayAmountChanged();
-        return Task.CompletedTask;
-    }
-
-    private async Task TryAutoPlayFromDrawn(PlayerChoiceContext choiceContext)
-    {
-        var handCards = PileType.Hand.GetPile(Owner).Cards;
-        var selectableCards = _drawnCards.Where(c => IsPlayableForFree(c) && handCards.Contains(c)).ToList();
-
-        Log.Info($"[GuileCandle] TryAutoPlayFromDrawn: _drawnCards=[{string.Join(", ", _drawnCards.Select(c => c.Id))}], selectableCards=[{string.Join(", ", selectableCards.Select(c => c.Id))}]");
-
-        if (selectableCards.Count == 0)
-        {
-            Log.Info($"[GuileCandle] No selectable cards in hand, returning early");
+        if (_drawnCards.Count < DrawThreshold)
             return;
-        }
+
+        var batch = _drawnCards.Take(DrawThreshold).ToList();
+        _drawnCards.RemoveRange(0, DrawThreshold);
+        InvokeDisplayAmountChanged();
+
+        await ResolveDrawnCards(choiceContext, batch);
+    }
+
+    private async Task ResolveDrawnCards(PlayerChoiceContext choiceContext, IReadOnlyList<CardModel> drawnCards)
+    {
+        if (drawnCards.Count == 0)
+            return;
 
         Flash();
 
-        var selectableSet = selectableCards.ToHashSet();
-        Log.Info($"[GuileCandle] Calling CardSelectCmd.FromHand with ref-based filter, selectable=[{string.Join(", ", selectableSet.Select(c => c.Id))}]...");
-        var chosen = await CardSelectCmd.FromHand(
-            choiceContext,
-            Owner,
-            new CardSelectorPrefs(new LocString("card_selection", "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt"), 1),
-            c => selectableSet.Contains(c),
-            this);
-        Log.Info($"[GuileCandle] CardSelectCmd.FromHand returned: chosen count={chosen?.Count() ?? 0}");
-
-        var selected = chosen?.FirstOrDefault();
-        if (selected == null)
+        var selectableCards = drawnCards.Where(IsPlayableForFree).ToList();
+        if (selectableCards.Count == 0)
         {
-            Log.Info($"[GuileCandle] No card selected, returning early");
+            await DiscardRemainingDrawnCards(choiceContext, drawnCards, selected: null);
             return;
         }
 
-        Log.Info($"[GuileCandle] Selected card: {selected.Id}");
+        var chosen = await CardSelectCmd.FromSimpleGrid(
+            choiceContext,
+            selectableCards,
+            Owner,
+            new CardSelectorPrefs(
+                new LocString("card_selection", "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt"),
+                1));
+
+        var selected = chosen.FirstOrDefault();
+        if (selected == null)
+            return;
 
         var combatState = Owner.Creature?.CombatState;
         if (combatState == null)
-        {
-            Log.Info($"[GuileCandle] combatState is null, returning early");
             return;
-        }
+
+        await DiscardRemainingDrawnCards(choiceContext, drawnCards, selected);
 
         var target = GetTarget(selected, combatState);
-        Log.Info($"[GuileCandle] Target: {(target != null ? target.GetType().Name : "null")}, Card TargetType: {selected.TargetType}");
-
         await CardCmd.AutoPlay(choiceContext, selected, target);
 
-        Log.Info($"[GuileCandle] Card auto-played. Resetting _drawnCards.");
-        _drawnCards = [];
-        InvokeDisplayAmountChanged();
+        // A selected card can recursively trigger this relic while it is resolving
+        // (Summons to Court draws cards). If that changes the active combat effect,
+        // the game's normal result-pile cleanup can be skipped. Never leave the
+        // auto-played card stranded in the play pile.
+        if (selected.Pile?.Type == PileType.Play)
+        {
+            if (selected.Keywords.Contains(CardKeyword.Exhaust))
+                await CardCmd.Exhaust(choiceContext, selected, causedByEthereal: false);
+            else if (selected.Type == CardType.Power || selected.IsDupe)
+                await CardPileCmd.RemoveFromCombat(selected);
+            else
+                await CardPileCmd.Add(selected, PileType.Discard);
+        }
+    }
+
+    private async Task DiscardRemainingDrawnCards(
+        PlayerChoiceContext choiceContext,
+        IReadOnlyList<CardModel> drawnCards,
+        CardModel? selected)
+    {
+        var hand = PileType.Hand.GetPile(Owner);
+        var cardsToDiscard = drawnCards
+            .Where(card => card != selected && card.Pile == hand)
+            .ToList();
+        await CardCmd.Discard(choiceContext, cardsToDiscard);
     }
 
     private static bool IsPlayableForFree(CardModel card)
     {
         if (card.CanPlay(out var reason, out _))
             return true;
-        return (reason & ~(UnplayableReason.EnergyCostTooHigh | UnplayableReason.StarCostTooHigh)) == UnplayableReason.None;
+
+        var nonResourceReasons = reason
+            & ~(UnplayableReason.EnergyCostTooHigh | UnplayableReason.StarCostTooHigh);
+        return nonResourceReasons == UnplayableReason.None;
     }
 
     private Creature? GetTarget(CardModel card, ICombatState combatState)

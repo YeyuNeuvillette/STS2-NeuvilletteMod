@@ -9,7 +9,7 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
 [RegisterArchaicToothTranscendence(typeof(GodOfLife))]
-[RegisterCharacterStarterCard(typeof(Neuvillette))]
+[RegisterCharacterStarterCard(typeof(Neuvillette), Order = 30)]
 public sealed class Tide() : SurgeCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
 {
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]

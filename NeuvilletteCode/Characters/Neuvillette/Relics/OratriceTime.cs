@@ -16,6 +16,7 @@ public sealed class OratriceTime : BaseRelic
 {
     private bool _isPlayerTurn;
     private decimal _previousHp;
+    private PlayerChoiceContext? _ownerTurnChoiceContext;
 
     public override RelicRarity Rarity => RelicRarity.Starter;
 
@@ -26,6 +27,7 @@ public sealed class OratriceTime : BaseRelic
         if (player != Owner)
             return;
 
+        _ownerTurnChoiceContext = choiceContext;
         Flash();
         await TriggerWave(choiceContext);
     }
@@ -45,14 +47,15 @@ public sealed class OratriceTime : BaseRelic
     {
         await base.AfterSideTurnEnd(choiceContext, side, participants);
         if (side == CombatSide.Player)
+        {
             _isPlayerTurn = false;
+            _ownerTurnChoiceContext = null;
+        }
     }
 
     public override async Task AfterCurrentHpChanged(Creature creature, decimal delta)
     {
         await base.AfterCurrentHpChanged(creature, delta);
-
-        GD.Print($"OratriceTime.AfterCurrentHpChanged: IsPlayer={creature.IsPlayer}, _isPlayerTurn={_isPlayerTurn}, delta={delta}, CurrentHp={creature.CurrentHp}, MaxHp={creature.MaxHp}, PreviousHp={_previousHp}");
 
         if (!creature.IsPlayer || Owner == null || creature != Owner.Creature || !_isPlayerTurn)
             return;
@@ -62,6 +65,9 @@ public sealed class OratriceTime : BaseRelic
 
         _previousHp = creature.CurrentHp;
 
-        await PowerCmd.Apply<SourcewaterDroplet>(new ThrowingPlayerChoiceContext(), creature, 1, creature, null);
+        // See AsWaterSeeksEquilibrium: use the turn's synchronized context instead
+        // of launching a separate, timing-dependent action chain.
+        if (_ownerTurnChoiceContext != null)
+            await PowerCmd.Apply<SourcewaterDroplet>(_ownerTurnChoiceContext, creature, 1, creature, null);
     }
 }

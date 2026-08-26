@@ -5,5 +5,5 @@
   "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "Выберите карту, которую хотите превратить в [gold]Наклейку мелюзины[/gold].",
   "NEUVILLETTE-EXILE.selectionScreenPrompt": "Выберите карту, которую хотите положить на дно [gold]стопки добора[/gold].",
   "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "Выберите любое количество карт, которые хотите превратить в [gold]Наклейки мелюзин[/gold].",
-  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "Выберите карту, которую хотите разыграть автоматически."
+  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "Выберите карту для автоматического розыгрыша. Остальные будут сброшены."
 }

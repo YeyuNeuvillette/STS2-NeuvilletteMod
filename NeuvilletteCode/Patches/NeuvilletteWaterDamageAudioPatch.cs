@@ -34,7 +34,6 @@ internal static class NeuvilletteWaterDamageAudioState
             "Neuvillette.Characters.Neuvillette.Cards.CaneStrike" or
             "Neuvillette.Characters.Neuvillette.Cards.Downpour" or
             "Neuvillette.Characters.Neuvillette.Cards.Indignation" or
-            "Neuvillette.Characters.Neuvillette.Cards.Liquefaction" or
             "Neuvillette.Characters.Neuvillette.Cards.Punishment" or
             "Neuvillette.Characters.Neuvillette.Cards.RagingFlurry" or
             "Neuvillette.Characters.Neuvillette.Cards.Silence" or

@@ -66,7 +66,7 @@
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.description": "[gold]鳴動[/gold]を持つカードが[gold]リプレイ[/gold]{Replay:diff()}を得る。{Interval:diff()}ターンごとに[gold]鳴動[/gold]を得る。",
   "NEUVILLETTE_RELIC_CEREMONIAL_SILVER_BELL.flavor": "銀鈴が軽やかに鳴る。絶えない余韻が、眩暈の中で幾度も反響する。",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.title": "妖しの蝋燭",
-  "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "カードを合計{Cards:diff()}枚引いた後、その中から1枚を選んで自動プレイする。",
+  "NEUVILLETTE_RELIC_GUILE_CANDLE.description": "カードを合計{Cards:diff()}枚引いた後、その中から1枚を選んで自動プレイし、残りを捨てる。",
   "NEUVILLETTE_RELIC_GUILE_CANDLE.flavor": "燭火が揺らめく間、運命の糸は静かに操られる。",
   "NEUVILLETTE_RELIC_TIME_SANDGLASS.title": "時の砂時計",
   "NEUVILLETTE_RELIC_TIME_SANDGLASS.description": "追加ターンでない自分のターン終了時、追加ターンを得る。6枚のカードをプレイした後、自分のターンを終了する。",

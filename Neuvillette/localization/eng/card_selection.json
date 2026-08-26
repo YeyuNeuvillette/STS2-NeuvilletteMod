@@ -5,5 +5,5 @@
   "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "Choose a card to transform into a [gold]Melusine Sticker[/gold].",
   "NEUVILLETTE-EXILE.selectionScreenPrompt": "Choose a card to put at the bottom of your [gold]Draw Pile[/gold].",
   "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "Choose any card to transform into a [gold]Melusine Sticker[/gold].",
-  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "Choose a card to play automatically."
+  "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "Choose a card to play automatically. Discard the rest."
 }

@@ -36,9 +36,8 @@ public sealed class TidesIHaveReturned() : NeuvilletteCard(2, CardType.Power, Ca
 
         var powerStacks = 2m;
         var powerTimes = IsUpgraded ? 2 : 1;
-        for (var i = 0; i < powerTimes; i++)
-        {
-            await PowerCmd.Apply<TidesPower>(choiceContext, Owner.Creature, powerStacks, Owner.Creature, this);
-        }
+        var power = Owner.Creature.GetPower<TidesPower>();
+        power ??= await PowerCmd.Apply<TidesPower>(choiceContext, Owner.Creature, powerStacks, Owner.Creature, this);
+        power?.AddTriggerCount(powerTimes);
     }
 }

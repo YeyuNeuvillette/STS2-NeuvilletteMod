@@ -9,10 +9,14 @@ using STS2RitsuLib.Scaffolding.Godot;
 using STS2RitsuLib.Scaffolding.Visuals.Definition;
 using STS2RitsuLib.Scaffolding.Content;
 using Neuvillette.Extensions;
+using Neuvillette.Characters.Neuvillette.Timeline;
 
 namespace Neuvillette.Characters.Neuvillette;
 
 [RegisterCharacter]
+[UnlockEpochAfterEliteVictories(typeof(Neuvillette5Epoch), 15)]
+[UnlockEpochAfterBossVictories(typeof(Neuvillette6Epoch), 15)]
+[UnlockEpochAfterAscensionOneWin(typeof(Neuvillette7Epoch))]
 public class Neuvillette : ModCharacterTemplate<NeuvilletteCardPool, NeuvilletteRelicPool, NeuvillettePotionPool>
 {
     public override bool RequiresEpochAndTimeline => true;
@@ -49,8 +53,8 @@ public class Neuvillette : ModCharacterTemplate<NeuvilletteCardPool, Neuvillette
             "neuvillette_bg.tscn".CharacterScenePath(CharacterId),
             "neuvillette_char_select.png".CharacterImgPath(CharacterId),
             "neuvillette_char_select_locked.png".CharacterImgPath(CharacterId),
-            null,
-            "neuvillette_map.png".CharacterImgPath(CharacterId)),
+            "res://Neuvillette/materials/transitions/neuvillette_transition_mat.tres",
+            "res://Neuvillette/charui/map_marker_neuvillette.png"),
         Vfx: new CharacterVfxAssetSet(TrailStyle: TrailStyle),
         Audio: new CharacterAudioAssetSet(
             CharacterSelectSfx: "event:/Neuvillette/sfx/Select"

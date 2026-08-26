@@ -35,16 +35,21 @@ internal static class PersonaEliteMarkerService
         if (TryGetSavedCoord(runState, actIndex, out MapCoord savedCoord))
         {
             MapPoint? savedPoint = map.GetPoint(savedCoord);
-            if (savedPoint != null
-                && savedPoint.PointType == MapPointType.Elite
-                && IsEligible(savedPoint, runState, actIndex, minimumRow, reachablePoints))
+            if (savedPoint != null)
             {
+                if (savedPoint.PointType != MapPointType.Elite)
+                {
+                    MainFile.Logger.Warn(
+                        $"[Map] Restoring Persona point type from {savedPoint.PointType} to {MapPointType.Elite}: act={actIndex}, coord={savedCoord}.");
+                    savedPoint.PointType = MapPointType.Elite;
+                }
                 AttachMarker(marker, runState, actIndex, savedPoint, restored: true);
                 return true;
             }
 
-            MainFile.Logger.Warn(
-                $"[Map] Saved Persona elite marker is no longer eligible: act={actIndex}, coord={savedCoord}. Selecting a replacement.");
+            MainFile.Logger.Error(
+                $"[Map] Saved Persona elite coordinate is absent from the restored map: act={actIndex}, coord={savedCoord}. The snapshot is retained and will not be rerolled.");
+            return false;
         }
 
         if (runState.CurrentActIndex == actIndex
@@ -101,6 +106,13 @@ internal static class PersonaEliteMarkerService
 
     private static bool TryGetSavedCoord(IRunState runState, int actIndex, out MapCoord coord)
     {
+        if (MapMarkerPersistenceService.TryGetPersonaElite(runState, actIndex, out var persisted)
+            && persisted.TryGetCoord(actIndex, out coord))
+        {
+            RememberCoord(runState, actIndex, coord);
+            return true;
+        }
+
         List<MapCoord> savedCoords = runState.Players
             .Select(player => player.GetRelic<Persona>())
             .Where(persona => persona != null)
@@ -135,8 +147,16 @@ internal static class PersonaEliteMarkerService
 
     private static void RememberCoord(IRunState runState, int actIndex, MapCoord coord)
     {
+        MapMarkerPersistenceService.RememberPersonaElite(runState, actIndex, coord);
         foreach (var player in runState.Players)
             player.GetRelic<Persona>()?.SetMarkedEliteCoord(actIndex, coord);
+    }
+
+    internal static void MarkCompleted(IRunState runState)
+    {
+        MapMarkerPersistenceService.ClearPersonaElite(runState);
+        foreach (var player in runState.Players)
+            player.GetRelic<Persona>()?.ClearMarkedEliteCoord();
     }
 
     internal static Persona? GetCurrentMarker(IRunState? runState)
@@ -185,6 +205,7 @@ internal static class PersonaEliteMarkerService
 
     internal static int RemoveAll(IRunState runState, ActMap map)
     {
+        MapMarkerPersistenceService.ClearPersonaElite(runState);
         int removed = 0;
         foreach (MapPoint point in map.GetAllMapPoints())
         {
