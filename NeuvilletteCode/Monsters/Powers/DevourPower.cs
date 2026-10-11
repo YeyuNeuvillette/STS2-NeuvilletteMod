@@ -8,6 +8,8 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using Neuvillette.Characters.Neuvillette.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -43,6 +45,7 @@ public sealed class DevourPower : NeuvillettePower
             Flash();
             DynamicVars[BonusDamageKey].BaseValue += bonusAmount;
             InvokeDisplayAmountChanged();
+            await RefreshOwnerIntent();
 
             DynamicVar? damageVar = null;
             if (cardSource.DynamicVars?.TryGetValue("Damage", out var plainDamageVar) == true)
@@ -79,7 +82,31 @@ public sealed class DevourPower : NeuvillettePower
     {
         if (side != Owner.Side) return;
 
+        ResetStoredDamage();
+    }
+
+    /// <summary>
+    /// A mutable power instance is temporarily removed while the player is in
+    /// the Narwhal's belly.  Its dynamic variables survive that removal, so the
+    /// phase transition must explicitly discard damage stored in the previous
+    /// phase instead of restoring it on a later turn.
+    /// </summary>
+    public void ResetStoredDamage()
+    {
+        if (DynamicVars[BonusDamageKey].BaseValue == 0m)
+            return;
+
         DynamicVars[BonusDamageKey].BaseValue = 0m;
         InvokeDisplayAmountChanged();
+    }
+
+    private async Task RefreshOwnerIntent()
+    {
+        if (!Owner.IsMonster || Owner.IsDead || Owner.CombatState is not { } combatState)
+            return;
+
+        NCreature? creatureNode = NCombatRoom.Instance?.GetCreatureNode(Owner);
+        if (creatureNode is not null)
+            await creatureNode.UpdateIntent(combatState.GetOpponentsOf(Owner));
     }
 }

@@ -29,7 +29,7 @@ public sealed class WalkIntoRain() : SurgeCard(2, CardType.Skill, CardRarity.Com
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(3m);
-        DynamicVars["Surge"].UpgradeValueBy(3m);
+        DynamicVars.Block.UpgradeValueBy(2m);
+        DynamicVars["Surge"].UpgradeValueBy(2m);
     }
 }

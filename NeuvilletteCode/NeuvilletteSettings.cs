@@ -17,17 +17,26 @@ public sealed class NeuvilletteSettings
     public bool Act4Unlocked { get; set; }
     public bool MultiplayerCourtEnabled { get; set; }
     public bool SponsorRelicEnabled { get; set; } = true;
+    public bool OnboardingDifficultyEnabled { get; set; } = true;
+}
+
+public sealed class NeuvilletteOnboardingProgress
+{
+    public int LearnedMechanics { get; set; }
 }
 
 internal static class NeuvilletteSettingsStore
 {
     public const string SettingsKey = "settings";
     public const string SettingsFileName = "settings.json";
+    private const string OnboardingProgressKey = "onboarding_progress";
+    private const string OnboardingProgressFileName = "onboarding_progress.json";
     private const string RunSavedSettingsKey = "settings_sync";
 
     private const string LocalizationPckFolder = $"{MainFile.ResPath}/localization";
 
     private static ModDataStoreCache<NeuvilletteSettings>? _cache;
+    private static ModDataStoreCache<NeuvilletteOnboardingProgress>? _onboardingCache;
     private static bool _act4UnlockMigrationInProgress;
     private static bool _act4UnlockReadWarningLogged;
 
@@ -43,17 +52,24 @@ internal static class NeuvilletteSettingsStore
     {
         using (RitsuLibFramework.BeginModDataRegistration(MainFile.ModId))
         {
-            var store = RitsuLibFramework.GetDataStore(MainFile.ModId);
+            ModDataStore store = RitsuLibFramework.GetDataStore(MainFile.ModId);
             store.Register(
                 key: SettingsKey,
                 fileName: SettingsFileName,
                 scope: SaveScope.Global,
                 defaultFactory: () => new NeuvilletteSettings(),
                 autoCreateIfMissing: true);
+            store.Register(
+                key: OnboardingProgressKey,
+                fileName: OnboardingProgressFileName,
+                scope: SaveScope.Profile,
+                defaultFactory: () => new NeuvilletteOnboardingProgress(),
+                autoCreateIfMissing: true);
         }
 
-        _cache = RitsuLibFramework.GetDataStore(MainFile.ModId)
-            .CreateCache<NeuvilletteSettings>(SettingsKey);
+        ModDataStore dataStore = RitsuLibFramework.GetDataStore(MainFile.ModId);
+        _cache = dataStore.CreateCache<NeuvilletteSettings>(SettingsKey);
+        _onboardingCache = dataStore.CreateCache<NeuvilletteOnboardingProgress>(OnboardingProgressKey);
 
         Localization = RitsuLibFramework.CreateLocalization(
             $"{MainFile.ModId}-Settings",
@@ -142,6 +158,46 @@ internal static class NeuvilletteSettingsStore
         return _cache?.Value.SponsorRelicEnabled ?? true;
     }
 
+    public static bool IsOnboardingDifficultyEnabled()
+    {
+        return _cache?.Value.OnboardingDifficultyEnabled ?? true;
+    }
+
+    public static void SetOnboardingDifficultyEnabled(bool enabled)
+    {
+        if (_cache == null || _cache.Value.OnboardingDifficultyEnabled == enabled)
+            return;
+
+        _cache.Modify(settings => settings.OnboardingDifficultyEnabled = enabled);
+        _cache.Save();
+        MainFile.Logger.Info($"Judicial Guidance {(enabled ? "enabled" : "disabled")} from character select.");
+    }
+
+    public static int GetOnboardingLearnedMechanics()
+    {
+        return _onboardingCache?.Value.LearnedMechanics ?? 0;
+    }
+
+    public static void MarkOnboardingMechanicsLearned(int mechanicMask)
+    {
+        if (_onboardingCache == null || mechanicMask == 0)
+            return;
+
+        int current = _onboardingCache.Value.LearnedMechanics;
+        if ((current & mechanicMask) == mechanicMask)
+            return;
+
+        _onboardingCache.Modify(progress => progress.LearnedMechanics |= mechanicMask);
+        _onboardingCache.Save();
+    }
+
+    public static bool IsRunOnboardingDifficultyEnabled(RunState runState)
+    {
+        return RunSavedSettings.TryGet(runState, out var synced)
+            ? synced.OnboardingDifficultyEnabled
+            : IsOnboardingDifficultyEnabled();
+    }
+
     public static void SyncLocalSettingsToRunState(RunState runState)
     {
         var data = new NeuvilletteSettings
@@ -150,6 +206,7 @@ internal static class NeuvilletteSettingsStore
             Act4Unlocked = IsAct4Unlocked(),
             MultiplayerCourtEnabled = _cache?.Value.MultiplayerCourtEnabled ?? false,
             SponsorRelicEnabled = _cache?.Value.SponsorRelicEnabled ?? true,
+            OnboardingDifficultyEnabled = IsOnboardingDifficultyEnabled(),
         };
         RunSavedSettings.Set(runState, data);
     }
@@ -166,12 +223,16 @@ internal static class NeuvilletteSettingsStore
         bool sponsorRelicEnabled = RunSavedSettings.TryGet(runState, out var synced2)
             ? synced2.SponsorRelicEnabled
             : _cache?.Value.SponsorRelicEnabled ?? true;
+        bool onboardingDifficultyEnabled = RunSavedSettings.TryGet(runState, out var synced3)
+            ? synced3.OnboardingDifficultyEnabled
+            : IsOnboardingDifficultyEnabled();
         RunSavedSettings.Set(runState, new NeuvilletteSettings
         {
             Act4Enabled = enabled,
             Act4Unlocked = IsAct4Unlocked(),
             MultiplayerCourtEnabled = multiplayerCourtEnabled,
             SponsorRelicEnabled = sponsorRelicEnabled,
+            OnboardingDifficultyEnabled = onboardingDifficultyEnabled,
         });
         return runState;
     }

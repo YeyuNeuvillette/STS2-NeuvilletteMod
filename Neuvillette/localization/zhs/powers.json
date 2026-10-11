@@ -2,7 +2,8 @@
   "NEUVILLETTE_POWER_SOURCEWATER_DROPLET.title": "源水之滴",
   "NEUVILLETTE_POWER_SOURCEWATER_DROPLET.description": "最多持有6枚。一些卡牌可以消耗[gold]源水之滴[/gold]产生额外的效果。",
   "NEUVILLETTE_POWER_SURGE_POWER.title": "潮落",
-  "NEUVILLETTE_POWER_SURGE_POWER.description": "战斗结束后，失去生命值。",
+  "NEUVILLETTE_POWER_SURGE_POWER.description": "战斗结束后，失去生命值，最多降至最大生命的[blue]50%[/blue]。",
+  "NEUVILLETTE_POWER_SURGE_POWER.smartDescription": "战斗结束后，失去[blue]{Amount}[/blue]点生命，最多降至最大生命的[blue]50%[/blue]。",
   "NEUVILLETTE_POWER_ORATRICE_POWER.title": "谕示值",
   "NEUVILLETTE_POWER_ORATRICE_POWER.description": "当[gold]谕示值[/gold]为100时，清空并获取一张[gold]最终裁判[/gold]。",
   "NEUVILLETTE_POWER_TIDES_POWER.title": "潮水啊，我已归来",
@@ -86,5 +87,8 @@
   "NEUVILLETTE_POWER_HOSTILITY_POWER.smartDescription": "在吞星之鲸的生命值被降低至[blue]{Threshold}[/blue]点以下后，结束你的回合，然后将你吞入鲸腹。",
   "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.title": "海纳百川",
   "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.description": "你的生命值不会低于[blue]1[/blue]点。所有盟友受到的伤害改为由你承担。",
-  "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.smartDescription": "你的生命值不会低于[blue]1[/blue]点。所有盟友受到的伤害改为由你承担。"
+  "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.smartDescription": "你的生命值不会低于[blue]1[/blue]点。所有盟友受到的伤害改为由你承担。",
+  "NEUVILLETTE_POWER_ONBOARDING_ASSISTANCE_POWER.title": "审判指引",
+  "NEUVILLETTE_POWER_ONBOARDING_ASSISTANCE_POWER.description": "死亡时消耗1层，以30%最大生命复活。不会改变卡牌数值或进阶等级。",
+  "NEUVILLETTE_POWER_ONBOARDING_ASSISTANCE_POWER.smartDescription": "剩余[blue]{Amount}[/blue]次复活。死亡时消耗1次，并回复最大生命的[blue]30%[/blue]。"
 }

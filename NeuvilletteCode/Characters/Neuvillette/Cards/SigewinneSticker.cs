@@ -7,7 +7,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(MelusineCardPool))]
-public sealed class SigewinneSticker() : MelusineStickerCard(TargetType.Self)
+public sealed class SigewinneSticker() : MelusineStickerCard(TargetType.Self, shouldShowInCardLibrary: false)
 {
     public override int MaxUpgradeLevel => 0;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

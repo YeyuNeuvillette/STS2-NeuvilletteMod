@@ -15,7 +15,7 @@ namespace Neuvillette.Characters.Neuvillette;
 public sealed class OceanOrb : ModOrbTemplate
 {
     public override decimal PassiveVal => 2m;
-    public override decimal EvokeVal => 8m;
+    public override decimal EvokeVal => 5m;
     private string OrbAssetFileName => Id.Entry.ToOrbArtFileName();
     private string LegacyOrbAssetFileName => nameof(OceanOrb).ToLegacyCompactFileName();
 
@@ -43,7 +43,7 @@ public sealed class OceanOrb : ModOrbTemplate
     {
         PlayEvokeSfx();
 
-        var surgeAmount = GetModifiedSurgeValue(8);
+        var surgeAmount = GetModifiedSurgeValue((int)EvokeVal);
         await CreatureCmd.Heal(Owner.Creature, surgeAmount);
         await PowerCmd.Apply<SurgePower>(choiceContext, Owner.Creature, surgeAmount, Owner.Creature, null);
         return [];

@@ -2,7 +2,8 @@
   "NEUVILLETTE_POWER_SOURCEWATER_DROPLET.title": "Sourcewater Droplet",
   "NEUVILLETTE_POWER_SOURCEWATER_DROPLET.description": "You can hold up to 6. Some cards consume [gold]Sourcewater Droplets[/gold] to trigger additional effects.",
   "NEUVILLETTE_POWER_SURGE_POWER.title": "Ebb",
-  "NEUVILLETTE_POWER_SURGE_POWER.description": "At the end of combat, lose HP.",
+  "NEUVILLETTE_POWER_SURGE_POWER.description": "At the end of combat, lose HP, but not below [blue]50%[/blue] of your Max HP.",
+  "NEUVILLETTE_POWER_SURGE_POWER.smartDescription": "At the end of combat, lose [blue]{Amount}[/blue] HP, but not below [blue]50%[/blue] of your Max HP.",
   "NEUVILLETTE_POWER_ORATRICE_POWER.title": "Oratrice",
   "NEUVILLETTE_POWER_ORATRICE_POWER.description": "At 100 [gold]Oratrice[/gold], clear it and add 1 [gold]Final Judgment[/gold].",
   "NEUVILLETTE_POWER_TIDES_POWER.title": "Tides, I Have Returned",
@@ -86,5 +87,8 @@
   "NEUVILLETTE_POWER_HOSTILITY_POWER.smartDescription": "When the All-Devouring Narwhal's HP falls below [blue]{Threshold}[/blue], it swallows you into its belly.",
   "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.title": "All Rivers Run into the Sea",
   "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.description": "Your HP cannot be reduced below [blue]1[/blue]. Damage dealt to all allies is taken by you instead.",
-  "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.smartDescription": "Your HP cannot be reduced below [blue]1[/blue]. Damage dealt to all allies is taken by you instead."
+  "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.smartDescription": "Your HP cannot be reduced below [blue]1[/blue]. Damage dealt to all allies is taken by you instead.",
+  "NEUVILLETTE_POWER_ONBOARDING_ASSISTANCE_POWER.title": "Judicial Guidance",
+  "NEUVILLETTE_POWER_ONBOARDING_ASSISTANCE_POWER.description": "On death, consume 1 stack and revive with 30% Max HP. Does not change card values or Ascension.",
+  "NEUVILLETTE_POWER_ONBOARDING_ASSISTANCE_POWER.smartDescription": "[blue]{Amount}[/blue] revives remaining. On death, consume 1 and heal [blue]30%[/blue] of Max HP."
 }

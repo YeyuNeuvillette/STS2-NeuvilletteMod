@@ -22,7 +22,7 @@ public sealed class SurgingTorrent() : NeuvilletteCard(1, CardType.Attack, CardR
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CalculationBaseVar(7m),
+        new EnchantableCalculationBaseVar(7m, ValueProp.Move),
         new ExtraDamageVar(5m),
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(static (CardModel card, Creature? _) =>
             card.Owner?.Creature.GetPowerAmount<SourcewaterDroplet>() ?? 0m)
@@ -53,5 +53,35 @@ public sealed class SurgingTorrent() : NeuvilletteCard(1, CardType.Attack, CardR
     {
         DynamicVars.CalculationBase.UpgradeValueBy(2m);
         DynamicVars.ExtraDamage.UpgradeValueBy(2m);
+    }
+
+    /// <summary>
+    /// CalculationBaseVar does not run enchantment damage hooks by default. Surging Torrent renders its
+    /// base hit with CalculationBase, so fixed-damage enchantments such as Heavy otherwise leave the
+    /// visible base damage unchanged even though CalculatedDamage uses the enchanted base at resolution.
+    /// </summary>
+    private sealed class EnchantableCalculationBaseVar(decimal baseValue, ValueProp props)
+        : CalculationBaseVar(baseValue)
+    {
+        public override void UpdateCardPreview(
+            CardModel card,
+            CardPreviewMode previewMode,
+            Creature? target,
+            bool runGlobalHooks)
+        {
+            var value = BaseValue;
+            var enchantment = card.Enchantment;
+
+            if (enchantment != null)
+            {
+                value += enchantment.EnchantDamageAdditive(value, props);
+                value *= enchantment.EnchantDamageMultiplicative(value, props);
+
+                if (!card.IsEnchantmentPreview)
+                    EnchantedValue = value;
+            }
+
+            PreviewValue = Math.Max(value, 0m);
+        }
     }
 }

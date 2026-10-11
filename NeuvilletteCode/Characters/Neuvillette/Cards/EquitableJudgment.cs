@@ -39,8 +39,8 @@ public sealed class EquitableJudgment() : NeuvilletteCard(3, CardType.Attack, Ca
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new HpLossVar(2m),
-        new CalculationBaseVar(15m),
-        new ExtraDamageVar(15m),
+        new CalculationBaseVar(13m),
+        new ExtraDamageVar(13m),
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(static (CardModel card, Creature? _) =>
             GetPastDraconicGloriesPower(card)?.Amount ?? 0m),
         new JudgmentHpLossVar()

@@ -23,8 +23,11 @@ public sealed class NeuvilletteAct : ModActTemplate
     protected override int BaseNumberOfRooms => 7;
 
     public override int Index => 3;
-    public override bool IsDefault => NeuvilletteSettingsStore.IsAct4Enabled();
-    public override bool AllowInRandomActList => NeuvilletteSettingsStore.IsAct4Enabled();
+    // This act is inserted into a run only after the Narzissenkreuz Sword has
+    // been forged. Registering it as a default act makes multiple Act 4 mods
+    // compete for the same Index=3 slot before either route is actually earned.
+    public override bool IsDefault => false;
+    public override bool AllowInRandomActList => false;
     public override bool IsUnlocked(UnlockState unlockState) => NeuvilletteSettingsStore.IsAct4Enabled();
 
     public override string[] BgMusicOptions => new string[] { "event:/music/act3_boss_queen", "event:/music/act3_boss_queen" };

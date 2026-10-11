@@ -8,7 +8,9 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using STS2RitsuLib.Utils;
 using Neuvillette.Api;
+using Neuvillette.Characters.Neuvillette.Cards;
 using Neuvillette.Characters.Neuvillette.Features;
+using Neuvillette.Monsters;
 
 namespace Neuvillette.Characters.Neuvillette;
 
@@ -35,10 +37,27 @@ public sealed class MelusineCardPool : TypeListCardPoolModel
     {
         var allCards = ModelDb.CardPool<MelusineCardPool>().AllCards;
         var filteredCards = allCards
-            .Where(static card => card.GetType().Name != "SigewinneSticker")
-            .Where(card => !MelusineCombatStateService.IsRemoved(combatState, card.GetType()))
+            .Where(card => IsAvailableForCombat(combatState, card))
             .ToArray();
-        return ApiRegistry.ApplyStickerContributors(combatState, filteredCards);
+
+        return ApiRegistry.ApplyStickerContributors(combatState, filteredCards)
+            .Where(card => IsAvailableForCombat(combatState, card))
+            .ToArray();
+    }
+
+    private static bool IsAvailableForCombat(CombatState combatState, CardModel card)
+    {
+        var cardType = card.GetType();
+        if (cardType == typeof(SigewinneSticker) ||
+            MelusineCombatStateService.IsRemoved(combatState, cardType))
+        {
+            return false;
+        }
+
+        var isNarwhalCombat = combatState.Encounter is NarwhalBossEncounter ||
+                              combatState.Enemies.Any(enemy => enemy.Monster is AllDevouringNarwhal);
+        return !isNarwhalCombat ||
+               (cardType != typeof(TalochardSticker) && cardType != typeof(XanaSticker));
     }
 
     public static void CleanupCombat(CombatState combatState)

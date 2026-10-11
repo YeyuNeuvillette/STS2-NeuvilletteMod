@@ -4,12 +4,15 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Runs;
+using Neuvillette.Characters.Neuvillette;
 using Neuvillette.Characters.Neuvillette.Patches;
 using Neuvillette.Features.Map;
+using Neuvillette.Features.Difficulty;
 using Neuvillette.Infrastructure;
 using Neuvillette.Telemetry;
 using STS2RitsuLib;
 using STS2RitsuLib.Audio;
+using STS2RitsuLib.Content;
 using STS2RitsuLib.Interop;
 using STS2RitsuLib.Settings;
 using STS2RitsuLib.Utils.Persistence;
@@ -41,9 +44,15 @@ public partial class MainFile : Node
         harmony.PatchAll();
 
         NeuvilletteSettingsStore.Register();
+        NeuvilletteDifficultyService.Register();
         MapMarkerPersistenceService.RegisterSavedData();
         RegisterSettingsPage();
         NeuvilletteTelemetry.Register();
+
+        ModContentRegistry.For(ModId)
+            .RegisterCardLibraryCompendiumSharedPoolFilter<MelusineCompendiumCardPool>(
+                "MELUSINE_STICKERS",
+                $"{ResPath}/images/ui/melusine_sticker_pool.png");
 
         RitsuLibFramework.SubscribeLifecycle<RunStartedEvent>(OnRunStarted);
         RitsuLibFramework.SubscribeLifecycle<RunLoadedEvent>(OnRunLoaded);
@@ -56,13 +65,19 @@ public partial class MainFile : Node
     private static void OnRunStarted(RunStartedEvent e)
     {
         if (GameCompatibility.IsRunAuthority())
+        {
             NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
+            NeuvilletteDifficultyService.InitializeNewRun(e.RunState);
+        }
     }
 
     private static void OnRunLoaded(RunLoadedEvent e)
     {
         if (GameCompatibility.IsRunAuthority())
+        {
             NeuvilletteSettingsStore.SyncLocalSettingsToRunState(e.RunState);
+            NeuvilletteDifficultyService.EnsureRunState(e.RunState);
+        }
 
         // Do not restore map markers here. RunLoaded is published before
         // RunManager.GenerateMap has installed the SavedActMap, so validating a
@@ -73,11 +88,34 @@ public partial class MainFile : Node
     private static void RegisterSettingsPage()
     {
         var i18n = NeuvilletteSettingsStore.Localization;
+        var onboardingBinding = new ModSettingsValueBinding<NeuvilletteSettings, bool>(
+            ModId,
+            NeuvilletteSettingsStore.SettingsKey,
+            SaveScope.Global,
+            s => s.OnboardingDifficultyEnabled,
+            (s, value) => s.OnboardingDifficultyEnabled = value);
         RitsuLibFramework.RegisterModSettings(
             ModId,
             page => page
                 .WithTitle(ModSettingsText.I18N(i18n, "neuvillette.settings.page.title", "Neuvillette"))
                 .WithModDisplayName(ModSettingsText.I18N(i18n, "neuvillette.settings.page.title", "Neuvillette"))
+                .AddSection("difficulty", section => section
+                    .WithTitle(ModSettingsText.I18N(i18n, "neuvillette.settings.section.difficulty.title", "Judicial Guidance"))
+                    .WithDescription(ModSettingsText.I18N(i18n, "neuvillette.settings.section.difficulty.description",
+                        "Eases Neuvillette's learning curve during the first ten runs without changing the selected Ascension level."))
+                    .AddToggle(
+                        "onboarding_difficulty_enabled",
+                        ModSettingsText.I18N(i18n, "neuvillette.settings.difficulty.enabled.label", "Enable Judicial Guidance"),
+                        onboardingBinding,
+                        ModSettingsText.I18N(i18n, "neuvillette.settings.difficulty.enabled.description",
+                            "Enabled by default. Early rewards introduce the core mechanics progressively, while limited run-wide 30% HP revives fade with experience."))
+                    .AddInfoCard(
+                        "difficulty_status",
+                        ModSettingsText.I18N(i18n, "neuvillette.settings.difficulty.status.title", "Current stage"),
+                        ModSettingsText.Literal(string.Empty),
+                        ModSettingsText.Dynamic(
+                            () => NeuvilletteDifficultyService.GetStatusText(i18n),
+                            [onboardingBinding])))
                 .AddSection("act4", section => section
                     .WithVisibleWhen(NeuvilletteSettingsStore.IsAct4Unlocked)
                     .WithTitle(ModSettingsText.I18N(i18n, "neuvillette.settings.section.act4.title", "Act 4"))

@@ -19,12 +19,16 @@ public sealed class CourtArgument() : NeuvilletteCard(1, CardType.Power, CardRar
         ]);
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new PowerVar<VigorPower>(3m),
+        new PowerVar<AgilityPower>(3m),
         new PowerVar<DefensePower>(1m),
         new PowerVar<ProsecutionPower>(1m)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        await PowerCmd.Apply<VigorPower>(choiceContext, Owner.Creature, DynamicVars["VigorPower"].BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<AgilityPower>(choiceContext, Owner.Creature, DynamicVars["AgilityPower"].BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<DefensePower>(choiceContext, Owner.Creature, DynamicVars["DefensePower"].BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<ProsecutionPower>(choiceContext, Owner.Creature, DynamicVars["ProsecutionPower"].BaseValue, Owner.Creature, this);
     }

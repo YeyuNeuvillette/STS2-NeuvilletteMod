@@ -14,6 +14,7 @@ using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using Neuvillette.Features.Act4;
 using Neuvillette.Infrastructure;
+using Neuvillette.Monsters;
 
 namespace Neuvillette.Characters.Neuvillette.Patches;
 
@@ -91,11 +92,33 @@ internal static class NeuvilletteActPatch
 
     [HarmonyPatch(typeof(RunManager), nameof(RunManager.EnterNextAct))]
     [HarmonyPrefix]
-    public static void Prefix_EnterNextAct(RunManager __instance)
+    [HarmonyPriority(Priority.First)]
+    public static bool Prefix_EnterNextAct(RunManager __instance, ref Task __result)
     {
-        if (!NeuvilletteSettingsStore.IsAct4Enabled()) return;
         var state = GameCompatibility.GetRunState(__instance);
-        if (state != null)
-            Act4CompatibilityService.TryRemoveNeuvilletteActForNonSwordHolders(state);
+        if (state == null) return true;
+
+        if (GameCompatibility.IsNeuvilletteAct(state)
+            && state.CurrentRoom is CombatRoom { Encounter: NarwhalBossEncounter })
+        {
+            MainFile.Logger.Info(
+                "[Act4] All-Devouring Narwhal defeated; playing the ending CG sequence before victory.");
+            __result = Act4EndingSequenceService.PlayThenWinAsync(__instance);
+            return false;
+        }
+
+        if (state.CurrentActIndex == 2)
+        {
+            int? targetIndex = Act4CompatibilityService.NormalizeNeuvilletteActRoute(state);
+            if (targetIndex.HasValue)
+            {
+                MainFile.Logger.Info(
+                    $"[Act4Route] Taking ownership of the Act 3 transition and entering Neuvillette Act at list index {targetIndex.Value}.");
+                __result = __instance.EnterAct(targetIndex.Value);
+                return false;
+            }
+        }
+
+        return true;
     }
 }

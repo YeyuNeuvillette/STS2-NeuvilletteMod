@@ -16,7 +16,7 @@ public sealed class Defense() : NeuvilletteCard(1, CardType.Skill, CardRarity.Co
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(4m, ValueProp.Move)
+        new BlockVar(5m, ValueProp.Move)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

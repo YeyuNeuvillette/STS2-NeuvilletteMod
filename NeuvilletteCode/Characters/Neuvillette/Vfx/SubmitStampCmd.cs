@@ -33,82 +33,99 @@ public static class SubmitStampCmd
             return;
         }
 
+        // A remote card has no hand presentation node owned by this client.
+        // NCard.FindOnTable may resolve a pooled play-queue node instead; attaching
+        // the custom stamp to it can keep another player's card visible after play.
+        // CardCmd already synchronizes the model movement, so custom presentation
+        // is intentionally local to the card owner.
+        if (!LocalContext.IsMine(card))
+        {
+            await CardCmd.Exhaust(choiceContext, card);
+            return;
+        }
+
         var oldPile = card.Pile;
         var cardNode = NCard.FindOnTable(card);
         var ownsPresentationNode = false;
-
-        // Hand selection keeps the chosen card inside NSelectedHandCardContainer until the
-        // source card finishes executing. NCard.FindOnTable therefore returns a real node,
-        // but that holder continuously owns its central position. Take the node out of the
-        // holder before laying it out as courtroom evidence.
-        if (cardNode != null && LocalContext.IsMine(card) && oldPile?.Type == PileType.Hand)
+        try
         {
-            cardNode = await DetachHandCardForPresentation(
-                room,
-                card,
-                cardNode,
-                presentingCard);
-            ownsPresentationNode = cardNode != null;
+            // Hand selection keeps the chosen card inside NSelectedHandCardContainer until the
+            // source card finishes executing. NCard.FindOnTable therefore returns a real node,
+            // but that holder continuously owns its central position. Take the node out of the
+            // holder before laying it out as courtroom evidence.
+            if (cardNode != null && LocalContext.IsMine(card) && oldPile?.Type == PileType.Hand)
+            {
+                ownsPresentationNode = DetachHandCardForPresentation(room, card, cardNode);
+                if (ownsPresentationNode && !await MoveToPresentationSeat(room, cardNode, presentingCard, revealFromNothing: false))
+                {
+                    await CardCmd.Exhaust(choiceContext, card);
+                    return;
+                }
+            }
+            else if (cardNode == null && LocalContext.IsMine(card))
+            {
+                cardNode = CreateCenteredPreview(card, oldPile?.Type ?? PileType.None);
+                ownsPresentationNode = cardNode != null;
+                if (cardNode != null && !await MoveToPresentationSeat(room, cardNode, presentingCard, revealFromNothing: true))
+                {
+                    await CardCmd.Exhaust(choiceContext, card);
+                    return;
+                }
+            }
+
+            if (cardNode == null || !GodotObject.IsInstanceValid(cardNode) || !cardNode.IsInsideTree())
+            {
+                await CardCmd.Exhaust(choiceContext, card);
+                return;
+            }
+
+            await NSubmitStampVfx.Play(cardNode);
+
+            if (!ownsPresentationNode)
+            {
+                await CardCmd.Exhaust(choiceContext, card);
+                return;
+            }
+
+            // A draw/discard-pile card has no table node for CardPileCmd to reuse. Move the model silently,
+            // restore the UI callbacks that silent movement omits, then feed our stamped preview to the
+            // same full-card exhaust VFX used by the base game.
+            var result = await CardCmd.Exhaust(choiceContext, card, skipVisuals: true);
+            if (result is not { success: true })
+                return;
+
+            if (oldPile != null)
+            {
+                oldPile.InvokeCardRemoved(card);
+                oldPile.InvokeCardRemoveFinished();
+                oldPile.InvokeContentsChanged();
+            }
+            card.Pile?.InvokeCardAddFinished();
+
+            var exhaustVfx = NCardExhaustVfx.Create(cardNode);
+            if (exhaustVfx == null)
+                return;
+
+            room.Ui.AddChildSafely(exhaustVfx);
+            ownsPresentationNode = false; // NCardExhaustVfx now owns and frees the card node.
+            NDebugAudioManager.Instance?.Play(TmpSfx.cardExhaust);
+            _ = TaskHelper.RunSafely(exhaustVfx.PlayAnimation());
         }
-        else if (cardNode == null && LocalContext.IsMine(card))
+        finally
         {
-            cardNode = await CreateCenteredPreview(card, oldPile?.Type ?? PileType.None, presentingCard);
-            ownsPresentationNode = cardNode != null;
+            if (ownsPresentationNode && cardNode != null && GodotObject.IsInstanceValid(cardNode))
+                cardNode.QueueFreeSafely();
         }
-
-        if (cardNode == null)
-        {
-            await CardCmd.Exhaust(choiceContext, card);
-            return;
-        }
-
-        await NSubmitStampVfx.Play(cardNode);
-
-        if (!ownsPresentationNode)
-        {
-            await CardCmd.Exhaust(choiceContext, card);
-            return;
-        }
-
-        // A draw/discard-pile card has no table node for CardPileCmd to reuse. Move the model silently,
-        // restore the UI callbacks that silent movement omits, then feed our stamped preview to the
-        // same full-card exhaust VFX used by the base game.
-        var result = await CardCmd.Exhaust(choiceContext, card, skipVisuals: true);
-        if (result is not { success: true })
-        {
-            cardNode.QueueFreeSafely();
-            return;
-        }
-
-        if (oldPile != null)
-        {
-            oldPile.InvokeCardRemoved(card);
-            oldPile.InvokeCardRemoveFinished();
-            oldPile.InvokeContentsChanged();
-        }
-        card.Pile?.InvokeCardAddFinished();
-
-        var exhaustVfx = NCardExhaustVfx.Create(cardNode);
-        if (exhaustVfx == null)
-        {
-            cardNode.QueueFreeSafely();
-            return;
-        }
-
-        room.Ui.AddChildSafely(exhaustVfx);
-        NDebugAudioManager.Instance?.Play(TmpSfx.cardExhaust);
-        _ = TaskHelper.RunSafely(exhaustVfx.PlayAnimation());
     }
 
-    private static async Task<NCard?> DetachHandCardForPresentation(
+    private static bool DetachHandCardForPresentation(
         NCombatRoom room,
         CardModel card,
-        NCard cardNode,
-        CardModel? presentingCard)
+        NCard cardNode)
     {
         var holder = room.Ui.Hand.GetCardHolder(card);
         if (holder == null || holder.CardNode != cardNode)
-            return null;
+            return false;
 
         var originalGlobalPosition = cardNode.GlobalPosition;
         room.Ui.Hand.RemoveCardHolder(holder);
@@ -117,13 +134,12 @@ public static class SubmitStampCmd
         cardNode.UpdateVisuals(PileType.Hand, CardPreviewMode.Normal);
 
         NSubmittedPreviewLayerGuard.Attach(cardNode, 300);
-        return await MoveToPresentationSeat(room, cardNode, presentingCard, revealFromNothing: false);
+        return true;
     }
 
-    private static async Task<NCard?> CreateCenteredPreview(
+    private static NCard? CreateCenteredPreview(
         CardModel card,
-        PileType sourcePile,
-        CardModel? presentingCard)
+        PileType sourcePile)
     {
         var room = NCombatRoom.Instance;
         var cardNode = NCard.Create(card);
@@ -133,11 +149,10 @@ public static class SubmitStampCmd
         room.Ui.AddChildSafely(cardNode);
         cardNode.UpdateVisuals(sourcePile, CardPreviewMode.Normal);
         NSubmittedPreviewLayerGuard.Attach(cardNode, 300);
-
-        return await MoveToPresentationSeat(room, cardNode, presentingCard, revealFromNothing: true);
+        return cardNode;
     }
 
-    private static async Task<NCard?> MoveToPresentationSeat(
+    private static async Task<bool> MoveToPresentationSeat(
         NCombatRoom room,
         NCard cardNode,
         CardModel? presentingCard,
@@ -162,7 +177,7 @@ public static class SubmitStampCmd
             .SetTrans(Tween.TransitionType.Quad)
             .SetEase(Tween.EaseType.Out);
 
-        return await reveal.AwaitFinished(cardNode) ? cardNode : null;
+        return await reveal.AwaitFinished(cardNode);
     }
 
     private static Vector2 GetSubmittedPreviewPosition(
@@ -244,6 +259,18 @@ internal partial class NSubmittedPreviewLayerGuard : Node
     public override void _ExitTree()
     {
         Callable.From(RestoreAfterCardReturnsToPool).CallDeferred();
+    }
+
+    internal void RestoreAndRemoveForPool()
+    {
+        if (_card != null && GodotObject.IsInstanceValid(_card))
+        {
+            _card.ZIndex = _originalZIndex;
+            _card.ZAsRelative = _originalZAsRelative;
+        }
+
+        GetParent()?.RemoveChild(this);
+        this.QueueFreeSafelyNoPool();
     }
 
     private void RestoreAfterCardReturnsToPool()

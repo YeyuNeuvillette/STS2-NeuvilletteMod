@@ -16,7 +16,7 @@ public sealed class LaminarFlow() : NeuvilletteCard(1, CardType.Power, CardRarit
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.SourcewaterDroplet];
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<LaminarFlowPower>(3m)
+        new PowerVar<LaminarFlowPower>(4m)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

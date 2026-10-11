@@ -24,7 +24,7 @@ public sealed class ObjectionOverruled() : NeuvilletteCard(1, CardType.Attack, C
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(13m, ValueProp.Move),
-        new DynamicVar("DropletsToConsume", 4m)
+        new DynamicVar("DropletsToConsume", 6m)
     ];
 
     protected override bool ShouldGlowGoldInternal =>
@@ -50,6 +50,6 @@ public sealed class ObjectionOverruled() : NeuvilletteCard(1, CardType.Attack, C
 
     protected override void OnUpgrade()
     {
-        DynamicVars["DropletsToConsume"].UpgradeValueBy(-1m);
+        DynamicVars["DropletsToConsume"].UpgradeValueBy(-2m);
     }
 }

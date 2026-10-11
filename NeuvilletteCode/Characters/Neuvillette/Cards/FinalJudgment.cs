@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
+using Neuvillette.Scripts;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace Neuvillette.Characters.Neuvillette.Cards;
@@ -19,6 +20,8 @@ public sealed class FinalJudgment() : NeuvilletteCard(0, CardType.Attack, CardRa
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
+
+        await FinalJudgmentVfx.Play(cardPlay.Target);
 
         var currentRoom = Owner.RunState.CurrentRoom;
         var isBoss = currentRoom?.RoomType == RoomType.Boss && cardPlay.Target.IsPrimaryEnemy;

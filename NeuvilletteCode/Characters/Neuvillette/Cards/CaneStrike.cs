@@ -19,8 +19,8 @@ public sealed class CaneStrike() : NeuvilletteCard(0, CardType.Attack, CardRarit
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new HpLossVar(1m),
-        new DamageVar(9m, ValueProp.Move)
+        new HpLossVar(2m),
+        new DamageVar(8m, ValueProp.Move)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -45,6 +45,6 @@ public sealed class CaneStrike() : NeuvilletteCard(0, CardType.Attack, CardRarit
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

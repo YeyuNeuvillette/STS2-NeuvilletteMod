@@ -45,16 +45,18 @@ internal static class GameCompatibility
     internal static NHealthBar? GetMultiplayerHealthBar(NMultiplayerPlayerState playerState) =>
         Read<NHealthBar>(MultiplayerHealthBar, playerState, "NMultiplayerPlayerState._healthBar");
 
-    internal static void SetActs(RunState runState, IReadOnlyList<ActModel> acts)
+    internal static bool SetActs(RunState runState, IReadOnlyList<ActModel> acts)
     {
-        if (RunStateActsProperty == null) return;
+        if (RunStateActsProperty == null) return false;
         try
         {
             RunStateActsProperty.SetValue(runState, acts);
+            return true;
         }
         catch (Exception ex)
         {
             ReportOnce("RunState.Acts.set", $"Failed to set Acts: {ex.Message}");
+            return false;
         }
     }
 

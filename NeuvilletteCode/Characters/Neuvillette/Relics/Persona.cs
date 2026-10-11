@@ -191,14 +191,34 @@ public sealed class Persona : BaseRelic
 
     private bool IsAtMarkedElite()
     {
-        return PersonaEliteMarkerService.GetCurrentMarker(Owner?.RunState) != null;
+        var runState = Owner?.RunState;
+        if (runState?.CurrentMapCoord is not { } currentCoord)
+            return false;
+
+        return runState.Players
+            .Select(player => player.GetRelic<Persona>())
+            .Any(persona => persona is { MarkedEliteCompleted: false }
+                && persona.TryGetMarkedEliteCoord(runState.CurrentActIndex, out MapCoord markedCoord)
+                && markedCoord == currentCoord);
     }
 
     private bool OwnsCurrentMarker()
     {
-        return ReferenceEquals(
-            PersonaEliteMarkerService.GetCurrentMarker(Owner?.RunState),
-            this);
+        var runState = Owner?.RunState;
+        if (runState?.CurrentMapCoord is not { } currentCoord)
+            return false;
+
+        // MapPoint quest model references are presentation state and are not a
+        // stable ownership identity across multiplayer replicas. Elect the first
+        // matching Persona in deterministic player order from persisted coords.
+        // This makes exactly one relic apply/complete the marked-elite effect on
+        // every peer without depending on a deserialized quest object reference.
+        Persona? electedOwner = runState.Players
+            .Select(player => player.GetRelic<Persona>())
+            .FirstOrDefault(persona => persona is { MarkedEliteCompleted: false }
+                && persona.TryGetMarkedEliteCoord(runState.CurrentActIndex, out MapCoord markedCoord)
+                && markedCoord == currentCoord);
+        return ReferenceEquals(electedOwner, this);
     }
 
     // AbstractModel.MutableClone() starts with a shallow MemberwiseClone(). Keep this
@@ -337,22 +357,38 @@ public sealed class Persona : BaseRelic
         if (room.RoomType != RoomType.Elite) return Task.CompletedTask;
 
         bool ownsMarker = OwnsCurrentMarker();
-        foreach (Player player in Owner!.RunState.Players)
+        if (!ownsMarker) return Task.CompletedTask;
+
+        // The marker is shared, but this hook runs once for every Persona relic.
+        // Complete it and create every player's reward in the single elected
+        // owner's callback. Previously the first callback completed all Persona
+        // relics but only rewarded its own Owner, causing every later callback
+        // to fail IsAtMarkedElite() and leaving the other players without Soul.
+        var runState = Owner!.RunState;
+        var rewardOwners = runState.Players
+            .Where(player => player.GetRelic<Persona>() != null
+                && player.GetRelic<Soul>() == null)
+            .ToList();
+
+        foreach (Player player in runState.Players)
         {
             Persona? persona = player.GetRelic<Persona>();
             if (persona != null)
                 persona.MarkedEliteCompleted = true;
         }
-        PersonaEliteMarkerService.MarkCompleted(Owner.RunState);
-        if (ownsMarker)
+        PersonaEliteMarkerService.MarkCompleted(runState);
+        NeuvilletteApi.PublishMarkerCompleted(new(
+            NeuvilletteMapMarkerKind.PersonaElite,
+            runState,
+            runState.CurrentActIndex));
+
+        foreach (Player player in rewardOwners)
         {
-            NeuvilletteApi.PublishMarkerCompleted(new(
-                NeuvilletteMapMarkerKind.PersonaElite,
-                Owner.RunState,
-                Owner.RunState.CurrentActIndex));
+            var soulRelic = ModelDb.Relic<Soul>().ToMutable();
+            room.AddExtraReward(player, new RelicReward(soulRelic, player));
+            MainFile.Logger.Info(
+                $"[Persona] Added Soul reward for player {player.NetId} after the marked Elite victory.");
         }
-        var soulRelic = ModelDb.Relic<Soul>().ToMutable();
-        room.AddExtraReward(Owner!, new RelicReward(soulRelic, Owner!));
 
         return Task.CompletedTask;
     }

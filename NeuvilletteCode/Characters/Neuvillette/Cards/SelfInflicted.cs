@@ -11,9 +11,8 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
 [RegisterCard(typeof(NeuvilletteCardPool))]
-public sealed class SelfInflicted() : NeuvilletteCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+public sealed class SelfInflicted() : NeuvilletteCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

@@ -10,7 +10,7 @@ public sealed class Adjournment() : SurgeCard(0, CardType.Skill, CardRarity.Comm
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Surge];
 
-    protected override int BaseSurgeValue => 4;
+    protected override int BaseSurgeValue => 3;
     protected override int UpgradeSurgeValue => 2;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

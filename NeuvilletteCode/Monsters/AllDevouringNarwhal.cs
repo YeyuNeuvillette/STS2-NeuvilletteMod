@@ -304,6 +304,17 @@ public class AllDevouringNarwhal : ModMonsterTemplate
 
             if (Creature.CombatState != null)
             {
+                // The phase transition forcibly ends the players' turn. Remove
+                // Rift cards from every hand first so their turn-end-in-hand
+                // effect cannot resolve during this special turn ending.
+                foreach (var player in Creature.CombatState.Players)
+                {
+                    var riftsInHand = PileType.Hand.GetPile(player).Cards
+                        .OfType<RiftCard>()
+                        .ToList();
+                    await CardCmd.Discard(choiceContext, riftsInHand);
+                }
+
                 foreach (var player in Creature.CombatState.Players)
                 {
                     PlayerCmd.EndTurn(player, canBackOut: false);
@@ -314,7 +325,11 @@ public class AllDevouringNarwhal : ModMonsterTemplate
 
     public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
-        if (side == CombatSide.Enemy && _delayedPowersToReapply != null && !Creature.IsStunned)
+        // Restore the exterior-phase powers at the first player turn after the
+        // forced stun.  Restoring them at enemy-turn start changed the attack
+        // intent only after the player had already ended their turn, which was
+        // especially easy to hit when Time Sandglass inserted an extra turn.
+        if (side == CombatSide.Player && _delayedPowersToReapply != null && !Creature.IsStunned)
         {
             foreach (var power in _delayedPowersToReapply)
             {
@@ -379,6 +394,10 @@ public class AllDevouringNarwhal : ModMonsterTemplate
         var delayedPowers = _phaseOnePowers
             .Where(p => p is BeastOfStarsPower || p is DevourPower)
             .ToList();
+        foreach (var devourPower in delayedPowers.OfType<DevourPower>())
+        {
+            devourPower.ResetStoredDamage();
+        }
         var immediatePowers = _phaseOnePowers
             .Where(p => p is not BeastOfStarsPower && p is not DevourPower && p is not StrengthPower && p is not InsatiableHungerPower && p is not HostilityPower)
             .ToList();

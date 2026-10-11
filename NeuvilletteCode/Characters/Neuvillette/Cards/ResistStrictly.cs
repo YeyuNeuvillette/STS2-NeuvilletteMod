@@ -15,7 +15,7 @@ public sealed class ResistStrictly() : NeuvilletteCard(1, CardType.Attack, CardR
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(8m, ValueProp.Move),
+        new DamageVar(7m, ValueProp.Move),
         new PowerVar<ContemptOfCourtPower>(2m)
     ];
 
@@ -44,6 +44,5 @@ public sealed class ResistStrictly() : NeuvilletteCard(1, CardType.Attack, CardR
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
-        DynamicVars["ContemptOfCourtPower"].UpgradeValueBy(1m);
     }
 }

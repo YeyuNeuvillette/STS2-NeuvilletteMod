@@ -12,7 +12,7 @@ public sealed class Baptism() : SurgeCard(0, CardType.Skill, CardRarity.Uncommon
     [Obsolete("Use CardModel.CanonicalKeywords with CardKeyword values instead.")]
     protected override IEnumerable<string> RegisteredKeywordIds => [NeuvilletteKeywords.Surge];
     protected override bool HasEnergyCostX => true;
-    protected override int BaseSurgeValue => 5;
+    protected override int BaseSurgeValue => 4;
     protected override int UpgradeSurgeValue => 2; // 升级后从6增加到8
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

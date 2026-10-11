@@ -20,7 +20,7 @@ public sealed class SupportingStrike() : NeuvilletteCard(1, CardType.Attack, Car
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(8m, ValueProp.Move),
+        new DamageVar(7m, ValueProp.Move),
         new CardsVar("Cards", 1)
     ];
 

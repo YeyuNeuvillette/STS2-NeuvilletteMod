@@ -2,7 +2,8 @@
   "NEUVILLETTE_POWER_SOURCEWATER_DROPLET.title": "Капля источника",
   "NEUVILLETTE_POWER_SOURCEWATER_DROPLET.description": "Можно иметь не более 6. Некоторые карты расходуют [gold]Капли источника[/gold], чтобы применить дополнительные эффекты.",
   "NEUVILLETTE_POWER_SURGE_POWER.title": "Отлив",
-  "NEUVILLETTE_POWER_SURGE_POWER.description": "В конце боя отнимает ОЗ.",
+  "NEUVILLETTE_POWER_SURGE_POWER.description": "В конце боя вы теряете ОЗ, но они не могут опуститься ниже [blue]50%[/blue] от макс. ОЗ.",
+  "NEUVILLETTE_POWER_SURGE_POWER.smartDescription": "В конце боя вы теряете [blue]{Amount}[/blue] ОЗ, но они не могут опуститься ниже [blue]50%[/blue] от макс. ОЗ.",
   "NEUVILLETTE_POWER_ORATRICE_POWER.title": "Очки Оратрис",
   "NEUVILLETTE_POWER_ORATRICE_POWER.description": "При 100 [gold]очках Оратрис[/gold] счет обнуляется, а вы получаете 1 «[gold]Окончательный приговор[/gold]».",
   "NEUVILLETTE_POWER_TIDES_POWER.title": "Приливы, я вернулся",
@@ -86,5 +87,8 @@
   "NEUVILLETTE_POWER_HOSTILITY_POWER.smartDescription": "Когда ОЗ Всепожирающего нарвала падают ниже [blue]{Threshold}[/blue], он проглатывает вас.",
   "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.title": "Все реки впадают в море",
   "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.description": "Ваши ОЗ не могут опуститься ниже [blue]1[/blue]. Весь урон по союзникам вместо них получаете вы.",
-  "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.smartDescription": "Ваши ОЗ не могут опуститься ниже [blue]1[/blue]. Весь урон по союзникам вместо них получаете вы."
+  "NEUVILLETTE_POWER_ALL_RIVERS_RUN_INTO_SEA_POWER.smartDescription": "Ваши ОЗ не могут опуститься ниже [blue]1[/blue]. Весь урон по союзникам вместо них получаете вы.",
+  "NEUVILLETTE_POWER_ONBOARDING_ASSISTANCE_POWER.title": "Судейское наставление",
+  "NEUVILLETTE_POWER_ONBOARDING_ASSISTANCE_POWER.description": "При смерти расходует 1 заряд и возрождает с 30% макс. ОЗ. Не меняет значения карт или уровень сложности.",
+  "NEUVILLETTE_POWER_ONBOARDING_ASSISTANCE_POWER.smartDescription": "Осталось возрождений: [blue]{Amount}[/blue]. При смерти расходует 1 и восстанавливает [blue]30%[/blue] макс. ОЗ."
 }

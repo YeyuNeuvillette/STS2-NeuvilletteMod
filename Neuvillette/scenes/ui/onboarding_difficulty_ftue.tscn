@@ -1,0 +1,104 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://NeuvilletteCode/Features/Difficulty/NOnboardingDifficultyFtue.cs" id="1_script"]
+[ext_resource type="Material" path="res://shaders/ftue_popup.tres" id="2_material"]
+[ext_resource type="Texture2D" path="res://images/ftue/ftue_popup.png" id="3_popup"]
+[ext_resource type="FontVariation" path="res://themes/kreon_bold_glyph_space_two.tres" id="4_header_font"]
+[ext_resource type="Script" path="res://addons/mega_text/MegaLabel.cs" id="5_label_script"]
+[ext_resource type="FontVariation" path="res://themes/kreon_regular_glyph_space_one.tres" id="6_body_font"]
+[ext_resource type="PackedScene" path="res://scenes/ftue/ftue_confirm_button.tscn" id="7_confirm"]
+[ext_resource type="Script" path="res://addons/mega_text/MegaRichTextLabel.cs" id="8_rich_script"]
+[ext_resource type="Texture2D" path="res://images/ftue/ftue_pointer_arrow.png" id="9_arrow"]
+
+[node name="OnboardingDifficultyFtue" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="FtuePopup" type="TextureRect" parent="."]
+unique_name_in_owner = true
+material = ExtResource("2_material")
+layout_mode = 1
+anchors_preset = 0
+offset_left = 70.0
+offset_top = 300.0
+offset_right = 670.0
+offset_bottom = 570.0
+texture = ExtResource("3_popup")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Header" type="Label" parent="FtuePopup"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 72.0
+offset_top = 18.0
+offset_right = -36.0
+offset_bottom = 72.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.937255, 0.784314, 0.317647, 1)
+theme_override_colors/font_outline_color = Color(0.33, 0.2475, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("4_header_font")
+theme_override_font_sizes/font_size = 28
+text = "Judicial Guidance"
+vertical_alignment = 1
+script = ExtResource("5_label_script")
+MaxFontSize = 28
+
+[node name="Description" type="RichTextLabel" parent="FtuePopup"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 76.0
+offset_right = -40.0
+offset_bottom = -70.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(1, 0.964706, 0.886275, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.25098)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/normal_font = ExtResource("6_body_font")
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "Judicial Guidance eases your first ten Neuvillette runs."
+scroll_active = false
+vertical_alignment = 1
+script = ExtResource("8_rich_script")
+MaxFontSize = 22
+
+[node name="FtueConfirmButton" parent="FtuePopup" instance=ExtResource("7_confirm")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -137.5
+offset_top = -67.0
+offset_right = 137.5
+offset_bottom = 8.0
+grow_vertical = 0
+
+[node name="Arrow" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 350.0
+offset_top = 130.0
+offset_right = 550.0
+offset_bottom = 300.0
+rotation = 2.35619
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(122, 102)
+mouse_filter = 2
+texture = ExtResource("9_arrow")

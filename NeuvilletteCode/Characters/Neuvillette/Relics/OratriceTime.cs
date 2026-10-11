@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Neuvillette.Characters.Base;
+using Neuvillette.Characters.Neuvillette.Cards;
 using Neuvillette.Characters.Neuvillette.Powers;
 using Godot;
 
@@ -19,6 +20,12 @@ public sealed class OratriceTime : BaseRelic
     private PlayerChoiceContext? _ownerTurnChoiceContext;
 
     public override RelicRarity Rarity => RelicRarity.Starter;
+
+    protected override IEnumerable<string> RegisteredKeywordIds =>
+    [
+        NeuvilletteKeywords.SourcewaterDroplet,
+        NeuvilletteKeywords.Surge
+    ];
 
     public override async Task AfterPlayerTurnStartEarly(PlayerChoiceContext choiceContext, Player player)
     {

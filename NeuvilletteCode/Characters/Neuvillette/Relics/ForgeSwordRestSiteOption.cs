@@ -3,7 +3,9 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.RestSite;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Runs;
 using Neuvillette.Extensions;
+using Neuvillette.Features.Act4;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Neuvillette.Characters.Neuvillette.Relics;
@@ -51,6 +53,8 @@ public class ForgeSwordRestSiteOption : ModRestSiteOptionTemplate
         if (wish != null) await RelicCmd.Remove(wish);
 
         await RelicCmd.Obtain<NarzissenkreuzSword>(Owner);
+        if (Owner.RunState is RunState runState)
+            Act4CompatibilityService.NormalizeNeuvilletteActRoute(runState);
         return true;
     }
 }

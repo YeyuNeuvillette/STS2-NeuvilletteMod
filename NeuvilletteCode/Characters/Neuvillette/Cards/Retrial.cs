@@ -50,6 +50,13 @@ public sealed class Retrial() : NeuvilletteCard(0, CardType.Attack, CardRarity.U
         var appliedVulnerable = target.GetPower<VulnerablePower>();
         if (appliedVulnerable != null)
         {
+            // PowerCmd protects debuffs applied to players from the next duration
+            // tick because they are normally applied during the monster turn.
+            // Retrial applies Vulnerable to its owner during the player turn, so
+            // keeping that protection would make 1 Vulnerable last two turns.
+            if (!hasDroplets)
+                appliedVulnerable.SkipNextDurationTick = false;
+
             Log.Info($"[Retrial] VulnerablePower applied - Amount: {appliedVulnerable.Amount}, SkipNextDurationTick: {appliedVulnerable.SkipNextDurationTick}");
         }
 

@@ -3,6 +3,7 @@
   "TO_SUBMIT": "Choose [blue]{Amount}[/blue] {Amount:plural:card|cards} to [gold]Submit[/gold].",
   "NEUVILLETTE-IN_DEPTH_INQUIRY.selectionScreenPrompt": "Choose a card in your [gold]Hand[/gold] to gain [gold]Replay[/gold].",
   "NEUVILLETTE-RECOLLECTION.selectionScreenPrompt": "Choose a card to transform into a [gold]Melusine Sticker[/gold].",
+  "NEUVILLETTE-CHERISH.selectionScreenPrompt": "Choose [blue]{Amount}[/blue] cards to transform into random [gold]Melusine Stickers[/gold].",
   "NEUVILLETTE-EXILE.selectionScreenPrompt": "Choose a card to put at the bottom of your [gold]Draw Pile[/gold].",
   "NEUVILLETTE-SEAFOAM_MAILBOX.selectionScreenPrompt": "Choose any card to transform into a [gold]Melusine Sticker[/gold].",
   "NEUVILLETTE-GUILE_CANDLE.selectionScreenPrompt": "Choose a card to play automatically. Discard the rest."

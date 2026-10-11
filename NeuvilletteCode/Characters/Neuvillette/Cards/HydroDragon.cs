@@ -12,7 +12,7 @@ namespace Neuvillette.Characters.Neuvillette.Cards;
 [RegisterCard(typeof(NeuvilletteCardPool))]
 public sealed class HydroDragon() : NeuvilletteCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal, CardKeyword.Exhaust];
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         base.AdditionalHoverTips.Concat([HoverTipFactory.FromCard<FinalJudgment>()]);
 

@@ -2,8 +2,10 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 
 namespace Neuvillette.Characters.Neuvillette.Cards;
 
-public abstract class MelusineStickerCard(TargetType targetType)
-    : NeuvilletteCard(0, CardType.Skill, CardRarity.Token, targetType, shouldShowInCardLibrary: false)
+public abstract class MelusineStickerCard(
+    TargetType targetType,
+    bool shouldShowInCardLibrary = true)
+    : NeuvilletteCard(0, CardType.Skill, CardRarity.Token, targetType, shouldShowInCardLibrary)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => base.CanonicalKeywords.Concat([
         CardKeyword.Exhaust,

@@ -16,15 +16,23 @@ public sealed class FourQuadrantsLand : ModEventTemplate
 {
     private static readonly string PortraitPath = $"{MainFile.ResPath}/images/events/{MainFile.ModId.ToLowerInvariant()}_event_four_quadrants_land.png";
 
+    // Keep the branch and localization available so the option can be restored
+    // without changing the event's saved-page compatibility.
+    private static bool ShowLeaveOption => false;
+
     public override EventAssetProfile AssetProfile => new(InitialPortraitPath: PortraitPath);
 
     protected override IReadOnlyList<EventOption> GenerateInitialOptions()
     {
-        return
-        [
+        var options = new List<EventOption>
+        {
             new EventOption(this, Take, InitialOptionKey("TAKE"), HoverTipFactory.FromRelic<Relics.Persona>()),
-            new EventOption(this, Leave, InitialOptionKey("LEAVE")),
-        ];
+        };
+
+        if (ShowLeaveOption)
+            options.Add(new EventOption(this, Leave, InitialOptionKey("LEAVE")));
+
+        return options;
     }
 
     private async Task Take()
